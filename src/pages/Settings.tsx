@@ -126,6 +126,16 @@ const Settings: FC = () => {
           >
             Clear Time Blocks
           </Button>
+          <Button
+            color='error'
+            variant='contained'
+            onClick={() => {
+              localStorage.clear();
+              location.reload();
+            }}
+          >
+            RESET ALL
+          </Button>
         </Stack>
       </Container>
     </Paper>
