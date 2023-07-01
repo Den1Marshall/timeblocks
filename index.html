@@ -2,85 +2,50 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
+    <!-- <link rel="icon" href="/favicon.ico" /> -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover"
+    />
 
     <meta
       name="theme-color"
       media="(prefers-color-scheme: light)"
-      content="#CHANGETHIS"
+      content="#ffffff"
     />
     <meta
       name="theme-color"
       media="(prefers-color-scheme: dark)"
-      content="#CHANGETHIS"
+      content="#000000"
     />
 
-    <meta name="title" content="CHANGETHIS" />
-    <meta name="description" content="CHANGETHIS" />
+    <meta name="title" content="Time Blocks" />
+    <meta name="description" content="Time Blocks" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://CHANGETHIS" />
-    <meta property="og:title" content="CHANGETHIS" />
+    <meta property="og:title" content="Time Blocks" />
     <meta property="og:description" content="CHANGETHIS" />
     <meta property="og:image" content="/logo512.png" />
 
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="/logo512.png" />
-    <meta property="twitter:title" content="CHANGETHIS" />
+    <meta property="twitter:title" content="Time Blocks" />
     <meta property="twitter:description" content="CHANGETHIS" />
     <meta property="twitter:image" content="/logo512.png" />
 
     <link rel="apple-touch-icon" href="/logo192.png" />
 
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/mask-icon.svg" color="#FFFFFF" />
 
-    <title>CHANGETHIS</title>
+    <!-- <link rel="manifest" href="/manifest.json" /> -->
+
+    <title>Time Blocks</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="loader">
-      <style>
-        #loader {
-          z-index: 9999;
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background: #000;
-        }
-        #loader span {
-          display: block;
-          width: 70px;
-          height: 70px;
-          border: 3px solid;
-          border-radius: 50%;
-          border-color: transparent #fff #fff;
-          animation: cssload-spin 690ms infinite linear;
-        }
-        @keyframes cssload-spin {
-          100% {
-            transform: rotate(360deg);
-            transform: rotate(360deg);
-          }
-        }
-      </style>
-      <script>
-        window.addEventListener('load', function () {
-          var loader = document.getElementById('loader');
-          loader.onanimationend = function () {
-            loader.remove();
-          };
-          loader.style.animation = 'fade 0.3s reverse';
-        });
-      </script>
-      <span></span>
-    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
