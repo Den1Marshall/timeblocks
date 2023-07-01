@@ -12,6 +12,9 @@ import { PersistGate } from 'redux-persist/integration/react';
 import WakeLockModal from './components/WakeLockModal';
 import doWakeLock, { releaseWakeLock } from './utils/wakeLock';
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
 const App: FC = () => {
   const colorMode = useSelector(
     (state: RootState) => state.colorModeReducer.colorMode
@@ -32,17 +35,19 @@ const App: FC = () => {
   return (
     <PersistGate persistor={persistor}>
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path='/my-blocks' element={<MyBlocks />} />
-              <Route path='/settings' element={<Settings />} />
-              <Route path='*' element={<MyBlocks />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-        <WakeLockModal />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path='/my-blocks' element={<MyBlocks />} />
+                <Route path='/settings' element={<Settings />} />
+                <Route path='*' element={<MyBlocks />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+          <WakeLockModal />
+        </LocalizationProvider>
       </ThemeProvider>
     </PersistGate>
   );
