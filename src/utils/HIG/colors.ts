@@ -102,3 +102,26 @@ export const white: Color = {
   light: 'rgba(255, 255, 255, 1)',
   dark: 'rgba(255, 255, 255, 1)',
 };
+
+export const higPalette = {
+  white,
+  black,
+  grey,
+  grey2,
+  grey3,
+  grey4,
+  grey5,
+  grey6,
+  brown,
+  pink,
+  blue,
+  red,
+  cyan,
+  purple,
+  indigo,
+  teal,
+  mint,
+  green,
+  yellow,
+  orange,
+};

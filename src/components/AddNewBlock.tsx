@@ -132,13 +132,14 @@ const AddNewBlock: FC = memo(() => {
             </DialogTitle>
           </Stack>
           <DialogContent>
-            <Stack width={280} spacing={8}>
+            <Stack width={280} spacing={6} alignItems={'center'}>
               <TextField
                 variant='standard'
                 size='small'
-                placeholder='Name'
                 value={inputValue}
                 onChange={handleInputValue}
+                label={'Name'}
+                fullWidth
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position='end'>
@@ -151,15 +152,19 @@ const AddNewBlock: FC = memo(() => {
                 }}
               />
               <TimeField
-                label={'Enter time'}
+                label={'Time'}
                 value={timeValue}
                 onChange={(newValue) => setTimeValue(newValue)}
                 format='HH:mm:ss'
                 variant='standard'
                 fullWidth
               />
-              <Stack direction={'row'} justifyContent={'space-between'}>
-                <DialogContentText>Pick the color:</DialogContentText>
+              <Stack
+                direction={'row'}
+                justifyContent={'space-between'}
+                width={'100%'}
+              >
+                <DialogContentText>Pick the color (optional)</DialogContentText>
                 <input type='color' ref={colorRef} />
               </Stack>
               <Button
