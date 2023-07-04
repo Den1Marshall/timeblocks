@@ -1,13 +1,6 @@
 /* Imports */
 @import 'normalize.css';
 
-/* Fonts */
-/* @font-face {
-  font-family: 'CHANGETHIS';
-  src: local('CHANGETHIS'), url('assets/fonts/CHANGETHIS') format('CHANGETHIS');
-  font-weight: 400;
-} */
-
 /* Global Styles */
 *,
 *::before,
@@ -38,21 +31,4 @@ body {
 img {
   max-width: 100%;
   height: auto;
-}
-
-.container {
-  margin: 0 auto;
-  padding: 0 15px;
-  /* max-width: CHANGETHIS+PADDING (30px); */
-}
-
-/* Animations */
-@keyframes fade {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
 }
