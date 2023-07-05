@@ -1,19 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { isWakelogSupported } from '../../utils/wakeLock';
 
 interface InitialState {
   enabled: boolean;
 }
 
 const initialState: InitialState = {
-  enabled: true,
+  enabled: isWakelogSupported(),
 };
 
 const wakeLockSlice = createSlice({
   name: 'wakeLock',
   initialState,
   reducers: {
-    toggleWakeLock(state) {
-      state.enabled = !state.enabled;
+    setWakeLock(state, action: PayloadAction<boolean>) {
+      state.enabled = action.payload;
     },
 
     resetDefaultWakeLock(state) {
@@ -23,4 +24,4 @@ const wakeLockSlice = createSlice({
 });
 
 export default wakeLockSlice.reducer;
-export const { toggleWakeLock, resetDefaultWakeLock } = wakeLockSlice.actions;
+export const { setWakeLock, resetDefaultWakeLock } = wakeLockSlice.actions;

@@ -9,8 +9,6 @@ import { RootState, persistor } from './redux/store';
 import Settings from './pages/Settings';
 import Home from './pages/Home';
 import { PersistGate } from 'redux-persist/integration/react';
-import WakeLockModal from './components/WakeLockModal';
-import doWakeLock, { releaseWakeLock } from './utils/wakeLock';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,19 +17,11 @@ const App: FC = () => {
   const colorMode = useSelector(
     (state: RootState) => state.colorModeReducer.colorMode
   );
-  const wakeLockEnabled = useSelector(
-    (state: RootState) => state.wakeLockReducer.enabled
-  );
 
   document.body.style.backgroundColor = colorMode === 'dark' ? '#000' : '#fff';
 
   const theme = makeTheme(colorMode);
 
-  if (wakeLockEnabled) {
-    doWakeLock();
-  } else {
-    releaseWakeLock();
-  }
   return (
     <PersistGate persistor={persistor}>
       <ThemeProvider theme={theme}>
@@ -46,7 +36,6 @@ const App: FC = () => {
               </Route>
             </Routes>
           </BrowserRouter>
-          <WakeLockModal />
         </LocalizationProvider>
       </ThemeProvider>
     </PersistGate>

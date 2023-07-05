@@ -19,7 +19,7 @@ import {
 } from '../redux/slices/colorModeSlice';
 import {
   resetDefaultWakeLock,
-  toggleWakeLock,
+  setWakeLock,
 } from '../redux/slices/wakeLockSlice';
 import { isWakelogSupported } from '../utils/wakeLock';
 import { clearTimeBlocks } from '../redux/slices/timeBlocksSlice';
@@ -50,7 +50,7 @@ const Settings: FC = () => {
   };
 
   const handleWakeLockChange = () => {
-    dispatch(toggleWakeLock());
+    dispatch(setWakeLock(!wakeLockChecked));
     setWakeLockChecked(!wakeLockChecked);
   };
 
@@ -82,10 +82,7 @@ const Settings: FC = () => {
   };
 
   return (
-    <Paper
-      square
-      sx={{ width: '100vw', height: '100vh', textAlign: 'center', pt: 3 }}
-    >
+    <Paper square sx={{ textAlign: 'center', pt: 3 }}>
       <Container fixed>
         <Typography variant='h4' component={'h1'} mb={3}>
           Settings (work in progress)

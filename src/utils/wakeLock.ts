@@ -7,33 +7,37 @@ export const isWakelogSupported = () => {
 };
 
 let wakelock: WakeLockSentinel;
-let wakeLockReleased = false;
+
+const lockOnPageAgainVisible = async () => {
+  if (wakelock !== null && document.visibilityState === 'visible') {
+    wakelock = await navigator.wakeLock.request('screen');
+    // console.log('WakeLock released: ', wakelock.released);
+  }
+};
 
 const doWakeLock = async () => {
   if (!isWakelogSupported()) {
     return;
   }
-  if (wakeLockReleased || !wakelock) {
-    try {
-      wakelock = await navigator.wakeLock.request();
+  try {
+    wakelock = await navigator.wakeLock.request();
 
-      wakelock.addEventListener('release', () => {
-        // console.log('Screen Wake State Locked:', !wakelock.released);
-      });
+    document.addEventListener('visibilitychange', lockOnPageAgainVisible);
 
-      // console.log('Screen Wake State Locked:', !wakelock.released);
+    wakelock.addEventListener('release', () => {
+      // console.log('WakeLock released: ', wakelock.released);
+    });
 
-      wakeLockReleased = false;
-    } catch (e: any) {
-      // console.error('Failed to lock wake state with reason:', e.message);
-    }
+    console.log('WakeLock released: ', wakelock.released);
+  } catch (e: any) {
+    // console.error('Failed to lock wake state with reason:', e.message);
   }
 };
 
 export const releaseWakeLock = () => {
-  if (wakelock && !wakeLockReleased) {
+  if (wakelock) {
     wakelock.release();
-    wakeLockReleased = true;
+    // console.log('WakeLock released: ', wakelock.released);
   }
 };
 
