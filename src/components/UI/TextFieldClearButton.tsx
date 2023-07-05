@@ -3,7 +3,7 @@ import { FC } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 
 interface TextFieldClearButtonProps {
-  clearFn: () => void;
+  clearFn: (arg: string) => void;
   inputValue: string;
 }
 
@@ -13,7 +13,7 @@ const TextFieldClearButton: FC<TextFieldClearButtonProps> = ({
 }) => {
   return (
     <Fade in={inputValue.length > 0}>
-      <IconButton onClick={clearFn}>
+      <IconButton onClick={() => clearFn('')}>
         <ClearIcon fontSize='small' />
       </IconButton>
     </Fade>

@@ -37,10 +37,6 @@ const AddNewBlock: FC = memo(() => {
   };
 
   const [inputValue, setInputValue] = useState<string>('');
-  const clearInput = (): void => {
-    setInputValue('');
-    setTimeValue(null);
-  };
 
   const handleInputValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(e.target.value);
@@ -52,6 +48,11 @@ const AddNewBlock: FC = memo(() => {
   const timeValueValid = timeValue?.isValid();
 
   const isInputValid = inputValue.length > 0 && timeValueValid;
+
+  const clearAllInputs = (): void => {
+    setInputValue('');
+    setTimeValue(null);
+  };
 
   const handleAdd = (): void => {
     if (isInputValid && colorRef.current) {
@@ -75,7 +76,7 @@ const AddNewBlock: FC = memo(() => {
         })
       );
       setOpen(false);
-      clearInput();
+      clearAllInputs();
     }
   };
 
@@ -132,7 +133,7 @@ const AddNewBlock: FC = memo(() => {
             </DialogTitle>
           </Stack>
           <DialogContent>
-            <Stack width={280} spacing={6} alignItems={'center'}>
+            <Stack width={280} spacing={4} alignItems={'center'}>
               <TextField
                 variant='standard'
                 size='small'
@@ -144,7 +145,7 @@ const AddNewBlock: FC = memo(() => {
                   endAdornment: (
                     <InputAdornment position='end'>
                       <TextFieldClearButton
-                        clearFn={clearInput}
+                        clearFn={setInputValue}
                         inputValue={inputValue}
                       />
                     </InputAdornment>
