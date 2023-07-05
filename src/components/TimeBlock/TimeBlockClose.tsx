@@ -16,7 +16,7 @@ const TimeBlockClose: FC<TimeBlockCloseProps> = memo(({ id, setDeleted }) => {
     setDeleted(true);
     setTimeout(() => {
       dispatch(removeTimeBlock(id));
-    }, 600);
+    }, 500);
   };
 
   return (
