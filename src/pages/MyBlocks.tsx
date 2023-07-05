@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import TimeBlockComponent from '../components/TimeBlock/TimeBlockComponent';
-import { Box, Container, Grid } from '@mui/material';
+import { Container, Grid, Paper } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import AddNewBlock from '../components/AddNewBlock';
@@ -14,7 +14,7 @@ const MyBlocks: FC = () => {
   // console.log('MYBLOCKS RENDER');
 
   return (
-    <Box component={'main'} sx={{ width: '100%', height: '100%' }} pt={3}>
+    <Paper component={'main'} sx={{ pt: 3 }}>
       <Container fixed>
         <Grid
           container
@@ -35,7 +35,7 @@ const MyBlocks: FC = () => {
           <AddNewBlock />
         </Grid>
       </Container>
-    </Box>
+    </Paper>
   );
 };
 
