@@ -14,7 +14,7 @@ const MyBlocks: FC = () => {
   // console.log('MYBLOCKS RENDER');
 
   return (
-    <Paper component={'main'} sx={{ pt: 3 }}>
+    <Paper square component={'main'} sx={{ pt: 3 }}>
       <Container fixed>
         <Grid
           container

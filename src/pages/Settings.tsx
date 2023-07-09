@@ -134,6 +134,9 @@ const Settings: FC = () => {
             RESET ALL
           </Button>
         </Stack>
+        <Typography mt={10} color={'info.main'}>
+          v1.0.0-pre-alpha
+        </Typography>
       </Container>
     </Paper>
   );

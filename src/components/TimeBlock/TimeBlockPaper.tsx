@@ -14,7 +14,7 @@ const TimeBlockPaper: FC<TimeBlockPaperProps> = memo(
       <Slide in={!deleted} timeout={500}>
         <Paper
           component={'article'}
-          elevation={isThisRunning ? 8 : 6}
+          elevation={isThisRunning ? 9 : 6}
           sx={{
             position: 'relative',
             zIndex: 1,

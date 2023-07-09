@@ -28,7 +28,7 @@ const doWakeLock = async () => {
       // console.log('WakeLock released: ', wakelock.released);
     });
 
-    console.log('WakeLock released: ', wakelock.released);
+    // console.log('WakeLock released: ', wakelock.released);
   } catch (e: any) {
     // console.error('Failed to lock wake state with reason:', e.message);
   }

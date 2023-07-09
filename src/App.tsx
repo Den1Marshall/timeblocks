@@ -12,6 +12,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { accessNotif } from './utils/notification';
 
 const App: FC = () => {
   const colorMode = useSelector(
@@ -21,6 +22,8 @@ const App: FC = () => {
   document.body.style.backgroundColor = colorMode === 'dark' ? '#000' : '#fff';
 
   const theme = makeTheme(colorMode);
+
+  accessNotif();
 
   return (
     <PersistGate persistor={persistor}>

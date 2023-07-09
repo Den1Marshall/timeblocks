@@ -74,6 +74,17 @@ const TimeBlockComponent: FC<TimeBlockComponentProps> = ({ tbId }) => {
     };
   }, [dispatch, worker]);
 
+  useEffect(() => {
+    if (progressPercent === 100) {
+      dispatch(
+        setIsRunning({
+          isRunning: false,
+          timeBlockId: null,
+        })
+      );
+    }
+  }, [progressPercent, dispatch]);
+
   // console.log('TB RENDER');
 
   return (
@@ -101,6 +112,7 @@ const TimeBlockComponent: FC<TimeBlockComponentProps> = ({ tbId }) => {
         setStartTime={setStartTime}
         id={id}
         worker={worker}
+        name={name}
       />
     </TimeBlockPaper>
   );

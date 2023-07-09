@@ -1,4 +1,4 @@
-import { FC, memo } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { setIsRunning } from '../../redux/slices/isRunningSlice';
 import { Button, Stack } from '@mui/material';
 
@@ -8,6 +8,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { removeTimeBlock } from '../../redux/slices/timeBlocksSlice';
+import sendNotif from '../../utils/notification';
 
 interface TimeBlockButtonsProps {
   done: boolean;
@@ -18,7 +19,8 @@ interface TimeBlockButtonsProps {
   time: number;
   elapsed: number;
   worker: Worker;
-  setStartTime: React.Dispatch<React.SetStateAction<number | null>>;
+  name: string;
+  setStartTime: (time: number | null) => void;
 }
 
 const compareProps = (
@@ -37,6 +39,8 @@ const compareProps = (
   );
 };
 
+let notifSent = false;
+
 const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
   ({
     done,
@@ -48,6 +52,7 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
     time,
     elapsed,
     worker,
+    name,
   }) => {
     const dispatch = useDispatch();
 
@@ -138,12 +143,21 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
 
       setStartTime(null);
 
+      notifSent = false;
+
       worker.postMessage({
         startTime: null,
         reset: true,
         isRunning: false,
       });
     };
+
+    useEffect(() => {
+      if (done && !notifSent) {
+        sendNotif(name);
+        notifSent = true;
+      }
+    }, [done, name]);
 
     // console.log('render');
 
