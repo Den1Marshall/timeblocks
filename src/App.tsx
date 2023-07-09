@@ -14,6 +14,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { accessNotif } from './utils/notification';
 
+import { registerSW } from 'virtual:pwa-register';
+
 const App: FC = () => {
   const colorMode = useSelector(
     (state: RootState) => state.colorModeReducer.colorMode
@@ -24,6 +26,24 @@ const App: FC = () => {
   const theme = makeTheme(colorMode);
 
   accessNotif();
+
+  const updateSW = registerSW({
+    onNeedRefresh() {
+      const answer = confirm('New version is available. Update?');
+
+      if (answer) {
+        updateSW();
+      }
+    },
+
+    onOfflineReady() {
+      alert('Your app is successfully installed');
+    },
+
+    onRegisterError(error) {
+      alert(`Error on installing: ${error}`);
+    },
+  });
 
   return (
     <PersistGate persistor={persistor}>

@@ -135,7 +135,7 @@ const Settings: FC = () => {
           </Button>
         </Stack>
         <Typography mt={10} color={'info.main'}>
-          v1.0.0-pre-alpha
+          v1.0.1-pre-alpha
         </Typography>
       </Container>
     </Paper>
