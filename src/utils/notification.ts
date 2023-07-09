@@ -27,11 +27,11 @@ const sendNotif = (taskName: string) => {
   if (!isNotifAvail()) {
     return;
   } else if (Notification.permission === 'granted') {
-    const notif = new Notification(notifTitle, notifOptions);
+    new Notification(notifTitle, notifOptions);
   } else if (Notification.permission === 'denied') {
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        const notif = new Notification(notifTitle, notifOptions);
+        new Notification(notifTitle, notifOptions);
       }
     });
   }
