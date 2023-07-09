@@ -90,6 +90,8 @@ const AddNewBlock: FC = memo(() => {
         display={'flex'}
         justifyContent={'center'}
         alignItems={'center'}
+        width={360}
+        sx={{ aspectRatio: '2/1' }}
       >
         <Tooltip title={'Add new Block'} placement='top'>
           <IconButton size='large' color='primary' onClick={handleOpen}>

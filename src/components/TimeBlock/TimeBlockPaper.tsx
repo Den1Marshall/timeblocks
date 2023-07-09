@@ -22,6 +22,7 @@ const TimeBlockPaper: FC<TimeBlockPaperProps> = memo(
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            width: 360,
             aspectRatio: 2 / 1,
             gap: 1.5,
             overflow: 'auto',
