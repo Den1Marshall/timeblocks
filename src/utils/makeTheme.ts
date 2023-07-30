@@ -89,9 +89,7 @@ const lightTheme: Theme = createTheme({
     MuiDialog: {
       defaultProps: {
         PaperProps: {
-          sx: {
-            bgcolor: backgroundLight.primary,
-          },
+          elevation: 8,
         },
       },
     },
@@ -191,9 +189,7 @@ const darkTheme: Theme = createTheme({
     MuiDialog: {
       defaultProps: {
         PaperProps: {
-          sx: {
-            ...materialRegularDark,
-          },
+          elevation: 8,
         },
       },
     },

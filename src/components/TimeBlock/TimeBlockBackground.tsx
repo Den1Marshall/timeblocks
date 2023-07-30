@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
-import { FC, memo, useEffect, useRef } from 'react';
+import { animated, useSpring } from '@react-spring/web';
+import { FC, memo } from 'react';
 
 interface TimeBlockBackgroundProps {
   progressPercent: number;
@@ -7,33 +8,30 @@ interface TimeBlockBackgroundProps {
   color: string;
 }
 
+const AnimatedBox = animated(Box);
+
 const TimeBlockBackground: FC<TimeBlockBackgroundProps> = memo(
   ({ progressPercent, startTime, color }) => {
-    const ref = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-      if (ref.current) {
-        ref.current.style.width = `${progressPercent}%`;
-      }
-    }, [progressPercent]);
+    const [spring] = useSpring(
+      () => ({
+        opacity: startTime === null ? 0.5 : 0.3,
+        width: `${progressPercent}%`,
+      }),
+      [progressPercent, startTime]
+    );
 
     return (
-      <Box
-        ref={ref}
+      <AnimatedBox
+        position={'absolute'}
+        top={0}
+        left={0}
+        height={'100%'}
+        style={spring}
         sx={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: '100%',
-          transition:
-            startTime !== null
-              ? 'opacity .2s'
-              : 'width .5s, background-color .1s, opacity .2s',
           backgroundColor: color,
-          opacity: startTime !== null ? '0.5' : '0.3',
           zIndex: -1,
         }}
-      ></Box>
+      ></AnimatedBox>
     );
   }
 );

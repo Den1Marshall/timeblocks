@@ -8,6 +8,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 html,
@@ -15,7 +17,6 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  user-select: none;
   overflow-x: hidden;
 }
 
