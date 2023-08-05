@@ -15,15 +15,37 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { accessNotif } from './utils/notification';
 
 import { registerSW } from 'virtual:pwa-register';
+import { ColorMode } from './redux/slices/colorModeSlice';
+import { PaletteMode } from '@mui/material';
+
+const defineColorMode = (colorMode: ColorMode): PaletteMode => {
+  switch (colorMode) {
+    case 'light':
+      return 'light';
+
+    case 'dark':
+      return 'dark';
+
+    case 'system':
+      return window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+
+    default:
+      return 'light';
+  }
+};
 
 const App: FC = () => {
-  const colorMode = useSelector(
-    (state: RootState) => state.colorModeReducer.colorMode
+  const colorModeSlice = useSelector(
+    (state: RootState) => state.colorModeReducer
   );
 
-  document.body.style.backgroundColor = colorMode === 'dark' ? '#000' : '#fff';
+  const colorMode = defineColorMode(colorModeSlice.colorMode);
 
-  const theme = makeTheme(colorMode);
+  const theme = makeTheme(defineColorMode(colorMode));
+
+  document.body.style.backgroundColor = colorMode === 'dark' ? '#000' : '#fff';
 
   accessNotif();
 

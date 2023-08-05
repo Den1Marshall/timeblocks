@@ -29,7 +29,7 @@ const doWakeLock = async () => {
     });
 
     // console.log('WakeLock released: ', wakelock.released);
-  } catch (e: any) {
+  } catch (e: unknown) {
     // console.error('Failed to lock wake state with reason:', e.message);
   }
 };

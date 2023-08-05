@@ -1,50 +1,34 @@
 import { PaletteMode } from '@mui/material';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
+export type ColorMode = 'light' | 'dark' | 'system';
+
 interface InitialState {
-  colorMode: PaletteMode;
-  watchUser: boolean;
+  colorMode: ColorMode;
 }
 
 const initialState: InitialState = {
-  colorMode: window.matchMedia('(prefers-color-scheme: dark)')
-    ? 'dark'
-    : 'light',
-  watchUser: true,
+  colorMode: 'system',
 };
 
 const colorModeSlice = createSlice({
   name: 'colorMode',
   initialState,
   reducers: {
-    toggleColorMode(state) {
-      if (!state.watchUser) {
-        state.colorMode = state.colorMode === 'dark' ? 'light' : 'dark';
-        state.watchUser = false;
-      }
-    },
-
-    toggleWatchUserColorMode(state, action: PayloadAction<boolean>) {
-      action.payload ? (state.watchUser = true) : (state.watchUser = false);
+    setWatchUser(state) {
+      state.colorMode = 'system';
     },
 
     setColorMode(state, action: PayloadAction<PaletteMode>) {
-      if (state.watchUser) {
-        state.colorMode = action.payload;
-      }
+      state.colorMode = action.payload;
     },
 
     resetDefaultColorMode(state) {
       state.colorMode = initialState.colorMode;
-      state.watchUser = initialState.watchUser;
     },
   },
 });
 
 export default colorModeSlice.reducer;
-export const {
-  toggleColorMode,
-  toggleWatchUserColorMode,
-  setColorMode,
-  resetDefaultColorMode,
-} = colorModeSlice.actions;
+export const { setWatchUser, setColorMode, resetDefaultColorMode } =
+  colorModeSlice.actions;

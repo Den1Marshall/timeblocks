@@ -1,42 +1,36 @@
-import { msToHours, msToMinutes, msToSeconds } from '../../utils/msToTime';
+interface WorkerMessage {
+  startTime: number | null;
+  isRunning: boolean;
+  duration: number;
+}
 
-let interval: any;
+let interval: number;
 
 let progressPercent: number;
-let seconds: string;
-let minutes: string;
-let hours: string;
 let elapsed: number;
 
-const startTimer = ({ data }: MessageEvent): void => {
-  if (data.startTime !== null && data.isRunning === false) {
-    interval = setInterval(() => {
-      elapsed = Date.now() - data.startTime;
+const startTimer = ({ data }: MessageEvent<WorkerMessage>): void => {
+  const { startTime, isRunning, duration } = data;
 
-      progressPercent = (elapsed / (data.time * 1000)) * 100;
-      seconds = msToSeconds(elapsed);
-      minutes = msToMinutes(elapsed);
-      hours = msToHours(elapsed);
+  if (startTime !== null && isRunning === false) {
+    interval = setInterval(() => {
+      elapsed = Date.now() - startTime;
+
+      progressPercent = (elapsed / duration) * 100;
 
       self.postMessage({
         elapsed,
         progressPercent,
-        seconds,
-        minutes,
-        hours,
       });
 
       // console.log(elapsed);
 
-      if (elapsed >= data.time * 1000) {
+      if (elapsed >= duration) {
         clearInterval(interval);
 
         self.postMessage({
-          elapsed: data.time * 1000,
+          elapsed: duration,
           progressPercent: 100,
-          seconds: msToSeconds(data.time * 1000),
-          minutes: msToMinutes(data.time * 1000),
-          hours: msToHours(data.time * 1000),
         });
 
         return;
@@ -45,30 +39,30 @@ const startTimer = ({ data }: MessageEvent): void => {
   }
 };
 
-const pauseTimer = ({ data }: MessageEvent): void => {
-  if (data.startTime === null && !data.reset) {
+const pauseTimer = ({
+  data,
+}: MessageEvent<{ startTime: number | null; reset: boolean }>): void => {
+  const { startTime, reset } = data;
+  if (startTime === null && !reset) {
     clearInterval(interval);
 
     self.postMessage({
       elapsed,
       progressPercent,
-      seconds,
-      minutes,
-      hours,
     });
   }
 };
 
-const resetTimer = ({ data }: MessageEvent): void => {
-  if (data.startTime === null && data.reset === true) {
+const resetTimer = ({
+  data,
+}: MessageEvent<{ startTime: number | null; reset: boolean }>): void => {
+  const { startTime, reset } = data;
+  if (startTime === null && reset === true) {
     clearInterval(interval);
 
     self.postMessage({
       elapsed: 0,
       progressPercent: 0,
-      seconds: '00',
-      minutes: '00',
-      hours: '00',
     });
   }
 };

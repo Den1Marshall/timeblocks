@@ -1,13 +1,14 @@
+import dayjs from 'dayjs';
+
 export interface TimeBlock {
   id: number;
   name: string;
-  time: number;
+  timeStart: dayjs.Dayjs;
+  timeEnd: dayjs.Dayjs;
+  duration: number;
   color: string;
 
   progressPercent: number;
-  seconds: string;
-  minutes: string;
-  hours: string;
   elapsed: number;
   // public doneForDay = 0;
   // public doneForWeek = 0;

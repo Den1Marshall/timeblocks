@@ -7,8 +7,8 @@ import DoneIcon from '@mui/icons-material/Done';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { removeTimeBlock } from '../../redux/slices/timeBlocksSlice';
 import sendNotif from '../../utils/notification';
+import dayjs from 'dayjs';
 
 interface TimeBlockButtonsProps {
   done: boolean;
@@ -16,7 +16,9 @@ interface TimeBlockButtonsProps {
   paused: boolean;
   notStarted: boolean;
   id: number;
-  time: number;
+  timeStart: dayjs.Dayjs;
+  timeEnd: dayjs.Dayjs;
+  duration: number;
   elapsed: number;
   worker: Worker;
   name: string;
@@ -33,7 +35,8 @@ const compareProps = (
     p.paused === n.paused &&
     p.notStarted === n.notStarted &&
     p.id === n.id &&
-    p.time === n.time &&
+    p.timeStart === n.timeStart &&
+    p.timeEnd === n.timeEnd &&
     p.elapsed !== n.elapsed &&
     p.setStartTime === n.setStartTime
   );
@@ -49,7 +52,7 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
     setStartTime,
     paused,
     notStarted,
-    time,
+    duration,
     elapsed,
     worker,
     name,
@@ -60,11 +63,19 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
       (state: RootState) => state.isRunningSlice
     );
 
+    // const [resetBtnSpring, resetBtnSpringApi] = useSpring(() => ({
+    //   scale: 1,
+    // }));
+
+    // const [btnSpring, btnSpringApi] = useSpring(() => ({
+    //   transform: `translateX(0px)`,
+    //   scale: 1,
+    // }));
+
     const handleStart = () => {
       if (done) {
         // console.log('DONE');
 
-        dispatch(removeTimeBlock(id));
         return;
       }
 
@@ -81,7 +92,7 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
         const currentTime = Date.now() - elapsed;
 
         worker.postMessage({
-          time: time,
+          duration,
           startTime: currentTime - elapsed,
           isRunning: isRunningState.isRunning,
         });
@@ -102,7 +113,7 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
         );
 
         worker.postMessage({
-          time: time,
+          duration,
           startTime: Date.now() - elapsed,
           isRunning: isRunningState.isRunning,
         });
@@ -117,7 +128,7 @@ const TimeBlockButtons: FC<TimeBlockButtonsProps> = memo(
       if (started && !done) {
         // console.log('PAUSE');
         worker.postMessage({
-          time: time,
+          duration,
           startTime: null,
         });
         setStartTime(null);

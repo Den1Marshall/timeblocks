@@ -8,12 +8,12 @@ import isRunningSlice from './slices/isRunningSlice';
 import colorModeSlice from './slices/colorModeSlice';
 import modalsSlice from './slices/modalsSlice';
 import wakeLockSlice from './slices/wakeLockSlice';
+import selectedTimeBlockSlice from './slices/selectedTimeBlockSlice';
 
 const timeBlocksConfig = {
   key: 'timeBlocks',
   storage,
 };
-const timeBlocksReducer = persistReducer(timeBlocksConfig, timeBlocksSlice);
 
 const colorModeConfig = {
   key: 'colorMode',
@@ -33,11 +33,13 @@ const wakeLockConfig = {
 const colorModeReducer = persistReducer(colorModeConfig, colorModeSlice);
 const modalsReducer = persistReducer(modalsConfig, modalsSlice);
 const wakeLockReducer = persistReducer(wakeLockConfig, wakeLockSlice);
+const timeBlocksReducer = persistReducer(timeBlocksConfig, timeBlocksSlice);
 
 const store = configureStore({
   reducer: {
-    timeBlocksReducer,
     isRunningSlice,
+    selectedTimeBlockSlice,
+    timeBlocksReducer,
     colorModeReducer,
     modalsReducer,
     wakeLockReducer,
@@ -50,8 +52,3 @@ export type RootState = ReturnType<typeof store.getState>;
 export default store;
 
 export const persistor = persistStore(store);
-
-export const persistedTimeBlocksReducer = persistReducer(
-  timeBlocksConfig,
-  timeBlocksSlice
-);

@@ -10,26 +10,53 @@ import {
   InputAdornment,
   Stack,
   TextField,
+  Theme,
   Tooltip,
+  useMediaQuery,
 } from '@mui/material';
 import React, { FC, memo, useRef, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import { addTimeBlock } from '../redux/slices/timeBlocksSlice';
 import TextFieldClearButton from './UI/TextFieldClearButton';
-import { TimeField } from '@mui/x-date-pickers';
-import { Dayjs } from 'dayjs';
+import {
+  TimePicker,
+  renderMultiSectionDigitalClockTimeView,
+} from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { msToTime } from '../utils/msToTime';
+import store from '../redux/store';
+import { TimeBlock } from '../utils/TimeBlock';
 
 const AddNewBlock: FC = memo(() => {
   const dispatch = useDispatch();
+  let newId = 0;
+  let duration = 0;
+
+  const timeBlocks = store.getState().timeBlocksReducer.timeBlocks;
+
+  const timeBlocksCopy: TimeBlock[] = JSON.parse(JSON.stringify(timeBlocks));
+
+  if (timeBlocksCopy.length > 0) {
+    timeBlocksCopy.sort((a, b) => b.id - a.id);
+    newId = timeBlocksCopy[0].id + 1 || 0;
+  }
 
   const [open, setOpen] = useState<boolean>(false);
-  const [timeValue, setTimeValue] = useState<Dayjs | null>(null);
+  const [timeStartValue, setTimeStartValue] = useState<dayjs.Dayjs | null>(
+    dayjs().startOf('hour')
+  );
+  const [timeEndValue, setTimeEndValue] = useState<dayjs.Dayjs | null>(
+    dayjs().startOf('hour').add(1, 'hours')
+  );
 
   const colorRef = useRef<HTMLInputElement>(null);
 
   const handleOpen = (): void => {
     setOpen(true);
+    setTimeStartValue(dayjs().startOf('hour'));
+    setTimeEndValue(dayjs().startOf('hour').add(1, 'hours'));
   };
 
   const handleClose = (): void => {
@@ -42,41 +69,54 @@ const AddNewBlock: FC = memo(() => {
     setInputValue(e.target.value);
   };
 
-  const hours = timeValue?.hour();
-  const minutes = timeValue?.minute();
-  const seconds = timeValue?.second();
-  const timeValueValid = timeValue?.isValid();
+  const handleTimeStartChange = (value: dayjs.Dayjs | null) =>
+    setTimeStartValue(value);
 
-  const isInputValid = inputValue.length > 0 && timeValueValid;
+  const handleTimeEndChange = (value: dayjs.Dayjs | null) =>
+    setTimeEndValue(value);
 
-  const clearAllInputs = (): void => {
+  const isInputValid =
+    inputValue.length > 0 &&
+    timeEndValue?.diff(timeStartValue) !== undefined &&
+    timeEndValue.diff(timeStartValue) > 0;
+
+  if (timeEndValue && timeStartValue && timeEndValue.diff(timeStartValue) > 0) {
+    duration = timeEndValue.diff(timeStartValue);
+  } else {
+    duration = 0;
+  }
+
+  const clearInputs = () => {
     setInputValue('');
-    setTimeValue(null);
+    setTimeStartValue(null);
+    setTimeEndValue(null);
   };
 
   const handleAdd = (): void => {
-    if (isInputValid && colorRef.current) {
+    if (
+      isInputValid &&
+      timeStartValue &&
+      timeEndValue &&
+      duration &&
+      colorRef.current
+    ) {
       dispatch(
         addTimeBlock({
-          id: Math.random() * 100,
+          id: newId,
           name: inputValue,
-          time:
-            (hours ? hours * 3600 : 0) +
-            (minutes ? minutes * 60 : 0) +
-            (seconds ? seconds : 0),
+          timeStart: timeStartValue,
+          timeEnd: timeEndValue,
+          duration,
           color:
             colorRef.current?.value !== '#000000'
               ? colorRef.current?.value
               : 'primary.main',
           progressPercent: 0,
-          seconds: '00',
-          minutes: '00',
-          hours: '00',
           elapsed: 0,
         })
       );
       setOpen(false);
-      clearAllInputs();
+      clearInputs();
     }
   };
 
@@ -89,8 +129,11 @@ const AddNewBlock: FC = memo(() => {
         xs={12}
         display={'flex'}
         justifyContent={'center'}
-        alignItems={'center'}
-        width={360}
+        alignItems={
+          useMediaQuery((theme: Theme) => theme.breakpoints.down('md'))
+            ? 'flex-start'
+            : 'center'
+        }
         sx={{ aspectRatio: '2/1' }}
       >
         <Tooltip title={'Add new Block'} placement='top'>
@@ -99,7 +142,7 @@ const AddNewBlock: FC = memo(() => {
           </IconButton>
         </Tooltip>
       </Grid>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} maxWidth={'xs'}>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -135,7 +178,7 @@ const AddNewBlock: FC = memo(() => {
             </DialogTitle>
           </Stack>
           <DialogContent>
-            <Stack width={280} spacing={4} alignItems={'center'}>
+            <Stack spacing={4} alignItems={'center'}>
               <TextField
                 variant='standard'
                 size='small'
@@ -154,17 +197,64 @@ const AddNewBlock: FC = memo(() => {
                   ),
                 }}
               />
-              <TimeField
-                label={'Time'}
-                value={timeValue}
-                onChange={(newValue) => setTimeValue(newValue)}
-                format='HH:mm:ss'
-                variant='standard'
-                fullWidth
-              />
               <Stack
                 direction={'row'}
                 justifyContent={'space-between'}
+                alignItems={'center'}
+                spacing={3}
+                position={'relative'}
+                sx={{ width: '100%' }}
+              >
+                <TimePicker
+                  label={'Start'}
+                  format='HH:mm:ss'
+                  ampm={false}
+                  value={timeStartValue}
+                  onChange={handleTimeStartChange}
+                  slotProps={{ textField: { variant: 'standard' } }}
+                  maxTime={timeEndValue?.subtract(1, 'seconds') || undefined}
+                  minTime={dayjs()
+                    .set('hour', 0)
+                    .set('minute', 0)
+                    .set('second', 1)}
+                  views={['hours', 'minutes', 'seconds']}
+                  viewRenderers={{
+                    hours: renderMultiSectionDigitalClockTimeView,
+                    minutes: renderMultiSectionDigitalClockTimeView,
+                    seconds: renderMultiSectionDigitalClockTimeView,
+                  }}
+                />
+                <ArrowForwardIcon
+                  sx={{
+                    position: 'relative',
+                    top: '10px',
+                    display: 'block',
+                  }}
+                  fontSize='medium'
+                />
+                <TimePicker
+                  label={'End'}
+                  format='HH:mm:ss'
+                  ampm={false}
+                  value={timeEndValue}
+                  onChange={handleTimeEndChange}
+                  slotProps={{ textField: { variant: 'standard' } }}
+                  minTime={timeStartValue || undefined}
+                  maxTime={dayjs()
+                    .set('hour', 23)
+                    .set('minute', 59)
+                    .set('second', 59)}
+                  views={['hours', 'minutes', 'seconds']}
+                />
+              </Stack>
+              <DialogContentText textAlign={'left'}>
+                Duration:{' '}
+                {duration && duration > 0 ? msToTime(duration) : '00:00:00'}
+              </DialogContentText>
+              <Stack
+                direction={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
                 width={'100%'}
               >
                 <DialogContentText>Pick the color (optional)</DialogContentText>

@@ -1,21 +1,20 @@
 import {
   Button,
+  ButtonGroup,
   Checkbox,
   Container,
   Divider,
   Paper,
   Stack,
-  Switch,
   Typography,
 } from '@mui/material';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import {
   resetDefaultColorMode,
   setColorMode,
-  toggleColorMode,
-  toggleWatchUserColorMode,
+  setWatchUser,
 } from '../redux/slices/colorModeSlice';
 import {
   resetDefaultWakeLock,
@@ -27,54 +26,18 @@ import { clearTimeBlocks } from '../redux/slices/timeBlocksSlice';
 const Settings: FC = () => {
   const dispatch = useDispatch();
 
-  const checked =
-    useSelector((state: RootState) => state.colorModeReducer.colorMode) ===
-    'dark'
-      ? true
-      : false;
-
-  const defaultChecked = useSelector(
-    (state: RootState) => state.colorModeReducer.watchUser
+  const colorModeSlice = useSelector(
+    (state: RootState) => state.colorModeReducer
   );
 
   const [wakeLockChecked, setWakeLockChecked] = useState<boolean>(
     useSelector((state: RootState) => state.wakeLockReducer.enabled)
   );
 
-  const handleChange = () => {
-    dispatch(toggleColorMode());
-  };
-
-  const handleCheckboxChange = () => {
-    dispatch(toggleWatchUserColorMode(!defaultChecked));
-  };
-
   const handleWakeLockChange = () => {
     dispatch(setWakeLock(!wakeLockChecked));
     setWakeLockChecked(!wakeLockChecked);
   };
-
-  useEffect(() => {
-    if (defaultChecked) {
-      dispatch(
-        setColorMode(
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light'
-        )
-      );
-
-      const watchChange = (e: MediaQueryListEvent) => {
-        console.log(e.matches);
-
-        dispatch(setColorMode(e.matches ? 'dark' : 'light'));
-      };
-
-      window
-        .matchMedia('(prefers-color-scheme: dark)')
-        .addEventListener('change', watchChange);
-    }
-  }, [defaultChecked, dispatch, wakeLockChecked]);
 
   const resetDefaults = () => {
     dispatch(resetDefaultWakeLock());
@@ -87,18 +50,39 @@ const Settings: FC = () => {
         <Typography variant='h4' component={'h1'} mb={3}>
           Settings (work in progress)
         </Typography>
-        <Stack direction={'row'} alignItems={'center'} gap={2}>
-          <Typography>Dark mode</Typography>
-          <Switch
-            onChange={handleChange}
-            checked={checked}
-            disabled={defaultChecked}
-          />
-        </Stack>
-        <Divider />
-        <Stack direction={'row'} alignItems={'center'} gap={2}>
-          <Typography>Watch user</Typography>
-          <Checkbox checked={defaultChecked} onChange={handleCheckboxChange} />
+        <Stack
+          direction={'row'}
+          display={'flex'}
+          alignItems={'center'}
+          spacing={2}
+        >
+          <Typography>Theme:</Typography>
+          <ButtonGroup>
+            <Button
+              variant={
+                colorModeSlice.colorMode === 'system' ? 'contained' : 'outlined'
+              }
+              onClick={() => dispatch(setWatchUser())}
+            >
+              System
+            </Button>
+            <Button
+              variant={
+                colorModeSlice.colorMode === 'light' ? 'contained' : 'outlined'
+              }
+              onClick={() => dispatch(setColorMode('light'))}
+            >
+              Light
+            </Button>
+            <Button
+              variant={
+                colorModeSlice.colorMode === 'dark' ? 'contained' : 'outlined'
+              }
+              onClick={() => dispatch(setColorMode('dark'))}
+            >
+              Dark
+            </Button>
+          </ButtonGroup>
         </Stack>
         <Divider />
         <Stack direction={'row'} alignItems={'center'}>
@@ -134,8 +118,38 @@ const Settings: FC = () => {
             RESET ALL
           </Button>
         </Stack>
+        <Stack direction={'row'} spacing={2} alignItems={'center'}>
+          <Typography>Always enabled MyBlocks page animation</Typography>
+          <Checkbox title='Always enabled MyBlocks page animation' />
+        </Stack>
+        <Button
+          variant='contained'
+          onClick={() => {
+            Notification.requestPermission()
+              .then((res) => alert(res))
+              .catch((err) => alert(`ERR: ${err}`));
+          }}
+        >
+          Enable notif
+        </Button>
+        <Button
+          variant='contained'
+          onClick={() => {
+            navigator.setAppBadge(12).catch((err) => console.log(err));
+          }}
+        >
+          badge 12
+        </Button>
+        <Button
+          variant='contained'
+          onClick={() => {
+            navigator.clearAppBadge();
+          }}
+        >
+          badge none
+        </Button>
         <Typography mt={10} color={'info.main'}>
-          v1.0.1-pre-alpha
+          v2.0.0-pre-alpha
         </Typography>
       </Container>
     </Paper>

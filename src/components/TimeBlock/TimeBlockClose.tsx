@@ -1,22 +1,14 @@
 import { IconButton, Tooltip } from '@mui/material';
 import { FC, memo } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
-import { removeTimeBlock } from '../../redux/slices/timeBlocksSlice';
 
 interface TimeBlockCloseProps {
-  id: number;
   setDeleted: (deleted: boolean) => void;
 }
 
-const TimeBlockClose: FC<TimeBlockCloseProps> = memo(({ id, setDeleted }) => {
-  const dispatch = useDispatch();
-
+const TimeBlockClose: FC<TimeBlockCloseProps> = memo(({ setDeleted }) => {
   const handleClick = (): void => {
     setDeleted(true);
-    setTimeout(() => {
-      dispatch(removeTimeBlock(id));
-    }, 500);
   };
 
   return (
