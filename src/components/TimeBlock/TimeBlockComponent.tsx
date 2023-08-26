@@ -141,7 +141,7 @@ const TimeBlockComponent: FC<TimeBlock> = ({
 
       onCancel: () => {
         clearTimeout(timeout);
-        springApi.stop();
+        springApi.start({ to: { scale: 1 } });
       },
 
       filterEvents: (e: React.TouchEvent) =>
@@ -255,7 +255,6 @@ const TimeBlockComponent: FC<TimeBlock> = ({
         gap: 1.5,
         overflow: 'auto',
         textAlign: 'center',
-        transform: `translateY(-${window.innerHeight}px)`,
       }}
     >
       <TimeBlockClose setDeleted={setDeleted} />
