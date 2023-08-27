@@ -37,7 +37,6 @@ const AddNewBlock: FC = memo(() => {
   const timeBlocks = store.getState().timeBlocksReducer.timeBlocks;
 
   const timeBlocksCopy: TimeBlock[] = JSON.parse(JSON.stringify(timeBlocks));
-
   if (timeBlocksCopy.length > 0) {
     timeBlocksCopy.sort((a, b) => b.id - a.id);
     newId = timeBlocksCopy[0].id + 1 || 0;
@@ -213,10 +212,6 @@ const AddNewBlock: FC = memo(() => {
                   onChange={handleTimeStartChange}
                   slotProps={{ textField: { variant: 'standard' } }}
                   maxTime={timeEndValue?.subtract(1, 'seconds') || undefined}
-                  minTime={dayjs()
-                    .set('hour', 0)
-                    .set('minute', 0)
-                    .set('second', 1)}
                   views={['hours', 'minutes', 'seconds']}
                   viewRenderers={{
                     hours: renderMultiSectionDigitalClockTimeView,
@@ -240,10 +235,6 @@ const AddNewBlock: FC = memo(() => {
                   onChange={handleTimeEndChange}
                   slotProps={{ textField: { variant: 'standard' } }}
                   minTime={timeStartValue || undefined}
-                  maxTime={dayjs()
-                    .set('hour', 23)
-                    .set('minute', 59)
-                    .set('second', 59)}
                   views={['hours', 'minutes', 'seconds']}
                 />
               </Stack>

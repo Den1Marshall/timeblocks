@@ -1,4 +1,6 @@
 import {
+  Button,
+  ButtonGroup,
   InputAdornment,
   Stack,
   SwipeableDrawer,
@@ -223,6 +225,19 @@ const TimeBlockSettings: FC = () => {
             value={colorValue}
             onChange={handleColorInputChange}
           />
+        </Stack>
+        <Stack
+          direction='row'
+          width={'100%'}
+          justifyContent={'center'}
+          spacing={2}
+        >
+          <Button variant='text' color='warning'>
+            Reset
+          </Button>
+          <Button variant='text' color='error'>
+            Delete Block
+          </Button>
         </Stack>
       </Stack>
     </SwipeableDrawer>
