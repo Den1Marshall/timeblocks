@@ -141,7 +141,7 @@ const TimeBlockComponent: FC<TimeBlock> = ({
 
       onCancel: () => {
         clearTimeout(timeout);
-        springApi.stop();
+        springApi.start({ to: { scale: 1 } });
       },
 
       filterEvents: (e: React.TouchEvent) =>

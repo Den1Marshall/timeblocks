@@ -14,7 +14,7 @@ const TimeBlockBackground: FC<TimeBlockBackgroundProps> = memo(
   ({ progressPercent, startTime, color }) => {
     const [spring] = useSpring(
       () => ({
-        opacity: startTime === null ? 0.5 : 0.3,
+        opacity: startTime === null ? 0.3 : 0.5,
         width: `${progressPercent}%`,
       }),
       [progressPercent, startTime]
@@ -29,7 +29,6 @@ const TimeBlockBackground: FC<TimeBlockBackgroundProps> = memo(
         style={spring}
         sx={{
           backgroundColor: color,
-          zIndex: -1,
         }}
       ></AnimatedBox>
     );
