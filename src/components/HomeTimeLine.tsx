@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import { FC, memo, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 
 const HomeTimeLine: FC = () => {
   const [now, setNow] = useState<dayjs.Dayjs>(dayjs());

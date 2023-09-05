@@ -9,7 +9,15 @@ interface TimeBlockNameProps {
 
 const TimeBlockName: FC<TimeBlockNameProps> = memo(({ name, variant }) => {
   return (
-    <Typography zIndex={1} component={'h2'} variant={variant || 'h6'}>
+    <Typography
+      overflow={'hidden'}
+      textOverflow={'ellipsis'}
+      whiteSpace={'nowrap'}
+      zIndex={1}
+      component={'h2'}
+      variant={variant || 'h6'}
+      maxWidth={'100%'}
+    >
       {name}
     </Typography>
   );

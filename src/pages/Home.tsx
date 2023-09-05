@@ -1,4 +1,12 @@
-import { Box, Menu, MenuItem, Paper, Stack } from '@mui/material';
+import {
+  Divider,
+  // Box,
+  Menu,
+  MenuItem,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material';
 import { FC, useRef, useState } from 'react';
 import HomeDate from '../components/HomeDate';
 import HomeRow from '../components/HomeRow';
@@ -6,6 +14,7 @@ import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import TimeBlockSettings from '../components/TimeBlockSettings';
+import HomeTimeLine from '../components/HomeTimeLine';
 
 const Home: FC = () => {
   const selTbId = useSelector(
@@ -63,10 +72,17 @@ const Home: FC = () => {
   console.log('home render');
 
   return (
-    <Paper square sx={{ pt: 3, pb: 10, px: 3 }}>
+    <Paper square sx={{ pt: 3, pb: 10, pl: 2 }}>
+      <Typography sx={{ opacity: 0.5 }} variant='h6' textAlign={'center'}>
+        (Work in progress)
+      </Typography>
       <HomeDate />
       <div ref={divRef} onContextMenu={handleContextMenu}>
-        <Stack direction={'column'}>
+        <Stack
+          position={'relative'}
+          direction={'column'}
+          divider={<Divider sx={{ ml: 5 }} />}
+        >
           {dateArr.map((date, index) => (
             <HomeRow
               key={index}
@@ -78,6 +94,7 @@ const Home: FC = () => {
               })}
             />
           ))}
+          <HomeTimeLine />
         </Stack>
         <Menu
           open={contextMenu !== null}
