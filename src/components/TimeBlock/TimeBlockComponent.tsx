@@ -255,6 +255,7 @@ const TimeBlockComponent: FC<TimeBlock> = ({
         gap: 1.5,
         overflow: 'auto',
         textAlign: 'center',
+        p: 3,
       }}
     >
       <TimeBlockClose setDeleted={setDeleted} />
