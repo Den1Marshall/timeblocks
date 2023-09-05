@@ -1,34 +1,15 @@
-import {
-  FC,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import TimeBlockBackground from './TimeBlockBackground';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  removeTimeBlock,
-  updateTimeBlock,
-} from '../../redux/slices/timeBlocksSlice';
+import { updateTimeBlock } from '../../redux/slices/timeBlocksSlice';
 import TimeBlockName from './TimeBlockName';
 import TimeBlockTime from './TimeBlockTime';
-import TimeBlockButtons from './TimeBlockButtons';
 import { setIsRunning } from '../../redux/slices/isRunningSlice';
-import TimeBlockClose from './TimeBlockClose';
 import { RootState } from '../../redux/store';
-import {
-  Paper,
-  Stack,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { Paper, Stack, Theme, useMediaQuery, useTheme } from '@mui/material';
 import { setSelectedTimeBlockId } from '../../redux/slices/selectedTimeBlockSlice';
 import { useLongPress } from 'use-long-press';
-import { animated, config, useSpring } from '@react-spring/web';
+import { animated, useSpring } from '@react-spring/web';
 import { TimeBlock } from '../../utils/TimeBlock';
 import sendNotif from '../../utils/notification';
 import dayjs from 'dayjs';
@@ -37,11 +18,7 @@ const AnimatedPaper = animated(Paper);
 
 let notifSent = false;
 
-interface HomeTimeBlockProps extends TimeBlock {
-  date: dayjs.Dayjs;
-}
-
-const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
+const HomeTimeBlock: FC<TimeBlock> = ({
   id,
   name,
   timeStart,
@@ -50,7 +27,6 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
   color,
   progressPercent,
   elapsed,
-  date,
 }) => {
   const dispatch = useDispatch();
 
@@ -78,7 +54,7 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
   const isThisRunning = isRunning.isRunning && isRunning.timeBlockId === id;
 
   const [startTime, setStartTime] = useState<number | null>(null);
-  const [deleted, setDeleted] = useState<boolean>(false);
+  // const [deleted, setDeleted] = useState<boolean>(false);
 
   const worker = useMemo(() => {
     const worker = new Worker(new URL('./timeBlockWorker', import.meta.url), {
@@ -229,11 +205,17 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
     }
   }, [done, name]);
 
+  let startOffsetInMinutes: number | null = null;
+
+  if (dayjs(timeStart).minute() > 0) {
+    startOffsetInMinutes = dayjs(timeStart).minute() * 0.125;
+  }
+
   const durationInMinutes = duration / 1000 / 60;
   let height: null | number = null;
 
   if (durationInMinutes > 30) {
-    height = durationInMinutes / 6;
+    height = durationInMinutes / 8;
   }
 
   const handleContextClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -258,26 +240,28 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
     {
       detect: 'touch',
       cancelOnMovement: true,
-      threshold: 500,
+      threshold: 250,
     }
   );
 
   const [spring] = useSpring(
     () => ({
-      backgroundColor: selectedTimeBlockId === id ? color : 'none',
-      height: `${height || 5}vh`,
+      height: `${height || 3.75}vh`,
+      top: `${startOffsetInMinutes || 0}vh`,
     }),
-    [height, selectedTimeBlockId]
+    [height, top]
   );
 
   const mobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+
+  const theme = useTheme();
 
   // console.log('TB RENDER');
   return (
     <AnimatedPaper
       // component={'article'}
       onContextMenu={handleContextClick}
-      elevation={1}
+      elevation={7}
       {...onLongPress()}
       style={spring}
       onClick={() => {
@@ -295,25 +279,29 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
       sx={{
         position: 'relative',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
         justifyContent: 'center',
-        aspectRatio: 2 / 1,
-        gap: 1.5,
+        alignItems: 'flex-start',
         overflow: 'auto',
         textAlign: 'center',
         width: '100%',
-        height: `${height || 4}vh`,
         cursor: 'pointer',
         backgroundColor: selectedTimeBlockId === id ? color : undefined,
+        transition: `background-color ${
+          selectedTimeBlockId === id
+            ? theme.transitions.duration.enteringScreen
+            : theme.transitions.duration.leavingScreen
+        }ms ${theme.transitions.easing.easeInOut}`,
+        px: 3,
+        pb: mobile ? 0.5 : undefined,
       }}
     >
       {/* <TimeBlockClose setDeleted={setDeleted} /> */}
       <Stack
-        px={3}
         width={'100%'}
+        height={'100%'}
+        alignItems={mobile ? 'center' : 'flex-start'}
         direction={mobile ? 'column' : 'row'}
-        justifyContent={'space-between'}
+        justifyContent={mobile ? undefined : 'space-between'}
       >
         <TimeBlockName name={name} variant='subtitle1' />
         <TimeBlockTime
@@ -329,20 +317,6 @@ const HomeTimeBlock: FC<HomeTimeBlockProps> = ({
         startTime={startTime}
         color={color}
       />
-      {/* <TimeBlockButtons
-        done={progressPercent === 100}
-        started={elapsed > 0}
-        paused={startTime === null && elapsed > 0}
-        notStarted={startTime === null && elapsed === 0}
-        timeStart={timeStart}
-        timeEnd={timeEnd}
-        elapsed={elapsed}
-        duration={duration}
-        setStartTime={setStartTime}
-        id={id}
-        worker={worker}
-        name={name}
-      /> */}
     </AnimatedPaper>
   );
 };

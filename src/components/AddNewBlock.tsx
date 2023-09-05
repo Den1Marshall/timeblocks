@@ -19,10 +19,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useDispatch } from 'react-redux';
 import { addTimeBlock } from '../redux/slices/timeBlocksSlice';
 import TextFieldClearButton from './UI/TextFieldClearButton';
-import {
-  TimePicker,
-  renderMultiSectionDigitalClockTimeView,
-} from '@mui/x-date-pickers';
+import { TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { msToTime } from '../utils/msToTime';
@@ -213,11 +210,6 @@ const AddNewBlock: FC = memo(() => {
                   slotProps={{ textField: { variant: 'standard' } }}
                   maxTime={timeEndValue?.subtract(1, 'seconds') || undefined}
                   views={['hours', 'minutes', 'seconds']}
-                  viewRenderers={{
-                    hours: renderMultiSectionDigitalClockTimeView,
-                    minutes: renderMultiSectionDigitalClockTimeView,
-                    seconds: renderMultiSectionDigitalClockTimeView,
-                  }}
                 />
                 <ArrowForwardIcon
                   sx={{

@@ -43,6 +43,10 @@ const WakeLockModal: FC = () => {
     );
   };
 
+  const handleOKButtonClick = () => {
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onClose={handleClose} TransitionComponent={Fade}>
       <DialogTitle>Please, note!</DialogTitle>
@@ -85,6 +89,9 @@ const WakeLockModal: FC = () => {
       <DialogActions>
         <Button color='error' fullWidth onClick={handleButtonClick}>
           Do not show anymore
+        </Button>
+        <Button fullWidth onClick={handleOKButtonClick}>
+          OK
         </Button>
       </DialogActions>
     </Dialog>

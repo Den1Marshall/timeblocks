@@ -1,6 +1,6 @@
 import {
   Button,
-  ButtonGroup,
+  Container,
   InputAdornment,
   Stack,
   SwipeableDrawer,
@@ -11,10 +11,7 @@ import {
 } from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import TextFieldClearButton from './UI/TextFieldClearButton';
-import {
-  TimePicker,
-  renderMultiSectionDigitalClockTimeView,
-} from '@mui/x-date-pickers';
+import { TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTimeBlockSettings } from '../redux/slices/timeBlocksSlice';
@@ -136,110 +133,116 @@ const TimeBlockSettings: FC = () => {
       }}
     >
       {mobile && <Puller />}
-      <Typography mt={4} textAlign={'center'} variant={mobile ? 'h5' : 'h4'}>
-        {inputValue || tb?.name}
-      </Typography>
-      <Stack
-        px={3}
-        width={'100%'}
-        pb={'env(safe-area-inset-bottom)'}
-        pt={3}
-        paddingBottom={6}
-        alignItems={'center'}
-        justifyContent={'flex-end'}
-        spacing={4}
-      >
-        <TextField
-          variant='standard'
-          size='small'
-          value={inputValue}
-          onChange={handleInputChange}
-          label={'Name'}
-          fullWidth
-          error={inputValue.length < 1}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position='end'>
-                <TextFieldClearButton
-                  clearFn={setInputValue}
-                  inputValue={inputValue}
-                />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          spacing={2}
-          sx={{ width: '100%' }}
+      <Container fixed maxWidth={'sm'}>
+        <Typography
+          overflow={'hidden'}
+          whiteSpace={'nowrap'}
+          textOverflow={'ellipsis'}
+          mt={4}
+          textAlign={'center'}
+          variant={mobile ? 'h5' : 'h4'}
+          mx={3}
         >
-          <TimePicker
-            label={'Start'}
-            format='HH:mm:ss'
-            ampm={false}
-            value={timeStart}
-            onChange={handleTimeStartChange}
-            slotProps={{ textField: { variant: 'standard' } }}
-            maxTime={timeEnd?.subtract(1, 'seconds')}
-            views={['hours', 'minutes', 'seconds']}
-            viewRenderers={{
-              hours: renderMultiSectionDigitalClockTimeView,
-              minutes: renderMultiSectionDigitalClockTimeView,
-              seconds: renderMultiSectionDigitalClockTimeView,
-            }}
-          />
-          <ArrowForwardIcon
-            sx={{
-              position: 'relative',
-              top: '10px',
-              display: 'block',
-            }}
-            fontSize='medium'
-          />
-          <TimePicker
-            label={'End'}
-            format='HH:mm:ss'
-            ampm={false}
-            value={timeEnd}
-            minTime={timeStart?.add(1, 'seconds')}
-            onChange={handleTimeEndChange}
-            slotProps={{ textField: { variant: 'standard' } }}
-            views={['hours', 'minutes', 'seconds']}
-          />
-        </Stack>
-        <Typography>
-          Duration: {duration && duration > 0 ? msToTime(duration) : '00:00:00'}
+          {inputValue || tb?.name}
         </Typography>
         <Stack
+          px={3}
           width={'100%'}
-          direction={'row'}
+          pb={'env(safe-area-inset-bottom)'}
+          pt={3}
+          paddingBottom={6}
           alignItems={'center'}
-          justifyContent={mobile ? 'center' : undefined}
-          spacing={2}
+          justifyContent={'flex-end'}
+          spacing={4}
         >
-          <Typography>Color: </Typography>
-          <input
-            type='color'
-            value={colorValue}
-            onChange={handleColorInputChange}
+          <TextField
+            variant='standard'
+            size='small'
+            value={inputValue}
+            onChange={handleInputChange}
+            label={'Name'}
+            fullWidth
+            error={inputValue.length < 1}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <TextFieldClearButton
+                    clearFn={setInputValue}
+                    inputValue={inputValue}
+                  />
+                </InputAdornment>
+              ),
+            }}
           />
+          <Stack
+            direction={'row'}
+            justifyContent={'space-between'}
+            alignItems={'center'}
+            spacing={2}
+            sx={{ width: '100%' }}
+          >
+            <TimePicker
+              label={'Start'}
+              format='HH:mm:ss'
+              ampm={false}
+              value={timeStart}
+              onChange={handleTimeStartChange}
+              slotProps={{ textField: { variant: 'standard' } }}
+              maxTime={timeEnd?.subtract(1, 'seconds')}
+              views={['hours', 'minutes', 'seconds']}
+            />
+            <ArrowForwardIcon
+              sx={{
+                position: 'relative',
+                top: '10px',
+                display: 'block',
+              }}
+              fontSize='medium'
+            />
+            <TimePicker
+              label={'End'}
+              format='HH:mm:ss'
+              ampm={false}
+              value={timeEnd}
+              minTime={timeStart?.add(1, 'seconds')}
+              onChange={handleTimeEndChange}
+              slotProps={{ textField: { variant: 'standard' } }}
+              views={['hours', 'minutes', 'seconds']}
+            />
+          </Stack>
+          <Typography>
+            Duration:{' '}
+            {duration && duration > 0 ? msToTime(duration) : '00:00:00'}
+          </Typography>
+          <Stack
+            width={'100%'}
+            direction={'row'}
+            alignItems={'center'}
+            justifyContent={mobile ? 'center' : undefined}
+            spacing={2}
+          >
+            <Typography>Color: </Typography>
+            <input
+              type='color'
+              value={colorValue}
+              onChange={handleColorInputChange}
+            />
+          </Stack>
+          <Stack
+            direction='row'
+            width={'100%'}
+            justifyContent={'center'}
+            spacing={2}
+          >
+            <Button variant='text' color='warning'>
+              Reset
+            </Button>
+            <Button variant='text' color='error'>
+              Delete Block
+            </Button>
+          </Stack>
         </Stack>
-        <Stack
-          direction='row'
-          width={'100%'}
-          justifyContent={'center'}
-          spacing={2}
-        >
-          <Button variant='text' color='warning'>
-            Reset
-          </Button>
-          <Button variant='text' color='error'>
-            Delete Block
-          </Button>
-        </Stack>
-      </Stack>
+      </Container>
     </SwipeableDrawer>
   );
 };

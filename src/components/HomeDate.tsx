@@ -34,9 +34,7 @@ const HomeDate: FC = () => {
 
   const dayOfWeek = Intl.DateTimeFormat('en-US', {
     weekday: 'long',
-  })
-    .format(time)
-    .toLowerCase();
+  }).format(time);
 
   return (
     <Typography mb={6} textAlign={'center'} variant='h4' fontWeight={300}>
