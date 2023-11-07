@@ -135,7 +135,7 @@ const Settings: FC = () => {
         <Button
           variant='contained'
           onClick={() => {
-            navigator.setAppBadge(12).catch((err) => console.log(err));
+            navigator.setAppBadge(12);
           }}
         >
           badge 12
