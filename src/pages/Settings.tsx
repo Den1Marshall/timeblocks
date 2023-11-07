@@ -149,7 +149,7 @@ const Settings: FC = () => {
           badge none
         </Button>
         <Typography mt={10} color={'info.main'}>
-          v2.1.0-pre-alpha
+          v2.2.0-pre-alpha
         </Typography>
       </Container>
     </Paper>
