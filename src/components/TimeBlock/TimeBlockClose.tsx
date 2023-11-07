@@ -15,7 +15,7 @@ const TimeBlockClose: FC<TimeBlockCloseProps> = memo(({ setDeleted }) => {
     <Tooltip title={'Delete Block'}>
       <IconButton
         onClick={handleClick}
-        sx={{ position: 'absolute', right: 0, top: 0 }}
+        sx={{ position: 'absolute', right: 0, top: 0, zIndex: 1 }}
         color='default'
       >
         <CloseIcon />
