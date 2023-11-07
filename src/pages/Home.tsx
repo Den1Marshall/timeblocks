@@ -1,6 +1,5 @@
 import {
   Divider,
-  // Box,
   Menu,
   MenuItem,
   Paper,
@@ -68,8 +67,6 @@ const Home: FC = () => {
   const handleClose = () => {
     setContextMenu(null);
   };
-
-  console.log('home render');
 
   return (
     <Paper square sx={{ pt: 3, pb: 10, pl: 2 }}>
