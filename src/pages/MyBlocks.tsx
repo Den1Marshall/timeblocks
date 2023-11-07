@@ -12,8 +12,6 @@ const MyBlocks: FC = () => {
     (p, n) => p.length === n.length
   );
 
-  // console.log('MYBLOCKS RENDER');
-
   return (
     <Paper square component={'main'} sx={{ pt: 3, pb: 10 }}>
       <Container fixed>
