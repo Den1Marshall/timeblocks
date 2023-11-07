@@ -22,6 +22,7 @@ import {
 } from '../redux/slices/wakeLockSlice';
 import { isWakelogSupported } from '../utils/wakeLock';
 import { clearTimeBlocks } from '../redux/slices/timeBlocksSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Settings: FC = () => {
   const dispatch = useDispatch();
@@ -43,6 +44,8 @@ const Settings: FC = () => {
     dispatch(resetDefaultWakeLock());
     dispatch(resetDefaultColorMode());
   };
+
+  const navigate = useNavigate();
 
   return (
     <Paper component={'main'} square sx={{ textAlign: 'center', pt: 3 }}>
@@ -112,6 +115,7 @@ const Settings: FC = () => {
             variant='contained'
             onClick={() => {
               localStorage.clear();
+              navigate('/');
               location.reload();
             }}
           >
