@@ -39,7 +39,7 @@ const HomeTimeLine: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   return (
-    <Box ref={ref}>
+    <Box ref={ref} zIndex={1}>
       <Stack
         position={'absolute'}
         top={`${offsetHour + offsetMinute}vh`}
