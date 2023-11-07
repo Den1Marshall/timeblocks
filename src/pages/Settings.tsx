@@ -118,10 +118,6 @@ const Settings: FC = () => {
             RESET ALL
           </Button>
         </Stack>
-        <Stack direction={'row'} spacing={2} alignItems={'center'}>
-          <Typography>Always enabled MyBlocks page animation</Typography>
-          <Checkbox title='Always enabled MyBlocks page animation' />
-        </Stack>
         <Button
           variant='contained'
           onClick={() => {
