@@ -45,7 +45,7 @@ const Settings: FC = () => {
   };
 
   return (
-    <Paper square sx={{ textAlign: 'center', pt: 3 }}>
+    <Paper component={'main'} square sx={{ textAlign: 'center', pt: 3 }}>
       <Container fixed>
         <Typography variant='h4' component={'h1'} mb={3}>
           Settings (work in progress)
