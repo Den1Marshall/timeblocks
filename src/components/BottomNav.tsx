@@ -76,7 +76,7 @@ const BottomNav: FC = () => {
           icon={<HomeIcon />}
           disableRipple
           disabled={isRunning}
-          sx={{ opacity: isRunning ? '0.4' : '' }}
+          sx={{ opacity: isRunning ? '0.4' : '', transition: 'none' }}
         />
         <BottomNavigationAction
           component={Link}
@@ -85,7 +85,7 @@ const BottomNav: FC = () => {
           icon={<ViewModuleIcon />}
           disableRipple
           disabled={isRunning}
-          sx={{ opacity: isRunning ? '0.4' : '' }}
+          sx={{ opacity: isRunning ? '0.4' : '', transition: 'none' }}
         />
         <BottomNavigationAction
           component={Link}
@@ -94,7 +94,7 @@ const BottomNav: FC = () => {
           icon={<SettingsIcon />}
           disableRipple
           disabled={isRunning}
-          sx={{ opacity: isRunning ? '0.4' : '' }}
+          sx={{ opacity: isRunning ? '0.4' : '', transition: 'none' }}
         />
       </BottomNavigation>
     </Box>
