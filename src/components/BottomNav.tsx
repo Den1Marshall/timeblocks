@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -8,24 +8,30 @@ import {
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 
+const defineActive = (location: string) => {
+  switch (location) {
+    case '/':
+      return 0;
+    case '/my-blocks':
+      return 1;
+    case '/settings':
+      return 2;
+    default:
+      return 0;
+  }
+};
+
 const BottomNav: FC = () => {
-  const defineActive = () => {
-    switch (window.location.pathname) {
-      case '/':
-        return 0;
-      case '/my-blocks':
-        return 1;
-      case '/settings':
-        return 2;
-      default:
-        return 0;
-    }
-  };
-  const [active, setActive] = useState<number | null>(defineActive());
+  const { pathname } = useLocation();
+  const [active, setActive] = useState<number>(defineActive(pathname));
+
+  useEffect(() => {
+    setActive(defineActive(pathname));
+  }, [pathname]);
 
   const isRunning = useSelector(
     (state: RootState) => state.isRunningSlice.isRunning
