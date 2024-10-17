@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next';
 import '@/app/index.css';
 import { startupImage } from './startupImage';
-import { AriaRouterProvider, FramerMotionProvider } from '@/app/providers';
+import {
+  AriaRouterProvider,
+  FramerMotionProvider,
+  NextUIProvider,
+} from '@/app/providers';
 
 export const metadata: Metadata = {
   title: {
@@ -52,11 +56,13 @@ export default function RootLayout({
     <html
       lang='en'
       suppressHydrationWarning={true}
-      className='h-[max(calc(100%_+_env(safe-area-inset-top)),_100%)] font-sans overscroll-none touch-pan-x touch-pan-y motion-safe:scroll-smooth'
+      className='dark h-[max(calc(100%_+_env(safe-area-inset-top)),_100%)] font-sans overscroll-none touch-pan-x touch-pan-y motion-safe:scroll-smooth'
     >
       <body className='h-full py-safe px-safe-or-5 dark:bg-black dark:text-white overscroll-none'>
         <FramerMotionProvider>
-          <AriaRouterProvider>{children}</AriaRouterProvider>
+          <AriaRouterProvider>
+            <NextUIProvider>{children}</NextUIProvider>
+          </AriaRouterProvider>
         </FramerMotionProvider>
       </body>
       {/* <GoogleAnalytics gaId="G-XYZ" /> */}
