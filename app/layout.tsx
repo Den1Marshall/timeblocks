@@ -11,11 +11,11 @@ import { Nav } from '@/widgets/Nav';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Next.js Boilerplate',
-    default: 'Next.js Boilerplate',
+    template: '%s | TimeBlocks',
+    default: 'TimeBlocks',
   },
-  description: 'Next.js Boilerplate',
-  metadataBase: new URL('https://nextjs-boilerplate-gules-pi.vercel.app'),
+  description: 'TimeBlocks',
+  metadataBase: new URL('https://timeblocks-ashy.vercel.app/'),
   robots: 'all',
   alternates: {
     canonical: '/',
@@ -24,14 +24,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: '/',
-    title: 'Next.js Boilerplate',
-    description: 'Next.js Boilerplate',
+    title: 'TimeBlocks',
+    description: 'TimeBlocks',
   },
 
   twitter: {
     card: 'summary_large_image',
-    title: 'Next.js Boilerplate',
-    description: 'Next.js Boilerplate',
+    title: 'TimeBlocks',
+    description: 'TimeBlocks',
   },
 
   appleWebApp: {

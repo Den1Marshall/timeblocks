@@ -1,6 +1,6 @@
 {
-  "name": "Next.js Boilerplate",
-  "short_name": "Next.js Boilerplate",
+  "name": "TimeBlocks",
+  "short_name": "TimeBlocks",
   "icons": [
     { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
     { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
@@ -11,6 +11,6 @@
   "scope": "/",
   "theme_color": "#000",
   "shortcuts": [],
-  "description": "Next.js Boilerplate",
+  "description": "TimeBlocks",
   "screenshots": []
 }
