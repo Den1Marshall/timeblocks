@@ -7,7 +7,11 @@ export const NextUIProvider: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   return (
-    <Provider disableRipple navigate={router.push} className='w-full h-full'>
+    <Provider
+      disableRipple
+      navigate={router.push}
+      className='w-full h-full lg:flex'
+    >
       {children}
     </Provider>
   );
