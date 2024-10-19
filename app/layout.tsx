@@ -7,7 +7,6 @@ import {
   NextUIProvider,
 } from '@/app/providers';
 import { StoreProvider } from '@/shared/redux';
-import { Nav } from '@/widgets/Nav';
 
 export const metadata: Metadata = {
   title: {
@@ -64,10 +63,7 @@ export default function RootLayout({
         <FramerMotionProvider>
           <AriaRouterProvider>
             <NextUIProvider>
-              <StoreProvider>
-                <Nav />
-                <main className='max-lg:pb-safe-offset-16'>{children}</main>
-              </StoreProvider>
+              <StoreProvider>{children}</StoreProvider>
             </NextUIProvider>
           </AriaRouterProvider>
         </FramerMotionProvider>
