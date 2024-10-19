@@ -12,7 +12,13 @@ export const FramerMotionProvider: FC<FramerMotionProviderProps> = ({
   return (
     <MotionConfig
       reducedMotion='user'
-      transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
+      transition={{
+        type: 'spring',
+        duration: 0.5,
+        bounce: 0,
+        restDelta: 0.0001,
+        restSpeed: 0.0001,
+      }}
     >
       {children}
     </MotionConfig>
