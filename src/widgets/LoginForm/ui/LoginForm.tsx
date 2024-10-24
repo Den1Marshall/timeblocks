@@ -64,7 +64,6 @@ export const LoginForm: FC = () => {
 
       await authenticateUser(idToken);
 
-      router.refresh();
       router.push('/');
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -90,7 +89,6 @@ export const LoginForm: FC = () => {
 
         await authenticateUser(idToken);
 
-        router.refresh();
         router.push('/');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
