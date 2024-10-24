@@ -1,11 +1,22 @@
+import { StoreProvider } from '@/shared/redux';
 import { Nav } from '@/widgets/Nav';
 import { PropsWithChildren } from 'react';
+import { getTokens } from '../getTokens';
+import { tokenToUser } from '@/shared/auth';
 
-export default function Layout({ children }: PropsWithChildren) {
+export default async function Layout({ children }: PropsWithChildren) {
+  const tokens = await getTokens();
+
+  if (!tokens) throw new Error('No tokens, not logged in');
+
+  const user = tokenToUser(tokens);
+
   return (
     <>
       <Nav />
-      <div className='max-lg:pb-safe-offset-16'>{children}</div>
+      <div className='max-lg:pb-safe-offset-16'>
+        <StoreProvider user={user}>{children}</StoreProvider>
+      </div>
     </>
   );
 }

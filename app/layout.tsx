@@ -6,7 +6,6 @@ import {
   FramerMotionProvider,
   NextUIProvider,
 } from '@/app/providers';
-import { StoreProvider } from '@/shared/redux';
 
 export const metadata: Metadata = {
   title: {
@@ -63,9 +62,7 @@ export default function RootLayout({
       <body className='h-full py-safe px-safe-or-5 overscroll-none lg:pl-0'>
         <FramerMotionProvider>
           <AriaRouterProvider>
-            <NextUIProvider>
-              <StoreProvider>{children}</StoreProvider>
-            </NextUIProvider>
+            <NextUIProvider>{children}</NextUIProvider>
           </AriaRouterProvider>
         </FramerMotionProvider>
       </body>
