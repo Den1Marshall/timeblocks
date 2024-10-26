@@ -1,8 +1,8 @@
-import { User } from '@/shared/auth';
+import { IUser } from './IUser';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
-  user?: User;
+  user?: IUser;
 }
 
 const initialState: InitialState = {
@@ -13,7 +13,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    initializeUser(state, action: PayloadAction<User | undefined>) {
+    initializeUser(state, action: PayloadAction<IUser | undefined>) {
       state.user = action.payload;
     },
   },
