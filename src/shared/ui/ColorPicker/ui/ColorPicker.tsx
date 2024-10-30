@@ -1,0 +1,81 @@
+'use client';
+import { commonColors } from '@nextui-org/react';
+import { FC, useEffect, useMemo } from 'react';
+import {
+  ColorPicker as RACColorPicker,
+  ColorSwatchPicker,
+  ColorSwatchPickerItem,
+} from 'react-aria-components';
+import { ColorSwatch } from './ColorSwatch';
+
+interface ColorPickerProps {
+  color: string;
+  setColor: (color: string) => void;
+  label?: string;
+  ariaLabel?: string;
+}
+
+type CommonColor = typeof commonColors.blue | string;
+
+export const ColorPicker: FC<ColorPickerProps> = ({
+  color,
+  setColor,
+  label,
+  ariaLabel,
+}) => {
+  const commonColorsArray = useMemo(() => {
+    const commonColorsArray: string[] = [];
+
+    for (const key in commonColors) {
+      if (Object.prototype.hasOwnProperty.call(commonColors, key)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const color = commonColors[key] as CommonColor; // TODO: refactor types
+
+        if (key === 'blue') continue;
+
+        typeof color === 'string'
+          ? commonColorsArray.push(color.toUpperCase())
+          : commonColorsArray.push(color[500].toUpperCase());
+      }
+    }
+
+    commonColorsArray.unshift(commonColors.blue[500].toString());
+
+    return commonColorsArray;
+  }, []);
+
+  useEffect(() => {
+    return () => setColor(commonColorsArray[0]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commonColorsArray]);
+
+  return (
+    <RACColorPicker>
+      <div className='flex flex-col items-center gap-3'>
+        <p className='text-nowrap'>{label || 'Select color'}</p>
+
+        <ColorSwatchPicker
+          aria-label={ariaLabel ?? label} // TODO: localize
+          value={color}
+          onChange={(color) => setColor(color.toString('hex'))} // TODO: use Color instead of string
+          className='max-w-full flex items-center gap-3 overflow-x-scroll p-2 no-scrollbar'
+        >
+          {commonColorsArray.map((commonColor, i) => (
+            <ColorSwatchPickerItem
+              key={commonColor}
+              color={commonColor}
+              className='outline-none forced-color-adjust-none focus-visible:outline-focus'
+            >
+              <ColorSwatch
+                i={i}
+                isSelected={commonColor === color}
+                // TODO: aria-label
+              />
+            </ColorSwatchPickerItem>
+          ))}
+        </ColorSwatchPicker>
+      </div>
+    </RACColorPicker>
+  );
+};

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -17,7 +17,7 @@
     "@hookform/resolvers": "3.9.0",
     "@next/bundle-analyzer": "14.2.15",
     "@next/third-parties": "14.2.15",
-    "@nextui-org/react": "^2.4.8",
+    "@nextui-org/react": "2.4.8",
     "@reduxjs/toolkit": "2.3.0",
     "firebase": "^10.14.1",
     "framer-motion": "11.11.8",
@@ -32,6 +32,7 @@
     "tailwindcss-react-aria-components": "1.1.6",
     "tailwindcss-safe-area": "0.6.0",
     "usehooks-ts": "3.1.0",
+    "uuid": "^11.0.1",
     "zod": "3.23.8"
   },
   "devDependencies": {
