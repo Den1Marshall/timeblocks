@@ -1,5 +1,5 @@
 'use client';
-import { commonColors } from '@nextui-org/react';
+import { commonColors, ScrollShadow } from '@nextui-org/react';
 import { FC, useEffect, useMemo } from 'react';
 import {
   ColorPicker as RACColorPicker,
@@ -55,9 +55,12 @@ export const ColorPicker: FC<ColorPickerProps> = ({
       <div className='flex flex-col items-center gap-3'>
         <p className='text-nowrap'>{label || 'Select color'}</p>
 
-        <ColorSwatchPicker
+        <ScrollShadow
+          orientation='horizontal'
+          as={ColorSwatchPicker}
           aria-label={ariaLabel ?? label} // TODO: localize
           value={color}
+          // @ts-expect-error: ScrollShadow props conflicts with ColorSwatchPicker props specifically 'onChange'
           onChange={(color) => setColor(color.toString('hex'))} // TODO: use Color instead of string
           className='max-w-full flex items-center gap-3 overflow-x-scroll p-2 no-scrollbar'
         >
@@ -74,7 +77,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
               />
             </ColorSwatchPickerItem>
           ))}
-        </ColorSwatchPicker>
+        </ScrollShadow>
       </div>
     </RACColorPicker>
   );
