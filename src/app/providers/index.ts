@@ -1,4 +1,4 @@
 export { AriaRouterProvider } from './AriaRouterProvider';
-export { FramerMotionProvider } from './FramerMotionProvider';
+export { MotionProvider } from './MotionProvider';
 export { NextUIProvider } from './NextUIProvider';
 export { StoreProvider } from './StoreProvider';
