@@ -1,5 +1,5 @@
 'use client';
-import { useDisclosure, Button } from '@nextui-org/react';
+import { useDisclosure, Button, Tooltip } from '@nextui-org/react';
 import { FC } from 'react';
 import { motion } from 'framer-motion';
 import { AddIcon } from './AddIcon';
@@ -12,9 +12,9 @@ export const AddTimeBlock: FC = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const handleAddTimeBlock = async (timeBlock: ITimeBlock, userUid: string) => {
-    await addTimeBlock(timeBlock, userUid);
-
     onClose();
+
+    await addTimeBlock(timeBlock, userUid);
   };
 
   return (
@@ -23,14 +23,22 @@ export const AddTimeBlock: FC = () => {
         layout
         className='w-96 aspect-video flex justify-center items-center'
       >
-        <Button
+        <Tooltip
+          content='Add new TimeBlock'
+          showArrow
           color='primary'
-          isIconOnly
-          aria-label='Add new TimeBlock'
-          onPress={onOpen}
+          delay={1000}
+          closeDelay={0}
         >
-          <AddIcon />
-        </Button>
+          <Button
+            color='primary'
+            isIconOnly
+            aria-label='Add new TimeBlock'
+            onPress={onOpen}
+          >
+            <AddIcon />
+          </Button>
+        </Tooltip>
       </motion.span>
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
