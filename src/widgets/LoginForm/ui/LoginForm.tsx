@@ -20,9 +20,9 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { auth } from '@/shared/firebase';
+import { auth } from '@/shared/config';
 import { loginSchema, registerSchema } from '../model/zodSchema';
-import { authenticateUser } from '@/shared/auth';
+import { authenticateUser } from '@/entities/User';
 import type { Login } from '../model/Login';
 import { LoginType } from './LoginType';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -64,7 +64,6 @@ export const LoginForm: FC = () => {
 
       await authenticateUser(idToken);
 
-      router.refresh();
       router.push('/');
     } catch (error) {
       if (error instanceof FirebaseError) {
@@ -90,7 +89,6 @@ export const LoginForm: FC = () => {
 
         await authenticateUser(idToken);
 
-        router.refresh();
         router.push('/');
       } else {
         await createUserWithEmailAndPassword(auth, email, password);

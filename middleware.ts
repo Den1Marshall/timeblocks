@@ -68,6 +68,7 @@ export const config = {
   matcher: [
     '/api/login',
     '/api/logout',
+    '/api/refresh-token',
     '/',
     '/((?!_next|favicon.ico|api|.*\\.).*)',
   ],

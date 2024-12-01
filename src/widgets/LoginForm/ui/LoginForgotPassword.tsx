@@ -11,7 +11,7 @@ import { Variants, motion } from 'framer-motion';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { ArrowLeftIcon } from './ArrowLeftIcon';
-import { auth } from '@/shared/firebase';
+import { auth } from '@/shared/config';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordSchema } from '../model/zodSchema';

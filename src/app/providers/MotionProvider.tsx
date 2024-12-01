@@ -1,14 +1,12 @@
 'use client';
 import { FC, ReactNode } from 'react';
-import { MotionConfig } from 'framer-motion';
+import { MotionConfig } from 'motion/react';
 
-interface FramerMotionProviderProps {
+interface MotionProviderProps {
   children: ReactNode;
 }
 
-export const FramerMotionProvider: FC<FramerMotionProviderProps> = ({
-  children,
-}) => {
+export const MotionProvider: FC<MotionProviderProps> = ({ children }) => {
   return (
     <MotionConfig
       reducedMotion='user'
