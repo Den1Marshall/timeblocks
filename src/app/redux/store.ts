@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { userSliceReducer } from '@/entities/User';
+import { timeBlocksSliceReducer } from '@/widgets/TimeBlocks';
 
 export const makeStore = () => {
   return configureStore({
-    reducer: { userSliceReducer },
+    reducer: { userSliceReducer, timeBlocksSliceReducer },
   });
 };
 
