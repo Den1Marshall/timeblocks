@@ -187,7 +187,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
           exit='exit'
         >
           <Tooltip
-            content={`Reset TimeBlock ${timeBlock.title}`}
+            content={`Reset TimeBlock "${timeBlock.title}"`}
             {...tooltipProps}
           >
             <Button
