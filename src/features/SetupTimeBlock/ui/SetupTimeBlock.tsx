@@ -18,7 +18,7 @@ import { Time } from '@internationalized/date';
 import { SettingsIcon } from './SettingsIcon';
 import { FirebaseError } from 'firebase/app';
 import { useAppSelector } from '@/app/redux';
-import { msToTime } from '../lib/msToTime';
+import { msToTime } from '@/shared/lib';
 import { ColorPicker } from '@/shared/ui';
 import { v4 as uuidv4 } from 'uuid';
 import { calculateDuration } from '../lib/calculateDuration';
@@ -81,7 +81,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
       endTime,
       duration: new Time(hour, minute, second, millisecond),
       elapsed: new Time(0, 0, 0, 0),
-      isStarted: false,
+      timerStartTime: null,
       color,
     };
 

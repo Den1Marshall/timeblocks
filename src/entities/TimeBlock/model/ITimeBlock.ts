@@ -7,6 +7,6 @@ export interface ITimeBlock {
   endTime: Time;
   duration: Time;
   elapsed: Time;
-  isStarted: boolean;
+  timerStartTime: number | null;
   color: string;
 }

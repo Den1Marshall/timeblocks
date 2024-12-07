@@ -6,7 +6,7 @@ import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
 import { ITimeBlock } from '@/entities/TimeBlock';
-import { Modal } from '@/shared/ui';
+import { Modal, tooltipProps } from '@/shared/ui';
 
 export const AddTimeBlock: FC = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
@@ -23,13 +23,7 @@ export const AddTimeBlock: FC = () => {
         layout
         className='w-96 aspect-video flex justify-center items-center'
       >
-        <Tooltip
-          content='Add new TimeBlock'
-          showArrow
-          color='primary'
-          delay={1000}
-          closeDelay={0}
-        >
+        <Tooltip content='Add new TimeBlock' {...tooltipProps}>
           <Button
             color='primary'
             isIconOnly

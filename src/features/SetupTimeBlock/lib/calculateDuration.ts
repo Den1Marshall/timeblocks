@@ -1,5 +1,5 @@
 import { Time } from '@internationalized/date';
-import { msToTime } from './msToTime';
+import { msToTime } from '@/shared/lib';
 
 export const calculateDuration = (startTime: Time, endTime: Time): string => {
   const deserializedStartTime = new Time(
