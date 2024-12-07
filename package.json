@@ -18,7 +18,7 @@
     "@next/bundle-analyzer": "14.2.18",
     "@next/third-parties": "14.2.18",
     "@nextui-org/react": "2.6.4",
-    "@reduxjs/toolkit": "2.3.0",
+    "@reduxjs/toolkit": "2.4.0",
     "firebase": "10.14.1",
     "motion": "11.11.17",
     "next": "14.2.18",
