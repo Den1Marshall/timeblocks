@@ -27,6 +27,7 @@ import type { Login } from '../model/Login';
 import { LoginType } from './LoginType';
 import { AnimatePresence, motion } from 'motion/react';
 import { LoginForgotPassword } from './LoginForgotPassword';
+import { addNewUserToDb } from '../api/addNewUserToDb';
 
 interface FormData {
   email: string;
@@ -60,8 +61,9 @@ export const LoginForm: FC = () => {
       const provider = new GoogleAuthProvider();
 
       const userCredential = await signInWithPopup(auth, provider);
-      const idToken = await userCredential.user.getIdToken();
+      await addNewUserToDb(userCredential.user.uid);
 
+      const idToken = await userCredential.user.getIdToken();
       await authenticateUser(idToken);
 
       router.push('/');
@@ -85,8 +87,9 @@ export const LoginForm: FC = () => {
           email,
           password
         );
-        const idToken = await userCredential.user.getIdToken();
+        await addNewUserToDb(userCredential.user.uid);
 
+        const idToken = await userCredential.user.getIdToken();
         await authenticateUser(idToken);
 
         router.push('/');
