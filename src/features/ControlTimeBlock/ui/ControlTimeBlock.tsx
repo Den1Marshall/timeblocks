@@ -73,7 +73,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     };
 
     workerRef.current.onerror = (error) => alert(error); // TODO: use nextui alert
-  }, [timeBlock.id, timeBlock.elapsed, dispatch, timeBlockElapsedRef]);
+  }, [timeBlock.id, dispatch, timeBlockElapsedRef]);
 
   const handleStart = async (): Promise<void> => {
     if (!workerRef.current) return;
