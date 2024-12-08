@@ -146,7 +146,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   }, [isStarted, isFinished]);
 
   return (
-    <AnimatePresence mode='popLayout'>
+    <AnimatePresence mode='popLayout' initial={false}>
       {!isFinished && (
         <motion.span
           key={0}
