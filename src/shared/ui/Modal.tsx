@@ -4,40 +4,39 @@ import {
   type ModalProps as NextUIModalProps,
 } from '@nextui-org/react';
 import { MotionProps } from 'motion/react';
-import { FC, useLayoutEffect, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 
+// TODO: use drawer?
 export const Modal: FC<NextUIModalProps> = ({ children, ...rest }) => {
-  const [mobileHeight, setMobileHeight] = useState(0);
-  const modalRef = useRef<HTMLDivElement>(null);
   const isMobile = useMediaQuery('(max-width: 640px)');
 
+  const modalRef = useRef<HTMLDivElement>(null);
+  const modalHeight = modalRef.current?.getBoundingClientRect().height;
+
   const motionProps: MotionProps = {
-    initial: { transform: `translateY(${mobileHeight}px)` },
-    animate: { transform: `translateY(0px)` },
-    exit: { transform: `translateY(${mobileHeight}px)` },
+    initial: {
+      transform: 'translateY(50%)',
+    },
+    animate: { transform: 'translateY(0%)' },
+    exit: {
+      transform: `translateY(${modalHeight + 'px'})`,
+    },
     transition: {
       type: 'spring',
-      duration: 0.6,
+      visualDuration: 0.25,
       bounce: 0,
       restDelta: 0.0001,
       restSpeed: 0.0001,
     },
   };
 
-  useLayoutEffect(() => {
-    setMobileHeight(modalRef.current?.getBoundingClientRect().height ?? 0); // TODO: refactor height calculations
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalRef.current]);
-
-  // TODO: fix miss-positioning in PWA mode iOS?
-
   return (
     <NextUIModal
       ref={modalRef}
       motionProps={isMobile ? motionProps : undefined}
       classNames={{
-        base: 'max-sm:max-h-fit max-sm:min-w-full max-sm:pb-safe max-sm:mb-0 max-sm:mx-0',
+        base: 'max-sm:h-[auto] max-sm:max-h-[50%] max-sm:overflow-y-auto max-sm:min-w-full max-sm:pb-safe max-sm:mb-0 max-sm:mx-0',
         closeButton: 'max-sm:hidden',
       }}
       {...rest}
