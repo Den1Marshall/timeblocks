@@ -143,15 +143,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
               name='startTime'
               rules={{
                 required: 'Start time is required',
-                validate: (startTime) => {
-                  if (endTime) {
-                    return startTime.compare(endTime) < 0
-                      ? true
-                      : 'Must be earlier';
-                  } else {
-                    return false;
-                  }
-                },
               }}
               render={({ field }) => (
                 <TimeInput
