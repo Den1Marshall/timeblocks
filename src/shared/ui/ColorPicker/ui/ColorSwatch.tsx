@@ -1,6 +1,12 @@
 'use client';
-import { AnimatePresence, motion, Transition, Variants } from 'motion/react';
-import { FC, useEffect, useState } from 'react';
+import {
+  AnimatePresence,
+  motion,
+  Transition,
+  useInView,
+  Variants,
+} from 'motion/react';
+import { FC, useEffect, useRef, useState } from 'react';
 import {
   ColorSwatchProps as RACColorSwatchProps,
   ColorSwatch as RACColorSwatch,
@@ -44,8 +50,22 @@ export const ColorSwatch: FC<ColorSwatchProps> = ({
     setIsMounted(true);
   }, []);
 
+  const ref = useRef<HTMLDivElement>(null);
+
+  const isInView = useInView(ref, { once: true });
+
+  useEffect(() => {
+    if (isSelected && !isInView) {
+      ref.current?.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  }, [isSelected, isInView]);
+
   return (
     <motion.div
+      ref={ref}
       variants={variants}
       whileHover={'selected'}
       animate={isSelected ? 'selected' : 'notSelected'}
