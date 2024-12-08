@@ -2,9 +2,10 @@
 import { FC } from 'react';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { Modal } from '@/shared/ui';
 import { useDisclosure } from '@nextui-org/react';
+import { useAppSelector } from '@/app/redux';
 
 interface EditTimeBlockProps {
   timeBlockToEdit: ITimeBlock | null;
@@ -15,6 +16,10 @@ export const EditTimeBlock: FC<EditTimeBlockProps> = ({
   timeBlockToEdit,
   setTimeBlockToEdit,
 }) => {
+  const timeBlocks = deserializeTimeBlocks(
+    useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
+  );
+
   const { isOpen, onClose } = useDisclosure({
     isOpen: !!timeBlockToEdit,
     onClose: () => setTimeBlockToEdit(null),
@@ -26,7 +31,7 @@ export const EditTimeBlock: FC<EditTimeBlockProps> = ({
   ) => {
     setTimeBlockToEdit(null);
 
-    await editTimeBlock(timeBlock, userUid);
+    await editTimeBlock(userUid, timeBlocks, timeBlock);
   };
 
   return (

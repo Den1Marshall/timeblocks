@@ -5,16 +5,21 @@ import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { Modal, tooltipProps } from '@/shared/ui';
+import { useAppSelector } from '@/app/redux';
 
 export const AddTimeBlock: FC = () => {
+  const timeBlocks = deserializeTimeBlocks(
+    useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
+  );
+
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const handleAddTimeBlock = async (timeBlock: ITimeBlock, userUid: string) => {
     onClose();
 
-    await addTimeBlock(timeBlock, userUid);
+    await addTimeBlock(userUid, timeBlocks, timeBlock);
   };
 
   return (
