@@ -9,7 +9,11 @@ export const addTimeBlock = async (
 ) => {
   const userRef = doc(db, 'users', userUid);
 
-  await setDoc(userRef, {
-    timeBlocks: JSON.stringify([...timeBlocks, timeBlock]),
-  });
+  await setDoc(
+    userRef,
+    {
+      timeBlocks: JSON.stringify([...timeBlocks, timeBlock]),
+    },
+    { merge: true }
+  );
 };
