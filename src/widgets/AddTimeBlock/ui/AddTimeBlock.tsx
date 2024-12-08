@@ -39,6 +39,7 @@ export const AddTimeBlock: FC = () => {
         <SetupTimeBlock
           label='Add new TimeBlock'
           onConfigured={handleAddTimeBlock}
+          timeBlockToEdit={null}
         />
       </Modal>
     </>

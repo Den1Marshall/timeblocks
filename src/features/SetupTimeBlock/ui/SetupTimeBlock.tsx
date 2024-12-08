@@ -11,7 +11,7 @@ import {
   Input,
   TimeInput,
 } from '@nextui-org/react';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ArrowIcon } from './ArrowIcon';
 import { Time } from '@internationalized/date';
@@ -26,6 +26,7 @@ import { ClockIcon } from './ClockIcon';
 
 interface SetupTimeBlockProps {
   label: string;
+  timeBlockToEdit: ITimeBlock | null;
   onConfigured: (timeBlock: ITimeBlock, userUid: string) => Promise<void>;
 }
 
@@ -36,8 +37,10 @@ interface FormData {
   color: string;
 }
 
+// TODO: refactor code
 export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   label,
+  timeBlockToEdit,
   onConfigured,
 }) => {
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
@@ -48,21 +51,28 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     setError,
     handleSubmit,
     watch,
-    formState: { isSubmitting, errors },
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      title: undefined,
-      startTime: undefined,
-      endTime: undefined,
-      color: commonColors.blue[500],
+      title: timeBlockToEdit?.title,
+      startTime: timeBlockToEdit?.startTime,
+      endTime: timeBlockToEdit?.endTime,
+      color: timeBlockToEdit?.color,
     },
     shouldUnregister: true,
   });
 
-  const setColor = (color: string) => setValue('color', color); // ?
-  const color = watch('color', commonColors.blue[500]); // ?
-  const startTime = watch('startTime'); // ?
-  const endTime = watch('endTime'); // ?
+  const setColor = (color: string) => setValue('color', color);
+  const color = watch('color', commonColors.blue[500]);
+  const startTime = watch('startTime');
+  const endTime = watch('endTime');
+
+  useEffect(() => {
+    if (timeBlockToEdit) {
+      setColor(timeBlockToEdit.color);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timeBlockToEdit]);
 
   const onSubmit: SubmitHandler<FormData> = async ({
     title,
@@ -73,17 +83,20 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     const millisecondsDiff = endTime.compare(startTime);
 
     const { hour, minute, second, millisecond } = msToTime(millisecondsDiff);
+    const duration = new Time(hour, minute, second, millisecond);
 
-    const timeBlock: ITimeBlock = {
-      id: uuidv4(),
-      title,
-      startTime,
-      endTime,
-      duration: new Time(hour, minute, second, millisecond),
-      elapsed: new Time(0, 0, 0, 0),
-      timerStartTime: null,
-      color,
-    };
+    const timeBlock: ITimeBlock = timeBlockToEdit
+      ? { ...timeBlockToEdit, title, startTime, endTime, duration, color }
+      : {
+          id: uuidv4(),
+          title: title.trim(),
+          startTime,
+          endTime,
+          duration,
+          elapsed: new Time(0, 0, 0, 0),
+          timerStartTime: null,
+          color,
+        };
 
     try {
       await onConfigured(timeBlock, userUid);
@@ -142,6 +155,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
               }}
               render={({ field }) => (
                 <TimeInput
+                  hourCycle={24}
                   maxValue={new Time(23, 58, 0, 0)}
                   label='Start time'
                   isInvalid={errors.startTime?.type !== undefined}
@@ -172,6 +186,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
               }}
               render={({ field }) => (
                 <TimeInput
+                  hourCycle={24}
                   minValue={new Time(0, 1, 0, 0)}
                   label='End time'
                   isInvalid={errors.endTime?.message !== undefined}
@@ -199,12 +214,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
         </ModalBody>
 
         <ModalFooter>
-          <Button
-            isLoading={isSubmitting}
-            type='submit'
-            fullWidth
-            color='primary'
-          >
+          <Button type='submit' fullWidth color='primary'>
             {label}
           </Button>
         </ModalFooter>
