@@ -52,7 +52,7 @@ export const ColorSwatch: FC<ColorSwatchProps> = ({
       transition={transition}
     >
       <RACColorSwatch
-        className={`w-11 h-11 rounded cursor-pointer ${className}`}
+        className={`w-11 h-11 mx-1.5 rounded ${className}`}
         {...rest}
       />
 

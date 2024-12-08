@@ -62,13 +62,13 @@ export const ColorPicker: FC<ColorPickerProps> = ({
           value={color}
           // @ts-expect-error: ScrollShadow props conflicts with ColorSwatchPicker props specifically 'onChange'
           onChange={(color) => setColor(color.toString('hex'))} // TODO: use Color instead of string
-          className='max-w-full flex items-center gap-3 overflow-x-scroll p-2 no-scrollbar'
+          className='max-w-full flex items-center overflow-x-scroll p-2 no-scrollbar'
         >
           {commonColorsArray.map((commonColor, i) => (
             <ColorSwatchPickerItem
               key={commonColor}
               color={commonColor}
-              className='outline-none forced-color-adjust-none focus-visible:outline-focus'
+              className='outline-none cursor-pointer forced-color-adjust-none focus-visible:outline-focus'
             >
               <ColorSwatch
                 i={i}
