@@ -17,13 +17,12 @@ export default async function Layout({ children }: PropsWithChildren) {
   const timeBlocks = await getTimeBlocks(user.uid);
 
   return (
-    <>
+    <div className='w-full h-full pt-5 pb-16 lg:pb-0 lg:pl-24'>
       <Nav />
-      <div className='w-full h-full pb-safe-offset-16 lg:py-5 lg:pl-24'>
-        <StoreProvider user={user} timeBlocks={timeBlocks}>
-          {children}
-        </StoreProvider>
-      </div>
-    </>
+
+      <StoreProvider user={user} timeBlocks={timeBlocks}>
+        {children}
+      </StoreProvider>
+    </div>
   );
 }

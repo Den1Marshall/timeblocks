@@ -59,7 +59,7 @@ export default function RootLayout({
       suppressHydrationWarning={true}
       className='dark text-foreground bg-content1 h-[max(calc(100%_+_env(safe-area-inset-top)),_100%)] font-sans overscroll-none touch-pan-x touch-pan-y motion-safe:scroll-smooth'
     >
-      <body className='h-full py-safe px-safe-or-5 overscroll-none lg:pl-0'>
+      <body className='h-full py-safe px-safe-or-5 overscroll-none'>
         <MotionProvider>
           <AriaRouterProvider>
             <NextUIProvider>{children}</NextUIProvider>
