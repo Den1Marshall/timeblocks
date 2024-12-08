@@ -7,7 +7,7 @@ import {
   Input,
 } from '@nextui-org/react';
 import { FC } from 'react';
-import { Variants, motion } from 'framer-motion';
+import { Variants, motion } from 'motion/react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { ArrowLeftIcon } from './ArrowLeftIcon';

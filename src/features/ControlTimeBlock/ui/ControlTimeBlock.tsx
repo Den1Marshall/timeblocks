@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { startTimeBlock } from '../api/startTimeBlock';
 import { stopTimeBlock } from '../api/stopTimeBlock';
 import { resetTimeBlock } from '../api/resetTimeBlock';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { Button, Tooltip } from '@nextui-org/react';
 import { FirebaseError } from 'firebase/app';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';

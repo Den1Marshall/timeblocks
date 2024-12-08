@@ -1,5 +1,5 @@
 'use client';
-import { AnimatePresence, motion, Transition, Variants } from 'framer-motion';
+import { AnimatePresence, motion, Transition, Variants } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
 import {
   ColorSwatchProps as RACColorSwatchProps,

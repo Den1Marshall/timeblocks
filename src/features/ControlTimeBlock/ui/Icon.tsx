@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { iconVariants } from './iconVariants';
 
 interface IconProps {

@@ -1,7 +1,7 @@
 'use client';
 import { useDisclosure, Button, Tooltip } from '@nextui-org/react';
 import { FC } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';

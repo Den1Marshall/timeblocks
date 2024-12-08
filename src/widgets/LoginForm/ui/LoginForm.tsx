@@ -25,7 +25,7 @@ import { loginSchema, registerSchema } from '../model/zodSchema';
 import { authenticateUser } from '@/entities/User';
 import type { Login } from '../model/Login';
 import { LoginType } from './LoginType';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import { LoginForgotPassword } from './LoginForgotPassword';
 
 interface FormData {

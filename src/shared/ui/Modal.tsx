@@ -3,7 +3,7 @@ import {
   Modal as NextUIModal,
   type ModalProps as NextUIModalProps,
 } from '@nextui-org/react';
-import { MotionProps } from 'framer-motion';
+import { MotionProps } from 'motion/react';
 import { FC, useLayoutEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 
