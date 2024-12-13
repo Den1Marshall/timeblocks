@@ -15,10 +15,9 @@ export const TimeBlockBackground: FC<TimeBlockBackgroundProps> = ({
   return (
     <motion.div
       variants={timeBlockBackgroundVariants}
-      custom={completionPercentage}
+      custom={{ completionPercentage, color }}
       initial='exit'
       animate='enter'
-      style={{ backgroundColor: color }}
       className='z-[-1] absolute top-0 left-0 w-full h-full opacity-60'
     />
   );

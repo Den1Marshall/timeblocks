@@ -1,8 +1,9 @@
 import { Variants } from 'motion/react';
 
 export const timeBlockBackgroundVariants: Variants = {
-  enter: (completionPercentage) => ({
+  enter: ({ completionPercentage, color }) => ({
     transform: `translateX(${completionPercentage - 100}%)`,
+    background: color,
   }),
 
   exit: {
