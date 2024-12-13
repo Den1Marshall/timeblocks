@@ -44,6 +44,12 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   onConfigured,
 }) => {
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
+  const timeBlockToEditElapsed = useAppSelector(
+    (state) =>
+      state.timeBlocksSliceReducer.timeBlocks.find(
+        (timeBlock) => timeBlock.id === timeBlockToEdit?.id
+      )?.elapsed
+  );
 
   const {
     control,
@@ -84,9 +90,16 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
 
     const { hour, minute, second, millisecond } = msToTime(millisecondsDiff);
     const duration = new Time(hour, minute, second, millisecond);
-
     const timeBlock: ITimeBlock = timeBlockToEdit
-      ? { ...timeBlockToEdit, title, startTime, endTime, duration, color }
+      ? {
+          ...timeBlockToEdit,
+          title,
+          startTime,
+          endTime,
+          duration,
+          elapsed: timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
+          color,
+        }
       : {
           id: uuidv4(),
           title: title.trim(),
