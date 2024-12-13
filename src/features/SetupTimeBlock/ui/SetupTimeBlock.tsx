@@ -84,7 +84,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     title,
     startTime,
     endTime,
-    color,
   }) => {
     const millisecondsDiff = endTime.compare(startTime);
 
