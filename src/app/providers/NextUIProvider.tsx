@@ -8,8 +8,9 @@ export const NextUIProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <Provider
-      disableRipple
       navigate={router.push}
+      disableRipple
+      reducedMotion='user'
       className='w-full h-full lg:flex'
     >
       {children}
