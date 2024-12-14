@@ -40,7 +40,7 @@ export const AddTimeBlock: FC = () => {
         </Tooltip>
       </motion.span>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='blur'>
         <SetupTimeBlock
           label='Add new TimeBlock'
           onConfigured={handleAddTimeBlock}

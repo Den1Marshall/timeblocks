@@ -35,7 +35,7 @@ export const EditTimeBlock: FC<EditTimeBlockProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} backdrop='blur'>
       <SetupTimeBlock
         label={'Edit TimeBlock'}
         timeBlockToEdit={timeBlockToEdit}
