@@ -10,7 +10,7 @@ import {
 import { FC, useState } from 'react';
 import { GoogleIcon } from './GoogleIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { TogglePasswordVisibilityButton } from './TogglePasswordVisibilityButton';
+import { TogglePasswordVisibilityButton } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import {
@@ -160,6 +160,7 @@ export const LoginForm: FC = () => {
                     />
                   )}
                 />
+
                 <Controller
                   control={control}
                   name='password'

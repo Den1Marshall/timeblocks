@@ -16,7 +16,7 @@ import { TimeBlockBackground } from './TimeBlockBackground';
 import { motion } from 'motion/react';
 import { TrashIcon } from './TrashIcon';
 import { EllipsisIcon } from './EllipsisIcon';
-import { SettingsIcon } from './SettingsIcon';
+import { SettingsIcon } from '@/shared/ui';
 import { variants } from './variants';
 import { timeToMs } from '@/shared/lib';
 
