@@ -69,6 +69,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
             <DropdownMenu aria-label='TimeBlock actions'>
               <DropdownItem
                 showDivider
+                key='edit'
                 startContent={<SettingsIcon />}
                 onPress={() => setTimeBlockToEdit(timeBlock)}
               >
@@ -76,6 +77,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
               </DropdownItem>
 
               <DropdownItem
+                key='delete'
                 color='danger'
                 startContent={<TrashIcon />}
                 className='text-danger'
