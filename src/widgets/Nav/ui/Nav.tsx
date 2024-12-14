@@ -1,3 +1,4 @@
+'use client';
 import { Navbar, NavbarContent } from '@nextui-org/react';
 import { FC } from 'react';
 import { NavItem } from './NavItem';
