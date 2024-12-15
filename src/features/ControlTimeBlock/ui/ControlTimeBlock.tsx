@@ -119,21 +119,22 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
   // Start or stop the timer on another device
   useEffect(() => {
-    if (!workerRef.current) return;
+    if (!workerRef.current || isFinished) return;
 
     if (!timeBlock.timerStartTime) {
       workerRef.current.postMessage(null);
-    } else {
-      const timeoutWithServerLatency =
-        1000 - (Date.now() - timeBlock.timerStartTime);
-
-      workerRef.current.postMessage({
-        timerStartTime: timeBlock.timerStartTime,
-        timeoutWithServerLatency,
-      });
-
-      timeBlockElapsedRef.current = timeBlock.elapsed;
+      return;
     }
+
+    const timeoutWithServerLatency =
+      1000 - (Date.now() - timeBlock.timerStartTime);
+
+    workerRef.current.postMessage({
+      timerStartTime: timeBlock.timerStartTime,
+      timeoutWithServerLatency,
+    });
+
+    timeBlockElapsedRef.current = timeBlock.elapsed;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeBlock.timerStartTime]);
 
