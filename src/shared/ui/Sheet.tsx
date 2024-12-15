@@ -61,7 +61,10 @@ export const Sheet: FC<
       placement={sm ? 'bottom' : 'right'}
       backdrop='blur'
       hideCloseButton={sm}
-      classNames={{ base: 'no-scrollbar', footer: 'pb-safe' }}
+      classNames={{
+        base: 'max-sm:max-h-screen-safe no-scrollbar',
+        footer: 'pb-safe',
+      }}
       {...rest}
     >
       {children}
