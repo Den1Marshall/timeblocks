@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
-import { Modal } from '@/shared/ui';
+import { Sheet } from '@/shared/ui';
 import { useDisclosure } from '@nextui-org/react';
 import { useAppSelector } from '@/app/redux';
 
@@ -35,12 +35,12 @@ export const EditTimeBlock: FC<EditTimeBlockProps> = ({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} backdrop='blur'>
+    <Sheet isOpen={isOpen} onClose={onClose}>
       <SetupTimeBlock
         label={'Edit TimeBlock'}
         timeBlockToEdit={timeBlockToEdit}
         onConfigured={handleEditTimeBlock}
       />
-    </Modal>
+    </Sheet>
   );
 };

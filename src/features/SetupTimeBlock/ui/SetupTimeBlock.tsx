@@ -3,11 +3,11 @@ import { ITimeBlock } from '@/entities/TimeBlock';
 import {
   Button,
   commonColors,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   Divider,
+  DrawerBody,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
   Input,
   TimeInput,
 } from '@nextui-org/react';
@@ -146,13 +146,13 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   };
 
   return (
-    <ModalContent>
+    <DrawerContent>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ModalHeader className='justify-center items-center gap-2'>
+        <DrawerHeader className='justify-center items-center gap-2'>
           Setup your TimeBlock <SettingsIcon />
-        </ModalHeader>
+        </DrawerHeader>
 
-        <ModalBody>
+        <DrawerBody>
           <Controller
             control={control}
             name='title'
@@ -248,14 +248,14 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
             label='Background color'
             ariaLabel='Select TimeBlock background color'
           />
-        </ModalBody>
+        </DrawerBody>
 
-        <ModalFooter>
+        <DrawerFooter>
           <Button type='submit' fullWidth color='primary'>
             {label}
           </Button>
-        </ModalFooter>
+        </DrawerFooter>
       </form>
-    </ModalContent>
+    </DrawerContent>
   );
 };

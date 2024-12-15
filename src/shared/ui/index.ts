@@ -1,5 +1,5 @@
 export { ColorPicker } from './ColorPicker';
-export { Modal } from './Modal';
+export { Sheet } from './Sheet';
 export { tooltipProps } from './tooltipProps';
 export { SettingsIcon } from './SettingsIcon';
 export { TogglePasswordVisibilityButton } from './TogglePasswordVisibilityButton';

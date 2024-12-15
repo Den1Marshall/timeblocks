@@ -6,7 +6,7 @@ import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
-import { Modal, tooltipProps } from '@/shared/ui';
+import { Sheet, tooltipProps } from '@/shared/ui';
 import { useAppSelector } from '@/app/redux';
 
 export const AddTimeBlock: FC = () => {
@@ -40,13 +40,13 @@ export const AddTimeBlock: FC = () => {
         </Tooltip>
       </motion.span>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='blur'>
+      <Sheet isOpen={isOpen} onOpenChange={onOpenChange}>
         <SetupTimeBlock
           label='Add new TimeBlock'
           onConfigured={handleAddTimeBlock}
           timeBlockToEdit={null}
         />
-      </Modal>
+      </Sheet>
     </>
   );
 };
