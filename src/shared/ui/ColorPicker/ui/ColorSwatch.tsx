@@ -48,6 +48,7 @@ export const ColorSwatch: FC<ColorSwatchProps> = ({
   useEffect(() => {
     if (isSelected) {
       ref.current?.scrollIntoView({
+        block: 'nearest',
         inline: 'center',
         behavior: 'smooth',
       });
