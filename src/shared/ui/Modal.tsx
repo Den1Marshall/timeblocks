@@ -22,13 +22,6 @@ export const Modal: FC<NextUIModalProps> = ({ children, ...rest }) => {
     exit: {
       transform: `translateY(${modalHeight + 'px'})`,
     },
-    transition: {
-      type: 'spring',
-      visualDuration: 0.25,
-      bounce: 0,
-      restDelta: 0.0001,
-      restSpeed: 0.0001,
-    },
   };
 
   return (

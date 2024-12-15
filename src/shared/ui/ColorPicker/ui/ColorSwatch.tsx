@@ -5,6 +5,7 @@ import {
   ColorSwatchProps as RACColorSwatchProps,
   ColorSwatch as RACColorSwatch,
 } from 'react-aria-components';
+import { defaultTransition } from '../../defaultTransition';
 
 interface ColorSwatchProps extends RACColorSwatchProps {
   i: number;
@@ -20,17 +21,15 @@ export const ColorSwatch: FC<ColorSwatchProps> = ({
   const [isMounted, setIsMounted] = useState(false);
 
   const transition: Transition = {
-    type: 'spring',
-    duration: isMounted ? 0.5 : 0.6,
+    ...defaultTransition,
+    visualDuration: 0.3,
     bounce: isMounted ? 0 : 0.5,
     delay: isMounted ? 0 : i * 0.075,
-    restDelta: 0.0001,
-    restSpeed: 0.0001,
   };
 
   const variants: Variants = {
     selected: {
-      transform: 'scale(1.1)',
+      transform: isMounted ? 'scale(1.1)' : 'scale(1.01)',
       opacity: 1,
     },
 

@@ -1,25 +1,15 @@
-import { Transition, Variants } from 'motion/react';
-
-const transition: Transition = {
-  type: 'spring',
-  duration: 0.5,
-  bounce: 0.4,
-  restDelta: 0.0001,
-  restSpeed: 0.0001,
-};
+import { defaultTransition } from '@/shared/ui';
+import { Variants } from 'motion/react';
 
 export const iconVariants: Variants = {
   enter: {
     transform: 'scale(1)',
     opacity: 1,
-    transition,
+    transition: { ...defaultTransition, bounce: 0.4 },
   },
   exit: {
     transform: 'scale(0)',
     opacity: 0,
-    transition: {
-      ...transition,
-      duration: 1,
-    },
+    transition: defaultTransition,
   },
 };
