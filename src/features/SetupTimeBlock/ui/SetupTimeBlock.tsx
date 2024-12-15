@@ -23,6 +23,7 @@ import { ColorPicker } from '@/shared/ui';
 import { v4 as uuidv4 } from 'uuid';
 import { calculateDuration } from '../lib/calculateDuration';
 import { ClockIcon } from './ClockIcon';
+import { DurationTabs } from './DurationTabs';
 
 interface SetupTimeBlockProps {
   label: string;
@@ -51,6 +52,30 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
       )?.elapsed
   );
 
+  const now = new Date();
+
+  let nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
+  nowTime = nowTime.set({
+    minute: (Math.round(nowTime.minute / 15) * 15) % 60,
+  });
+
+  const roundedMinutes = Math.round(nowTime.minute / 15) * 15;
+  let newHours = nowTime.hour;
+  let newMinutes = roundedMinutes;
+
+  if (roundedMinutes >= 60) {
+    newHours = (nowTime.hour + 1) % 24;
+    newMinutes = 0;
+  }
+
+  nowTime = nowTime.set({ hour: newHours, minute: newMinutes });
+
+  const maxTime = new Time(23, 59, 0, 0);
+  const nowEndTime = nowTime.add({ minutes: 15 });
+
+  const adjustedEndTime =
+    nowEndTime.compare(maxTime) > 0 ? maxTime : nowEndTime;
+
   const {
     control,
     setValue,
@@ -61,8 +86,8 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   } = useForm<FormData>({
     defaultValues: {
       title: timeBlockToEdit?.title,
-      startTime: timeBlockToEdit?.startTime,
-      endTime: timeBlockToEdit?.endTime,
+      startTime: timeBlockToEdit?.startTime ?? nowTime,
+      endTime: timeBlockToEdit?.endTime ?? adjustedEndTime,
       color: timeBlockToEdit?.color,
     },
     shouldUnregister: true,
@@ -72,6 +97,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   const color = watch('color', commonColors.blue[500]);
   const startTime = watch('startTime');
   const endTime = watch('endTime');
+  const setEndTime = (endTime: Time) => setValue('endTime', endTime);
 
   useEffect(() => {
     if (timeBlockToEdit) {
@@ -191,6 +217,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
                 <TimeInput
                   hourCycle={24}
                   minValue={new Time(0, 1, 0, 0)}
+                  maxValue={new Time(23, 59, 0, 0)}
                   label='End time'
                   isInvalid={errors.endTime?.message !== undefined}
                   errorMessage={errors.endTime?.message}
@@ -205,6 +232,13 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           <p className='text-center'>
             Duration: {calculateDuration(startTime, endTime)}
           </p>
+
+          <DurationTabs
+            maxTime={maxTime}
+            startTime={startTime}
+            endTime={endTime}
+            setEndTime={setEndTime}
+          />
 
           <Divider />
 
