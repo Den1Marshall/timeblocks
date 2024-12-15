@@ -60,6 +60,8 @@ export const Sheet: FC<
       motionProps={sm ? mobileMotionProps : motionProps}
       placement={sm ? 'bottom' : 'right'}
       backdrop='blur'
+      hideCloseButton={sm}
+      classNames={{ footer: 'pb-safe' }}
       {...rest}
     >
       {children}
