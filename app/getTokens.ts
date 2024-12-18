@@ -2,7 +2,7 @@ import { getTokens as nextFirebaseAuthEdgeGetTokens } from 'next-firebase-auth-e
 import { cookies, headers } from 'next/headers';
 
 export const getTokens = async () => {
-  const tokens = await nextFirebaseAuthEdgeGetTokens(cookies(), {
+  const tokens = await nextFirebaseAuthEdgeGetTokens(await cookies(), {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY!,
     cookieName: process.env.AUTH_FIREBASE_COOKIE_NAME!,
     cookieSignatureKeys: [
@@ -14,7 +14,7 @@ export const getTokens = async () => {
       clientEmail: process.env.AUTH_FIREBASE_CLIENT_EMAIL!,
       privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY!,
     },
-    headers: headers(),
+    headers: await headers(),
   });
 
   return tokens ?? undefined;

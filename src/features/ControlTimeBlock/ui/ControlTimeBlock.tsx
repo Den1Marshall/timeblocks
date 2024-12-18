@@ -38,14 +38,11 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   const timeBlockElapsedRef = useRef(timeBlock.elapsed);
 
   // Create web worker, terminate web worker on unmount.
-  const workerRef = useRef<Worker>();
+  const workerRef = useRef<Worker>(undefined);
 
   useEffect(() => {
     workerRef.current = new Worker(
-      new URL('../model/worker.js', import.meta.url),
-      {
-        type: 'module',
-      }
+      new URL('../model/worker.js', import.meta.url)
     );
 
     return () => {
@@ -89,7 +86,11 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
-      error instanceof FirebaseError ? alert(error.message) : alert(error);
+      if (error instanceof FirebaseError) {
+        alert(error.code); // TODO: use nextui alert
+      } else {
+        alert(error);
+      }
     }
   };
 
@@ -101,7 +102,11 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     try {
       await stopTimeBlock(userUid, timeBlocks, timeBlock.id, timeBlock.elapsed);
     } catch (error) {
-      error instanceof FirebaseError ? alert(error.message) : alert(error);
+      if (error instanceof FirebaseError) {
+        alert(error.code); // TODO: use nextui alert
+      } else {
+        alert(error);
+      }
     }
   };
 
@@ -113,7 +118,11 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     try {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
-      error instanceof FirebaseError ? alert(error.code) : alert(error);
+      if (error instanceof FirebaseError) {
+        alert(error.code); // TODO: use nextui alert
+      } else {
+        alert(error);
+      }
     }
   };
 

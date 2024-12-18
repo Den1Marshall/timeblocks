@@ -55,12 +55,14 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
       await reauthenticateUser(auth.currentUser, user.email!, password);
       await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
     } catch (error) {
-      error instanceof FirebaseError
-        ? setError('root', { type: 'custom', message: error.code }) // TODO: use nextui alert
-        : setError('root', {
-            type: 'custom',
-            message: 'Something has went wrong',
-          });
+      if (error instanceof FirebaseError) {
+        setError('root', { type: 'custom', message: error.code });
+      } else {
+        setError('root', {
+          type: 'custom',
+          message: 'Something went wrong',
+        });
+      }
     }
   };
 

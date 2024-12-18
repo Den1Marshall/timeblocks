@@ -1,8 +1,8 @@
-/** @type {import('next').NextConfig} */
+import type { NextConfig } from 'next';
 import withPWAInit from '@ducanh2912/next-pwa';
 import withBundleAnalyzerInit from '@next/bundle-analyzer';
 
-const nextConfig = {};
+const nextConfig: NextConfig = {};
 
 const withPWA = withPWAInit({
   dest: 'public',

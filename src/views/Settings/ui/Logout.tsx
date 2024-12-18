@@ -24,7 +24,11 @@ export const Logout: FC = () => {
 
       router.refresh();
     } catch (error) {
-      error instanceof AuthError ? alert(error.message) : alert(error); // TODO: use nextui alert
+      if (error instanceof AuthError) {
+        alert(error.code); // TODO: use nextui alert
+      } else {
+        alert(error);
+      }
     }
   };
 

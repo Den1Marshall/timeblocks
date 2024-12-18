@@ -1,13 +1,13 @@
 import type { Config } from 'tailwindcss';
+import tailwindcssReactAriaComponents from 'tailwindcss-react-aria-components';
+import tailwindcssSafeArea from 'tailwindcss-safe-area';
 import { nextui } from '@nextui-org/react';
 
-const config: Config = {
+export default {
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
-
-    // Or if using `src` directory:
     './src/**/*.{js,ts,jsx,tsx,mdx}',
 
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
@@ -16,11 +16,5 @@ const config: Config = {
     extend: {},
   },
   darkMode: 'class',
-  plugins: [
-    require('tailwindcss-react-aria-components'),
-    require('tailwindcss-safe-area'),
-    nextui(),
-  ],
-};
-
-export default config;
+  plugins: [tailwindcssReactAriaComponents, tailwindcssSafeArea, nextui()],
+} satisfies Config;

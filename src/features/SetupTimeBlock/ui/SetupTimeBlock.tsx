@@ -139,9 +139,11 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     try {
       await onConfigured(timeBlock, userUid);
     } catch (error) {
-      error instanceof FirebaseError
-        ? setError('root', { type: 'custom', message: error.code })
-        : alert(error); // TODO: replace with nextui alert, when released
+      if (error instanceof FirebaseError) {
+        setError('root', { type: 'custom', message: error.code });
+      } else {
+        setError('root', { type: 'custom', message: 'Something went wrong' });
+      }
     }
   };
 

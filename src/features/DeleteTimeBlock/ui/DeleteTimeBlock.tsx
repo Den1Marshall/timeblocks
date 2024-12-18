@@ -19,7 +19,11 @@ export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ timeBlockId }) => {
     try {
       await deleteTimeBlock(userUid, timeBlocks, timeBlockId);
     } catch (error) {
-      error instanceof FirebaseError ? alert(error.code) : alert(error); // TODO: use nextui alert
+      if (error instanceof FirebaseError) {
+        alert(error.code); // TODO: use nextui alert
+      } else {
+        alert(error);
+      }
     }
   };
 

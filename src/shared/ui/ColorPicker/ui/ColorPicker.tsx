@@ -34,9 +34,11 @@ export const ColorPicker: FC<ColorPickerProps> = ({
 
         if (key === 'blue') continue;
 
-        typeof color === 'string'
-          ? commonColorsArray.push(color.toUpperCase())
-          : commonColorsArray.push(color[500].toUpperCase());
+        if (typeof color === 'string') {
+          commonColorsArray.push(color.toUpperCase());
+        } else {
+          commonColorsArray.push(color[500].toUpperCase());
+        }
       }
     }
 

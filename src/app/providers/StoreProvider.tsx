@@ -16,7 +16,7 @@ export const StoreProvider: FC<StoreProviderProps> = ({
   timeBlocks,
   children,
 }) => {
-  const storeRef = useRef<AppStore>();
+  const storeRef = useRef<AppStore>(undefined);
   if (!storeRef.current) {
     storeRef.current = makeStore();
 
