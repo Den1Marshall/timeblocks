@@ -46,7 +46,7 @@ export const LoginForm: FC = () => {
     setError,
     clearErrors,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<FormData>({
     resolver: zodResolver(
       loginType === 'signIn' ? loginSchema : registerSchema
@@ -188,15 +188,18 @@ export const LoginForm: FC = () => {
                   </p>
                 )}
               </CardBody>
+
               <CardFooter className='flex-col gap-2.5'>
                 <Button
                   type='submit'
                   isLoading={isSubmitting}
+                  isDisabled={isSubmitSuccessful}
                   fullWidth
                   color='primary'
                 >
                   {loginType === 'signIn' ? 'Sign In' : 'Sign Up'}
                 </Button>
+
                 <Button
                   fullWidth
                   variant='light'
