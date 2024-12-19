@@ -1,5 +1,5 @@
 'use client';
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Icon } from './Icon';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
@@ -27,6 +27,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   );
 
   const isStarted = Boolean(timeBlock.timerStartTime);
+  const [isStartedLocal, setIsStartedLocal] = useState(false);
+
   const isElapsed = timeToMs(timeBlock.elapsed) > 0;
   const isFinished = timeBlock.elapsed.compare(timeBlock.duration) >= 0;
   const isAnyOtherStarted = timeBlocks.find(
@@ -83,9 +85,13 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
     timeBlockElapsedRef.current = timeBlock.elapsed;
 
+    setIsStartedLocal(true);
+
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
+      setIsStartedLocal(false);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use nextui alert
       } else {
@@ -99,9 +105,13 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
     workerRef.current.postMessage(null);
 
+    setIsStartedLocal(false);
+
     try {
       await stopTimeBlock(userUid, timeBlocks, timeBlock.id, timeBlock.elapsed);
     } catch (error) {
+      setIsStartedLocal(true);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use nextui alert
       } else {
@@ -115,9 +125,13 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
     workerRef.current.postMessage(null);
 
+    setIsStartedLocal(false);
+
     try {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
+      setIsStartedLocal(true);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use nextui alert
       } else {
@@ -128,24 +142,34 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
   // Start or stop the timer on another device
   useEffect(() => {
-    if (!workerRef.current || isFinished) return;
+    if (!workerRef.current) return;
 
-    if (!timeBlock.timerStartTime) {
-      workerRef.current.postMessage(null);
+    // Start the timer
+    if (isStarted && !isStartedLocal) {
+      console.log('Start the timer on this device'); //
+      const timeoutWithServerLatency =
+        1000 - (Date.now() - (timeBlock.timerStartTime ?? 0));
+
+      workerRef.current.postMessage({
+        timerStartTime: timeBlock.timerStartTime,
+        timeoutWithServerLatency,
+      });
+
+      timeBlockElapsedRef.current = timeBlock.elapsed;
+
+      setIsStartedLocal(true);
       return;
     }
 
-    const timeoutWithServerLatency =
-      1000 - (Date.now() - timeBlock.timerStartTime);
+    // Stop the timer
+    if (!isStarted && isStartedLocal) {
+      console.log('Stop the timer on this device'); //
+      workerRef.current.postMessage(null);
+      setIsStartedLocal(false);
 
-    workerRef.current.postMessage({
-      timerStartTime: timeBlock.timerStartTime,
-      timeoutWithServerLatency,
-    });
-
-    timeBlockElapsedRef.current = timeBlock.elapsed;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeBlock.timerStartTime]);
+      return;
+    }
+  }, [isStarted]);
 
   // Stop the timer if time is up.
   useEffect(() => {
