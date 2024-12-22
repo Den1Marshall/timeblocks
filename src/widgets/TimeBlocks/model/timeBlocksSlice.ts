@@ -26,7 +26,7 @@ const timeBlocksSlice = createSlice({
       );
 
       if (timeBlock) {
-        timeBlock.elapsed = JSON.parse(JSON.stringify(elapsed));
+        timeBlock.elapsed = elapsed;
       }
     },
   },

@@ -3,7 +3,7 @@ import { Time } from '@internationalized/date';
 
 export const deserializeTimeBlocks = (timeBlocks: ITimeBlock[]) => {
   return timeBlocks.map(
-    ({ startTime, endTime, elapsed, duration, ...rest }) => {
+    ({ startTime, endTime, elapsed, serverElapsed, duration, ...rest }) => {
       return {
         ...rest,
         startTime: new Time(
@@ -23,6 +23,12 @@ export const deserializeTimeBlocks = (timeBlocks: ITimeBlock[]) => {
           elapsed.minute,
           elapsed.second,
           elapsed.millisecond
+        ),
+        serverElapsed: new Time(
+          serverElapsed.hour,
+          serverElapsed.minute,
+          serverElapsed.second,
+          serverElapsed.millisecond
         ),
         duration: new Time(
           duration.hour,

@@ -15,7 +15,12 @@ export const stopTimeBlock = async (
     timeBlocks: JSON.stringify(
       timeBlocks.map((timeBlock: ITimeBlock) =>
         timeBlock.id === timeBlockId
-          ? { ...timeBlock, elapsed, timerStartTime: null }
+          ? {
+              ...timeBlock,
+              elapsed,
+              serverElapsed: elapsed,
+              timerStartTime: null,
+            }
           : timeBlock
       )
     ),

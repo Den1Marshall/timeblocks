@@ -132,6 +132,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           endTime,
           duration,
           elapsed: new Time(0, 0, 0, 0),
+          serverElapsed: new Time(0, 0, 0, 0),
           timerStartTime: null,
           color,
         };

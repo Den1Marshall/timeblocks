@@ -14,6 +14,7 @@ import { variants } from './variants';
 import { msToTime, timeToMs } from '@/shared/lib';
 import { ResetIcon } from './ResetIcon';
 import { tooltipProps } from '@/shared/ui';
+import { Time } from '@internationalized/date';
 
 interface ControlTimeBlockProps {
   timeBlock: ITimeBlock;
@@ -35,8 +36,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     ? true
     : false;
 
-  const timeBlockElapsedRef = useRef(timeBlock.elapsed);
-
   // Create web worker, terminate web worker on unmount.
   const workerRef = useRef<Worker>(undefined);
 
@@ -55,33 +54,25 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     if (!workerRef.current) return;
 
     workerRef.current.onmessage = (ev) => {
-      const diff = msToTime(ev.data + timeToMs(timeBlockElapsedRef.current));
+      const diff = msToTime(ev.data + timeToMs(timeBlock.serverElapsed));
 
       dispatch(
         timeBlocksSliceActions.setElapsed({
           id: timeBlock.id,
           elapsed: JSON.parse(
-            JSON.stringify(
-              timeBlockElapsedRef.current.set({ ...diff, millisecond: 0 })
-            )
+            JSON.stringify(timeBlock.elapsed.set({ ...diff, millisecond: 0 }))
           ),
         })
       );
     };
 
     workerRef.current.onerror = (error) => alert(error); // TODO: use nextui alert
-  }, [timeBlock.id, dispatch, timeBlockElapsedRef]);
+  }, [dispatch, timeBlock.elapsed, timeBlock.id, timeBlock.serverElapsed]);
 
   const handleStart = async (): Promise<void> => {
     if (!workerRef.current) return;
 
     const timerStartTime = Date.now();
-
-    workerRef.current.postMessage({
-      timerStartTime,
-    });
-
-    timeBlockElapsedRef.current = timeBlock.elapsed;
 
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
@@ -94,13 +85,16 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     }
   };
 
-  const handleStop = async (): Promise<void> => {
+  const handleStop = async (elapsed?: Time): Promise<void> => {
     if (!workerRef.current) return;
 
-    workerRef.current.postMessage(null);
-
     try {
-      await stopTimeBlock(userUid, timeBlocks, timeBlock.id, timeBlock.elapsed);
+      await stopTimeBlock(
+        userUid,
+        timeBlocks,
+        timeBlock.id,
+        elapsed ?? timeBlock.elapsed
+      );
     } catch (error) {
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use nextui alert
@@ -113,8 +107,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   const handleReset = async (): Promise<void> => {
     if (!workerRef.current) return;
 
-    workerRef.current.postMessage(null);
-
     try {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
@@ -126,34 +118,25 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     }
   };
 
-  // Start or stop the timer on another device
   useEffect(() => {
     if (!workerRef.current || isFinished) return;
 
-    if (!timeBlock.timerStartTime) {
+    if (timeBlock.timerStartTime) {
+      workerRef.current.postMessage({
+        timerStartTime: timeBlock.timerStartTime,
+      });
+    } else {
       workerRef.current.postMessage(null);
-      return;
     }
-
-    const timeoutWithServerLatency =
-      1000 - (Date.now() - timeBlock.timerStartTime);
-
-    workerRef.current.postMessage({
-      timerStartTime: timeBlock.timerStartTime,
-      timeoutWithServerLatency,
-    });
-
-    timeBlockElapsedRef.current = timeBlock.elapsed;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeBlock.timerStartTime]);
+  }, [timeBlock.timerStartTime, isFinished]);
 
   // Stop the timer if time is up.
   useEffect(() => {
     if (isStarted && isFinished) {
-      handleStop();
+      handleStop(timeBlock.duration);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isStarted, isFinished]);
+  }, [isFinished, isStarted, timeBlock.duration]);
 
   return (
     <AnimatePresence mode='popLayout' initial={false}>
@@ -179,7 +162,13 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
               aria-label={`${isStarted ? 'Stop' : 'Start'} TimeBlock "${
                 timeBlock.title
               }"`}
-              onPress={isStarted ? handleStop : handleStart}
+              onPress={() => {
+                if (isStarted) {
+                  handleStop();
+                } else {
+                  handleStart();
+                }
+              }}
             >
               <Icon isStarted={isStarted} />
             </Button>

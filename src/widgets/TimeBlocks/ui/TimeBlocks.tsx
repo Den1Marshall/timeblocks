@@ -32,11 +32,24 @@ export const TimeBlocks: FC<TimeBlocksProps> = ({
     if (!userUid) return;
 
     const unsub = onSnapshot(doc(db, 'users', userUid), (doc) => {
-      dispatch(
-        timeBlocksSliceActions.initializeTimeBlocks(
-          JSON.parse(doc.get('timeBlocks') ?? JSON.stringify([]))
-        )
+      const serverTimeBlocks = JSON.parse(
+        doc.get('timeBlocks') ?? JSON.stringify([])
       );
+
+      if (
+        JSON.stringify(
+          serverTimeBlocks.map((serverTimeBlock: ITimeBlock) => ({
+            ...serverTimeBlock,
+            elapsed: null,
+          }))
+        ) ===
+        JSON.stringify(
+          timeBlocks.map((timeBlock) => ({ ...timeBlock, elapsed: null }))
+        )
+      )
+        return;
+
+      dispatch(timeBlocksSliceActions.initializeTimeBlocks(serverTimeBlocks));
     });
 
     return () => unsub();

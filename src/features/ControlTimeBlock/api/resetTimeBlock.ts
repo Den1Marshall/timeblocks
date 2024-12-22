@@ -17,6 +17,7 @@ export const resetTimeBlock = async (
           ? {
               ...timeBlock,
               elapsed: new Time(0, 0, 0, 0),
+              serverElapsed: new Time(0, 0, 0, 0),
               timerStartTime: null,
             }
           : timeBlock

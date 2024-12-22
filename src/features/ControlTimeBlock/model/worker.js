@@ -1,20 +1,18 @@
-let timeout = undefined;
 let interval = undefined;
 
 self.onmessage = (e) => {
-  clearTimeout(timeout);
   clearInterval(interval);
   if (!e.data) return;
 
-  timeout = setTimeout(() => {
+  let lastSecond = 0;
+
+  interval = setInterval(() => {
     const diff = Date.now() - e.data.timerStartTime;
+    const second = Math.floor((Date.now() - e.data.timerStartTime) / 1000);
 
-    self.postMessage(diff);
-
-    interval = setInterval(() => {
-      const diff = Date.now() - e.data.timerStartTime;
-
-      self.postMessage(diff);
-    }, 1000);
-  }, e.data.timeoutWithServerLatency ?? 1000);
+    if (second > lastSecond) {
+      lastSecond = second;
+      postMessage(diff);
+    }
+  }, 10);
 };
