@@ -6,7 +6,7 @@ import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
-import { Sheet, tooltipProps } from '@/shared/ui';
+import { defaultTransition, Sheet, tooltipProps } from '@/shared/ui';
 import { useAppSelector } from '@/app/redux';
 
 export const AddTimeBlock: FC = () => {
@@ -26,6 +26,7 @@ export const AddTimeBlock: FC = () => {
     <>
       <motion.span
         layout
+        transition={{ ...defaultTransition, visualDuration: 0.3, bounce: 0.2 }}
         className='w-96 aspect-video flex justify-center items-center'
       >
         <Tooltip content='Add new TimeBlock' {...tooltipProps}>
