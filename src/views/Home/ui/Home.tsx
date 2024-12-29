@@ -12,7 +12,7 @@ export default function Home() {
   );
 
   return (
-    <main className='w-full h-full flex flex-wrap items-start'>
+    <main className='w-full h-full flex flex-wrap items-start overflow-hidden'>
       <TodaysDate />
 
       <TimeBlocks
