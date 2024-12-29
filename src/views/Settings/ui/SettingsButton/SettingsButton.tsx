@@ -1,6 +1,7 @@
 'use client';
 import { Button, ButtonProps, Input } from '@nextui-org/react';
 import { FC, PropsWithChildren } from 'react';
+import { ChevronRightIcon } from './ChevronRightIcon';
 
 interface SettingsButtonProps
   extends PropsWithChildren,
@@ -22,12 +23,13 @@ export const SettingsButton: FC<SettingsButtonProps> = ({
       isDisabled={isDisabled}
       onPress={onPress}
       variant='light'
+      endContent={!value && <ChevronRightIcon />}
       color={color}
       disableAnimation
       fullWidth
       className='flex justify-between items-center'
     >
-      <span>{children}</span>
+      {children}
 
       {value && (
         <Input

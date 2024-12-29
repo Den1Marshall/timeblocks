@@ -1,6 +1,6 @@
 'use client';
 import { FC, useState } from 'react';
-import { SettingsButton } from '../SettingsButton';
+import { SettingsButton } from '../../SettingsButton/SettingsButton';
 import {
   Button,
   Checkbox,
