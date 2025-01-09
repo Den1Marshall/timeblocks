@@ -1,5 +1,6 @@
 import { Divider } from '@nextui-org/react';
 import { AccountSettings } from './AccountSettings/AccountSettings';
+import { Support } from './Support/Support';
 
 export default function Settings() {
   return (
@@ -10,6 +11,8 @@ export default function Settings() {
       </h1>
 
       <AccountSettings />
+
+      <Support />
     </main>
   );
 }
