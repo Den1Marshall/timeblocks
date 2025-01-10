@@ -1,7 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { motion } from 'motion/react';
-import { timeBlockBackgroundVariants } from './timeBlockBackgroundVariants';
+import { motion, Variants } from 'motion/react';
 
 interface TimeBlockBackgroundProps {
   completionPercentage: number;
@@ -12,6 +11,17 @@ export const TimeBlockBackground: FC<TimeBlockBackgroundProps> = ({
   completionPercentage,
   color,
 }) => {
+  const timeBlockBackgroundVariants: Variants = {
+    enter: ({ completionPercentage, color }) => ({
+      transform: `translateX(${completionPercentage - 100}%)`,
+      background: color,
+    }),
+
+    exit: {
+      transform: 'translateX(-100%)',
+    },
+  };
+
   return (
     <motion.div
       variants={timeBlockBackgroundVariants}
