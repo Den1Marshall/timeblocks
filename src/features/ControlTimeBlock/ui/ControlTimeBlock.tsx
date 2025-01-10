@@ -70,8 +70,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   }, [dispatch, timeBlock.elapsed, timeBlock.id, timeBlock.serverElapsed]);
 
   const handleStart = async (): Promise<void> => {
-    if (!workerRef.current) return;
-
     const timerStartTime = Date.now();
 
     try {
@@ -86,8 +84,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   const handleStop = async (elapsed?: Time): Promise<void> => {
-    if (!workerRef.current) return;
-
     try {
       await stopTimeBlock(
         userUid,
@@ -119,7 +115,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   useEffect(() => {
-    if (!workerRef.current || isFinished) return;
+    if (!workerRef.current) return;
 
     if (timeBlock.timerStartTime) {
       workerRef.current.postMessage({
