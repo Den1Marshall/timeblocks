@@ -13,11 +13,10 @@ import {
 import { FC, ReactNode } from 'react';
 import { ITimeBlock } from '../model/ITimeBlock';
 import { TimeBlockBackground } from './TimeBlockBackground';
-import { motion } from 'motion/react';
+import { motion, Variants } from 'motion/react';
 import { TrashIcon } from './TrashIcon';
 import { EllipsisIcon } from './EllipsisIcon';
 import { SettingsIcon } from '@/shared/ui';
-import { variants } from './variants';
 import { timeToMs } from '@/shared/lib';
 
 interface TimeBlockProps {
@@ -39,6 +38,18 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   const durationInMs = timeToMs(duration);
 
   const completionPercentage = (elapsedInMs / durationInMs) * 100;
+
+  const variants: Variants = {
+    enter: {
+      transform: 'translateY(0%)',
+      opacity: 1,
+    },
+
+    exit: {
+      transform: 'translateY(-100%)',
+      opacity: 0,
+    },
+  };
 
   // TODO: <400px styles
   return (
