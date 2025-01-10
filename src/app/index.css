@@ -28,3 +28,7 @@ img {
 a {
   -webkit-touch-callout: none;
 }
+
+#nprogress .bar {
+  margin-top: env(safe-area-inset-top);
+}

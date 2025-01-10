@@ -4,6 +4,7 @@ import {
   AriaRouterProvider,
   MotionProvider,
   NextUIProvider,
+  ProgressBarProvider,
 } from '@/app/providers';
 
 import '@/app/index.css';
@@ -63,7 +64,9 @@ export default function RootLayout({
       <body className='h-full py-safe px-safe-or-5 overscroll-none antialiased'>
         <MotionProvider>
           <AriaRouterProvider>
-            <NextUIProvider>{children}</NextUIProvider>
+            <NextUIProvider>
+              <ProgressBarProvider>{children}</ProgressBarProvider>
+            </NextUIProvider>
           </AriaRouterProvider>
         </MotionProvider>
       </body>
