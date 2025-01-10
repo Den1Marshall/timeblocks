@@ -128,6 +128,11 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
             timeToMs(duration)
               ? duration
               : timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
+          serverElapsed:
+            timeToMs(timeBlockToEditElapsed ?? timeBlockToEdit.elapsed) >
+            timeToMs(duration)
+              ? duration
+              : timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
           color,
         }
       : {
