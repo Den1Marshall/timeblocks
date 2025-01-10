@@ -18,7 +18,7 @@ import { Time } from '@internationalized/date';
 import { SettingsIcon } from './SettingsIcon';
 import { FirebaseError } from 'firebase/app';
 import { useAppSelector } from '@/app/redux';
-import { msToTime } from '@/shared/lib';
+import { msToTime, timeToMs } from '@/shared/lib';
 import { ColorPicker } from '@/shared/ui';
 import { v4 as uuidv4 } from 'uuid';
 import { calculateDuration } from '../lib/calculateDuration';
@@ -115,6 +115,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
 
     const { hour, minute, second, millisecond } = msToTime(millisecondsDiff);
     const duration = new Time(hour, minute, second, millisecond);
+
     const timeBlock: ITimeBlock = timeBlockToEdit
       ? {
           ...timeBlockToEdit,
@@ -122,7 +123,11 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           startTime,
           endTime,
           duration,
-          elapsed: timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
+          elapsed:
+            timeToMs(timeBlockToEditElapsed ?? timeBlockToEdit.elapsed) >
+            timeToMs(duration)
+              ? duration
+              : timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
           color,
         }
       : {
