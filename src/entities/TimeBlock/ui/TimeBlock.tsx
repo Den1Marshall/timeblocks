@@ -10,7 +10,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from '@nextui-org/react';
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useMemo } from 'react';
 import { ITimeBlock } from '../model/ITimeBlock';
 import { TimeBlockBackground } from './TimeBlockBackground';
 import { motion, Variants } from 'motion/react';
@@ -33,6 +33,14 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   setTimeBlockToEdit,
 }) => {
   const { title, startTime, endTime, duration, elapsed, color } = timeBlock;
+
+  const disabledTimeBlockActions = useMemo(() => {
+    if (timeBlock.timerStartTime !== null) {
+      return ['edit'];
+    } else {
+      return undefined;
+    }
+  }, [timeBlock.timerStartTime]);
 
   const elapsedInMs = timeToMs(elapsed);
   const durationInMs = timeToMs(duration);
@@ -77,12 +85,20 @@ export const TimeBlock: FC<TimeBlockProps> = ({
               </Button>
             </DropdownTrigger>
 
-            <DropdownMenu aria-label='TimeBlock actions'>
+            <DropdownMenu
+              disabledKeys={disabledTimeBlockActions}
+              aria-label='TimeBlock actions'
+            >
               <DropdownItem
                 showDivider
                 key='edit'
                 startContent={<SettingsIcon />}
                 onPress={() => setTimeBlockToEdit(timeBlock)}
+                description={
+                  disabledTimeBlockActions
+                    ? 'Stop the TimeBlock to edit'
+                    : undefined
+                }
               >
                 Edit TimeBlock
               </DropdownItem>
