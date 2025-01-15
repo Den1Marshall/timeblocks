@@ -10,11 +10,11 @@ import { FC } from 'react';
 import { Variants, motion } from 'motion/react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { ArrowLeftIcon } from './ArrowLeftIcon';
+import { ArrowLeftIcon } from '../icons/ArrowLeftIcon';
 import { auth } from '@/shared/config';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { forgotPasswordSchema } from '../model/zodSchema';
+import { forgotPasswordSchema } from '../../model/zodSchema';
 
 interface LoginForgotPasswordProps {
   setIsOpen: (value: boolean) => void;
