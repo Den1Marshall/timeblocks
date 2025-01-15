@@ -7,7 +7,7 @@ import {
   CardHeader,
   Input,
 } from '@nextui-org/react';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { TogglePasswordVisibilityButton } from '@/shared/ui';
@@ -34,7 +34,7 @@ interface FormData {
   password: string;
 }
 
-const Login: FC = () => {
+export default function Login() {
   const router = useRouter();
 
   const [loginType, setLoginType] = useState<Login>('signIn');
@@ -226,6 +226,4 @@ const Login: FC = () => {
       </article>
     </main>
   );
-};
-
-export default Login;
+}
