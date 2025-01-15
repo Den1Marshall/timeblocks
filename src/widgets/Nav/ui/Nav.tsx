@@ -9,7 +9,10 @@ export const Nav: FC = () => {
   return (
     <Navbar
       className='fixed bottom-0 pb-safe top-[unset] lg:h-full lg:max-w-24 lg:pt-5'
-      classNames={{ wrapper: 'px-0 lg:h-full' }}
+      classNames={{
+        wrapper: 'px-0 lg:h-full',
+        item: ['font-medium', 'data-[active=true]:font-medium'],
+      }}
     >
       <NavbarContent className='lg:flex-col'>
         <NavItem href='/' icon={<HomeIcon />}>
