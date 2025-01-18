@@ -10,10 +10,6 @@ interface IconProps {
 export const Icon: FC<IconProps> = ({ isStarted }) => {
   return (
     <motion.svg
-      variants={iconVariants}
-      initial='exit'
-      animate='enter'
-      exit='exit'
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 24 24'
       fill='currentColor'

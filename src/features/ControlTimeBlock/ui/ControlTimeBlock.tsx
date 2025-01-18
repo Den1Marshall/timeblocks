@@ -1,6 +1,6 @@
 'use client';
 import { FC, useEffect, useRef } from 'react';
-import { Icon } from './Icon';
+import { Icon } from './icons/Icon';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { startTimeBlock } from '../api/startTimeBlock';
@@ -12,7 +12,7 @@ import { FirebaseError } from 'firebase/app';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
 import { msToTime, timeToMs } from '@/shared/lib';
-import { ResetIcon } from './ResetIcon';
+import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
 
