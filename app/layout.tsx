@@ -3,7 +3,7 @@ import { startupImage } from './startupImage';
 import {
   AriaRouterProvider,
   MotionProvider,
-  NextUIProvider,
+  HeroUIProvider,
   ProgressBarProvider,
 } from '@/app/providers';
 
@@ -64,9 +64,9 @@ export default function RootLayout({
       <body className='h-full py-safe px-safe-or-5 overscroll-none antialiased'>
         <MotionProvider>
           <AriaRouterProvider>
-            <NextUIProvider>
+            <HeroUIProvider>
               <ProgressBarProvider>{children}</ProgressBarProvider>
-            </NextUIProvider>
+            </HeroUIProvider>
           </AriaRouterProvider>
         </MotionProvider>
       </body>

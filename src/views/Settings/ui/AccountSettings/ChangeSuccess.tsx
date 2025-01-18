@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from 'react';
-import { Button, ModalBody, ModalFooter, ModalHeader } from '@nextui-org/react';
+import { Button, ModalBody, ModalFooter, ModalHeader } from '@heroui/react';
 import { motion } from 'motion/react';
 
 interface ChangeSuccessProps extends PropsWithChildren {

@@ -1,5 +1,5 @@
 'use client';
-import { Card, CardBody, CardHeader, Divider } from '@nextui-org/react';
+import { Card, CardBody, CardHeader, Divider } from '@heroui/react';
 import { FC } from 'react';
 import { ChangeEmail } from './ChangeEmail/ChangeEmail';
 import { ChangePassword } from './ChangePassword/ChangePassword';

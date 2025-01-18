@@ -9,7 +9,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { FC, ReactNode, useMemo } from 'react';
 import { ITimeBlock } from '../model/ITimeBlock';
 import { TimeBlockBackground } from './TimeBlockBackground';

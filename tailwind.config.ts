@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 import tailwindcssReactAriaComponents from 'tailwindcss-react-aria-components';
 import tailwindcssSafeArea from 'tailwindcss-safe-area';
-import { nextui } from '@nextui-org/react';
+import { heroui } from '@heroui/react';
 
 export default {
   content: [
@@ -10,11 +10,11 @@ export default {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/**/*.{js,ts,jsx,tsx,mdx}',
 
-    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},
   },
   darkMode: 'class',
-  plugins: [tailwindcssReactAriaComponents, tailwindcssSafeArea, nextui()],
+  plugins: [tailwindcssReactAriaComponents, tailwindcssSafeArea, heroui()],
 } satisfies Config;

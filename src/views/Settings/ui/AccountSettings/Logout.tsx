@@ -7,7 +7,7 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { AuthError } from 'next-firebase-auth-edge/lib/auth/error';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -25,7 +25,7 @@ export const Logout: FC = () => {
       router.refresh();
     } catch (error) {
       if (error instanceof AuthError) {
-        alert(error.code); // TODO: use nextui alert
+        alert(error.code); // TODO: use heroui alert
       } else {
         alert(error);
       }

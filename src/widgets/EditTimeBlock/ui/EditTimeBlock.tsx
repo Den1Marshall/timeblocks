@@ -4,7 +4,7 @@ import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { Sheet } from '@/shared/ui';
-import { useDisclosure } from '@nextui-org/react';
+import { useDisclosure } from '@heroui/react';
 import { useAppSelector } from '@/app/redux';
 
 interface EditTimeBlockProps {

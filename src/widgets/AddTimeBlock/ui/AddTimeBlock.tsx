@@ -1,5 +1,5 @@
 'use client';
-import { useDisclosure, Button, Tooltip } from '@nextui-org/react';
+import { useDisclosure, Button, Tooltip } from '@heroui/react';
 import { FC } from 'react';
 import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';

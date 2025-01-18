@@ -1,5 +1,5 @@
 'use client';
-import { commonColors, ScrollShadow } from '@nextui-org/react';
+import { commonColors, ScrollShadow } from '@heroui/react';
 import { FC, useEffect, useMemo } from 'react';
 import {
   ColorPicker as RACColorPicker,

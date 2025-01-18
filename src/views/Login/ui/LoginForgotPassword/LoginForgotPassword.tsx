@@ -1,11 +1,5 @@
 'use client';
-import {
-  Button,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Input,
-} from '@nextui-org/react';
+import { Button, CardBody, CardFooter, CardHeader, Input } from '@heroui/react';
 import { FC } from 'react';
 import { Variants, motion } from 'motion/react';
 import { sendPasswordResetEmail } from 'firebase/auth';

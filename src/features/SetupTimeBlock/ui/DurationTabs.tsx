@@ -1,5 +1,5 @@
 'use client';
-import { Tab, Tabs } from '@nextui-org/react';
+import { Tab, Tabs } from '@heroui/react';
 import { FC, useMemo } from 'react';
 import { Time } from '@internationalized/date';
 import { defaultTransition } from '@/shared/ui';

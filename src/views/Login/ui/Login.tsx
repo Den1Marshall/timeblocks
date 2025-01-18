@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   Input,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { useState } from 'react';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -98,7 +98,7 @@ export default function Login() {
         setLoginType('signIn');
         setValue('password', '');
 
-        alert('Your account has been registered. Log In now'); // TODO: use nextui component after it's released
+        alert('Your account has been registered. Log In now'); // TODO: use heroui component after it's released
       }
     } catch (error) {
       if (error instanceof FirebaseError) {

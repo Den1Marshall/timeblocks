@@ -1,4 +1,4 @@
-import { TooltipProps } from '@nextui-org/react';
+import { TooltipProps } from '@heroui/react';
 
 export const tooltipProps: TooltipProps = {
   color: 'primary',

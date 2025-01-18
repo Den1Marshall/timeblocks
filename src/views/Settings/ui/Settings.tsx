@@ -1,4 +1,4 @@
-import { Divider } from '@nextui-org/react';
+import { Divider } from '@heroui/react';
 import { AccountSettings } from './AccountSettings/AccountSettings';
 import { Support } from './Support/Support';
 

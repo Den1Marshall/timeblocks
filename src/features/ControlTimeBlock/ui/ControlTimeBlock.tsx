@@ -7,7 +7,7 @@ import { startTimeBlock } from '../api/startTimeBlock';
 import { stopTimeBlock } from '../api/stopTimeBlock';
 import { resetTimeBlock } from '../api/resetTimeBlock';
 import { AnimatePresence, motion } from 'motion/react';
-import { Button, Tooltip } from '@nextui-org/react';
+import { Button, Tooltip } from '@heroui/react';
 import { FirebaseError } from 'firebase/app';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
@@ -66,7 +66,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       );
     };
 
-    workerRef.current.onerror = (error) => alert(error); // TODO: use nextui alert
+    workerRef.current.onerror = (error) => alert(error); // TODO: use heroui alert
   }, [dispatch, timeBlock.elapsed, timeBlock.id, timeBlock.serverElapsed]);
 
   const handleStart = async (): Promise<void> => {
@@ -76,7 +76,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
       if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use nextui alert
+        alert(error.code); // TODO: use heroui alert
       } else {
         alert(error);
       }
@@ -93,7 +93,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       );
     } catch (error) {
       if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use nextui alert
+        alert(error.code); // TODO: use heroui alert
       } else {
         alert(error);
       }
@@ -107,7 +107,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
       if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use nextui alert
+        alert(error.code); // TODO: use heroui alert
       } else {
         alert(error);
       }

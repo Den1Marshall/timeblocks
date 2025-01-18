@@ -10,7 +10,7 @@ import {
   DrawerHeader,
   Input,
   TimeInput,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { ArrowIcon } from './ArrowIcon';

@@ -1,5 +1,5 @@
 'use client';
-import { Card, CardBody, CardHeader } from '@nextui-org/react';
+import { Card, CardBody, CardHeader } from '@heroui/react';
 import { FC } from 'react';
 import { SettingsButton } from '../SettingsButton/SettingsButton';
 
@@ -10,7 +10,7 @@ export const Support: FC = () => {
 
   const share = async () => {
     if (!navigator.share || !navigator.canShare) {
-      alert('Your device does not support the Web Share API.'); // TODO: use nextui alert
+      alert('Your device does not support the Web Share API.'); // TODO: use heroui alert
       return;
     }
 

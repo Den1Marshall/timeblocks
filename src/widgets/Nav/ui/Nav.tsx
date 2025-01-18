@@ -1,5 +1,5 @@
 'use client';
-import { Navbar, NavbarContent } from '@nextui-org/react';
+import { Navbar, NavbarContent } from '@heroui/react';
 import { FC } from 'react';
 import { NavItem } from './NavItem';
 import { HomeIcon } from './HomeIcon';

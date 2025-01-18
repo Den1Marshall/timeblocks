@@ -10,7 +10,7 @@ import {
   ModalFooter,
   ModalHeader,
   useDisclosure,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { modalMotionProps, TogglePasswordVisibilityButton } from '@/shared/ui';
 import { verifyBeforeUpdateEmail } from 'firebase/auth';

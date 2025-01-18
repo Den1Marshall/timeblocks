@@ -1,5 +1,5 @@
 'use client';
-import { Link as NextUiLink, NavbarItem } from '@nextui-org/react';
+import { Link as HeroUiLink, NavbarItem } from '@heroui/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { FC, PropsWithChildren, ReactNode, useMemo } from 'react';
@@ -16,7 +16,7 @@ export const NavItem: FC<NavItemProps> = ({ children, href, icon }) => {
 
   return (
     <NavbarItem isActive={isActive} className='w-full flex justify-center'>
-      <NextUiLink
+      <HeroUiLink
         as={Link}
         href={href}
         color={isActive ? 'primary' : 'foreground'}
@@ -25,7 +25,7 @@ export const NavItem: FC<NavItemProps> = ({ children, href, icon }) => {
         className='flex-col-reverse'
       >
         {children}
-      </NextUiLink>
+      </HeroUiLink>
     </NavbarItem>
   );
 };

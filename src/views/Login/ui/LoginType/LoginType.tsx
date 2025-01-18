@@ -1,4 +1,4 @@
-import { Tab, Tabs } from '@nextui-org/react';
+import { Tab, Tabs } from '@heroui/react';
 import { FC } from 'react';
 import type { Login } from '../../model/Login';
 
@@ -13,6 +13,7 @@ export const LoginType: FC<LoginTypeProps> = ({
   setLoginType,
   clearErrors,
 }) => {
+  // TODO: aria-label for tabs
   return (
     <Tabs
       fullWidth
