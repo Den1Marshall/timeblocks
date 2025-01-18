@@ -1,8 +1,8 @@
+'use client';
 import { Tab, Tabs } from '@nextui-org/react';
 import { FC, useMemo } from 'react';
 import { Time } from '@internationalized/date';
 import { defaultTransition } from '@/shared/ui';
-import { useIsMounted } from 'usehooks-ts';
 
 interface DurationTabsProps {
   maxTime: Time;
@@ -17,8 +17,6 @@ export const DurationTabs: FC<DurationTabsProps> = ({
   endTime,
   setEndTime,
 }) => {
-  const isMounted = useIsMounted()();
-
   const durations = useMemo(() => [15, 30, 60, 120], []);
 
   const isDurationDisabled = (duration: number): boolean => {
@@ -52,8 +50,6 @@ export const DurationTabs: FC<DurationTabsProps> = ({
       disabledKeys={disabledDurations}
       selectedKey={selectedDuration}
       onSelectionChange={(selectionDuration) => {
-        if (!isMounted) return;
-
         setEndTime(startTime.add({ ...endTime, minutes: +selectionDuration }));
       }}
       fullWidth
