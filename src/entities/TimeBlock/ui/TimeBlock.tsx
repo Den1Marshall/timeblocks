@@ -35,11 +35,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   const { title, startTime, endTime, duration, elapsed, color } = timeBlock;
 
   const disabledTimeBlockActions = useMemo(() => {
-    if (timeBlock.timerStartTime !== null) {
-      return ['edit'];
-    } else {
-      return undefined;
-    }
+    if (timeBlock.timerStartTime !== null) return ['edit'];
   }, [timeBlock.timerStartTime]);
 
   const elapsedInMs = timeToMs(elapsed);
