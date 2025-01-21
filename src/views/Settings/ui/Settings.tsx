@@ -1,6 +1,7 @@
 import { Divider } from '@heroui/react';
 import { Account } from './Account/Account';
 import { Support } from './Support/Support';
+import { Preferences } from './Preferences/Prefernces';
 
 export default function Settings() {
   return (
@@ -9,6 +10,8 @@ export default function Settings() {
         Settings
         <Divider className='mt-2.5' />
       </h1>
+
+      <Preferences />
 
       <Account />
 
