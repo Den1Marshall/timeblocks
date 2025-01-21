@@ -5,18 +5,16 @@ import { ChevronRightIcon } from './ChevronRightIcon';
 
 interface SettingsButtonProps
   extends PropsWithChildren,
-    Pick<ButtonProps, 'color'> {
-  isDisabled?: boolean;
+    Pick<ButtonProps, 'color' | 'isDisabled' | 'onPress'> {
   value?: string;
-  onPress: () => void;
 }
 
 export const SettingsButton: FC<SettingsButtonProps> = ({
-  color,
   children,
+  color,
   isDisabled,
-  value,
   onPress,
+  value,
 }) => {
   return (
     <Button
