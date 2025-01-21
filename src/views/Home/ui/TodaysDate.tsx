@@ -1,4 +1,5 @@
 'use client';
+import { Title } from '@/shared/ui';
 import { FC, useEffect, useState } from 'react';
 
 const getTodaysDate = () =>
@@ -33,5 +34,5 @@ export const TodaysDate: FC = () => {
     };
   }, []);
 
-  return <h1 className='text-3xl font-bold'>{todaysDate}</h1>;
+  return <Title>{todaysDate}</Title>;
 };
