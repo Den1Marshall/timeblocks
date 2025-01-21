@@ -23,6 +23,7 @@ import { reauthenticateUser } from '@/entities/User';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { googleZodSchema, zodSchema } from './zodSchema';
 import { useRouter } from 'next/navigation';
+import { ForgotPassword } from '../ForgotPassword/ui/ForgotPassword';
 
 interface DeleteAccountProps {
   isGoogleProvider: boolean;
@@ -138,6 +139,8 @@ export const DeleteAccount: FC<DeleteAccountProps> = ({ isGoogleProvider }) => {
                   )}
                 />
               )}
+
+              <ForgotPassword />
 
               <Controller
                 control={control}

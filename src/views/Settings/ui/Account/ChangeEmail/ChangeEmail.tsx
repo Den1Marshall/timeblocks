@@ -23,6 +23,7 @@ import { ChangeSuccess } from '../ChangeSuccess/ChangeSuccess';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { zodSchema } from './zodSchema';
 import { GoogleProviderModal } from '../GoogleProviderModal/GoogleProviderModal';
+import { ForgotPassword } from '../ForgotPassword/ui/ForgotPassword';
 
 interface ChangeEmailProps {
   isGoogleProvider: boolean;
@@ -170,6 +171,8 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
                       Error: {errors.root?.message}
                     </p>
                   )}
+
+                  <ForgotPassword />
                 </ModalBody>
 
                 <ModalFooter>
