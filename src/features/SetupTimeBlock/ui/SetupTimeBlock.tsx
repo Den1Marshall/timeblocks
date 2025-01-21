@@ -178,6 +178,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
             }}
             render={({ field }) => (
               <Input
+                label='Title'
                 placeholder='My TimeBlock'
                 isClearable
                 onClear={() => setValue('title', '')}
