@@ -3,7 +3,7 @@ import { Card, CardBody, CardHeader, Divider } from '@heroui/react';
 import { FC } from 'react';
 import { ChangeEmail } from './ChangeEmail/ChangeEmail';
 import { ChangePassword } from './ChangePassword/ChangePassword';
-import { Logout } from '../Logout/Logout';
+import { Logout } from './Logout/Logout';
 import { DeleteAccount } from './DeleteAccount/DeleteAccount';
 import { useAppSelector } from '@/app/redux';
 

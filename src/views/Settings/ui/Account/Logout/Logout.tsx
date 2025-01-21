@@ -11,7 +11,7 @@ import {
 import { AuthError } from 'next-firebase-auth-edge/lib/auth/error';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
-import { SettingsButton } from '../SettingsButton/SettingsButton';
+import { SettingsButton } from '../../SettingsButton/SettingsButton';
 import { modalMotionProps } from '@/shared/ui';
 
 export const Logout: FC = () => {
