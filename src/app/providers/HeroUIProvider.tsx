@@ -2,6 +2,7 @@
 import { FC, PropsWithChildren } from 'react';
 import { HeroUIProvider as Provider } from '@heroui/react';
 import { useRouter } from 'next/navigation';
+import { ThemeProvider } from 'next-themes';
 
 export const HeroUIProvider: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
@@ -13,7 +14,7 @@ export const HeroUIProvider: FC<PropsWithChildren> = ({ children }) => {
       reducedMotion='user'
       className='w-full h-full lg:flex'
     >
-      {children}
+      <ThemeProvider attribute='class'>{children}</ThemeProvider>
     </Provider>
   );
 };
