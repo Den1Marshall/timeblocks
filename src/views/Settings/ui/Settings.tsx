@@ -1,5 +1,5 @@
 import { Divider } from '@heroui/react';
-import { AccountSettings } from './AccountSettings/AccountSettings';
+import { Account } from './Account/Account';
 import { Support } from './Support/Support';
 
 export default function Settings() {
@@ -10,7 +10,7 @@ export default function Settings() {
         <Divider className='mt-2.5' />
       </h1>
 
-      <AccountSettings />
+      <Account />
 
       <Support />
     </main>

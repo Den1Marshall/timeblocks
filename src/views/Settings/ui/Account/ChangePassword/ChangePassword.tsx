@@ -13,33 +13,36 @@ import {
 } from '@heroui/react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { modalMotionProps, TogglePasswordVisibilityButton } from '@/shared/ui';
-import { verifyBeforeUpdateEmail } from 'firebase/auth';
+import { updatePassword } from 'firebase/auth';
 import { useAppSelector } from '@/app/redux';
 import { reauthenticateUser } from '@/entities/User';
 import { auth } from '@/shared/config';
 import { FirebaseError } from 'firebase/app';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChangeSuccess } from '../ChangeSuccess';
+import { ChangeSuccess } from '../ChangeSuccess/ChangeSuccess';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { zodSchema } from './zodSchema';
-import { GoogleProviderModal } from '../GoogleProviderModal';
+import { GoogleProviderModal } from '../GoogleProviderModal/GoogleProviderModal';
 
-interface ChangeEmailProps {
+interface ChangePasswordProps {
   isGoogleProvider: boolean;
 }
 
 interface FormData {
-  newEmail: string;
   password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+  isPasswordVisible: boolean;
 }
 
-export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
+export const ChangePassword: FC<ChangePasswordProps> = ({
+  isGoogleProvider,
+}) => {
   const user = useAppSelector((state) => state.userSliceReducer.user)!;
 
   const {
     control,
     handleSubmit,
-    setValue,
     setError,
     reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
@@ -48,12 +51,15 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
     resolver: zodResolver(zodSchema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = async ({ newEmail, password }) => {
+  const onSubmit: SubmitHandler<FormData> = async ({
+    password,
+    newPassword,
+  }) => {
     try {
       if (!auth.currentUser) throw new Error('Current user is null');
 
       await reauthenticateUser(auth.currentUser, user.email!, password);
-      await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
+      await updatePassword(auth.currentUser, newPassword);
     } catch (error) {
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
@@ -68,22 +74,27 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
 
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure({
     onClose: () => {
-      setIsPasswordVisible(false);
       reset();
+      setIsPasswordVisible(false);
+      setIsNewPasswordVisible(false);
+      setIsConfirmNewPasswordVisible(false);
     },
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
+  const [isConfirmNewPasswordVisible, setIsConfirmNewPasswordVisible] =
+    useState(false);
 
   if (isGoogleProvider) {
     return (
       <>
-        <SettingsButton value={user.email ?? ''} onPress={onOpen}>
-          Email address
+        <SettingsButton value='******' onPress={onOpen}>
+          Password
         </SettingsButton>
 
         <GoogleProviderModal
-          for='email'
+          for='password'
           isOpen={isOpen}
           onClose={onClose}
           onOpenChange={onOpenChange}
@@ -94,8 +105,8 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
 
   return (
     <>
-      <SettingsButton value={user.email ?? ''} onPress={onOpen}>
-        Email address
+      <SettingsButton value='******' onPress={onOpen}>
+        Password
       </SettingsButton>
 
       <Modal
@@ -110,14 +121,9 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
             {isSubmitSuccessful ? (
               <ChangeSuccess
                 key='success'
-                title='Check your email'
+                title='Your password has been updated'
                 onClose={onClose}
-              >
-                <p>
-                  A verification email has been sent to your new email address.
-                </p>
-                <p>Please verify it to login with the new email.</p>
-              </ChangeSuccess>
+              />
             ) : (
               <motion.form
                 key='form'
@@ -126,25 +132,9 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
                 animate={{ transform: 'translateX(0%)' }}
                 exit={{ transform: 'translateX(-100%)' }}
               >
-                <ModalHeader>Change email address</ModalHeader>
+                <ModalHeader>Change password</ModalHeader>
 
                 <ModalBody>
-                  <Controller
-                    control={control}
-                    name='newEmail'
-                    render={({ field }) => (
-                      <Input
-                        type='email'
-                        placeholder='New email'
-                        isClearable
-                        onClear={() => setValue('newEmail', '')}
-                        errorMessage={errors.newEmail?.message}
-                        isInvalid={Boolean(errors.newEmail?.message)}
-                        {...field}
-                      />
-                    )}
-                  />
-
                   <Controller
                     control={control}
                     name='password'
@@ -158,6 +148,46 @@ export const ChangeEmail: FC<ChangeEmailProps> = ({ isGoogleProvider }) => {
                           <TogglePasswordVisibilityButton
                             isVisible={isPasswordVisible}
                             setIsVisible={setIsPasswordVisible}
+                          />
+                        }
+                        {...field}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    control={control}
+                    name='newPassword'
+                    render={({ field }) => (
+                      <Input
+                        type={isNewPasswordVisible ? 'text' : 'password'}
+                        placeholder='New password'
+                        errorMessage={errors.newPassword?.message}
+                        isInvalid={Boolean(errors.newPassword?.message)}
+                        endContent={
+                          <TogglePasswordVisibilityButton
+                            isVisible={isNewPasswordVisible}
+                            setIsVisible={setIsNewPasswordVisible}
+                          />
+                        }
+                        {...field}
+                      />
+                    )}
+                  />
+
+                  <Controller
+                    control={control}
+                    name='confirmNewPassword'
+                    render={({ field }) => (
+                      <Input
+                        type={isConfirmNewPasswordVisible ? 'text' : 'password'}
+                        placeholder='Confirm new password'
+                        errorMessage={errors.confirmNewPassword?.message}
+                        isInvalid={Boolean(errors.confirmNewPassword?.message)}
+                        endContent={
+                          <TogglePasswordVisibilityButton
+                            isVisible={isConfirmNewPasswordVisible}
+                            setIsVisible={setIsConfirmNewPasswordVisible}
                           />
                         }
                         {...field}
