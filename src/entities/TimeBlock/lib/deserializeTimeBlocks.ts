@@ -1,7 +1,9 @@
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { Time } from '@internationalized/date';
 
-export const deserializeTimeBlocks = (timeBlocks: ITimeBlock[]) => {
+export const deserializeTimeBlocks = (
+  timeBlocks: ITimeBlock[]
+): ITimeBlock[] => {
   return timeBlocks.map(
     ({ startTime, endTime, elapsed, serverElapsed, duration, ...rest }) => {
       return {
