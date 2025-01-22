@@ -6,6 +6,7 @@ import {
   HeroUIProvider,
   ProgressBarProvider,
 } from '@/app/providers';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import '@/app/index.css';
 
@@ -70,7 +71,7 @@ export default function RootLayout({
           </AriaRouterProvider>
         </MotionProvider>
       </body>
-      {/* <GoogleAnalytics gaId="G-XYZ" /> */}
+      <GoogleAnalytics gaId='G-8D3W6NRVDC' />
     </html>
   );
 }
