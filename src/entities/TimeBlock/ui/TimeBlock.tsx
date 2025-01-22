@@ -18,20 +18,21 @@ import { TrashIcon } from './TrashIcon';
 import { EllipsisIcon } from './EllipsisIcon';
 import { SettingsIcon } from '@/shared/ui';
 import { timeToMs } from '@/shared/lib';
+import { useAppDispatch } from '@/app/redux';
+import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 
 interface TimeBlockProps {
   timeBlock: ITimeBlock;
   ControlTimeBlock: ReactNode;
   DeleteTimeBlock: ReactNode;
-  setTimeBlockToEdit: (timeBlock: ITimeBlock) => void;
 }
 
 export const TimeBlock: FC<TimeBlockProps> = ({
   ControlTimeBlock,
   DeleteTimeBlock,
   timeBlock,
-  setTimeBlockToEdit,
 }) => {
+  const dispatch = useAppDispatch();
   const { title, startTime, endTime, duration, elapsed, color } = timeBlock;
 
   const disabledTimeBlockActions = useMemo(() => {
@@ -89,7 +90,13 @@ export const TimeBlock: FC<TimeBlockProps> = ({
                 showDivider
                 key='edit'
                 startContent={<SettingsIcon />}
-                onPress={() => setTimeBlockToEdit(timeBlock)}
+                onPress={() =>
+                  dispatch(
+                    timeBlocksSliceActions.setTimeBlockToEdit(
+                      JSON.parse(JSON.stringify(timeBlock))
+                    )
+                  )
+                }
                 description={
                   disabledTimeBlockActions
                     ? 'Stop the TimeBlock to edit'

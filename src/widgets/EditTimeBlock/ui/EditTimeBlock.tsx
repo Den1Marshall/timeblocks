@@ -2,34 +2,37 @@
 import { FC } from 'react';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
-import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
+import {
+  deserializeTimeBlock,
+  deserializeTimeBlocks,
+  ITimeBlock,
+} from '@/entities/TimeBlock';
 import { Sheet } from '@/shared/ui';
 import { useDisclosure } from '@heroui/react';
-import { useAppSelector } from '@/app/redux';
+import { useAppDispatch, useAppSelector } from '@/app/redux';
+import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 
-interface EditTimeBlockProps {
-  timeBlockToEdit: ITimeBlock | null;
-  setTimeBlockToEdit: (timeBlock: ITimeBlock | null) => void;
-}
-
-export const EditTimeBlock: FC<EditTimeBlockProps> = ({
-  timeBlockToEdit,
-  setTimeBlockToEdit,
-}) => {
+export const EditTimeBlock: FC = () => {
+  const dispatch = useAppDispatch();
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
+  let timeBlockToEdit = useAppSelector(
+    (state) => state.timeBlocksSliceReducer.timeBlockToEdit
+  );
+
+  if (timeBlockToEdit) timeBlockToEdit = deserializeTimeBlock(timeBlockToEdit); // ???
 
   const { isOpen, onClose } = useDisclosure({
     isOpen: !!timeBlockToEdit,
-    onClose: () => setTimeBlockToEdit(null),
+    onClose: () => dispatch(timeBlocksSliceActions.setTimeBlockToEdit(null)),
   });
 
   const handleEditTimeBlock = async (
     timeBlock: ITimeBlock,
     userUid: string
   ) => {
-    setTimeBlockToEdit(null);
+    dispatch(timeBlocksSliceActions.setTimeBlockToEdit(null));
 
     await editTimeBlock(userUid, timeBlocks, timeBlock);
   };

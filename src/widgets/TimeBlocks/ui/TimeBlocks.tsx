@@ -1,9 +1,5 @@
 'use client';
-import {
-  deserializeTimeBlocks,
-  ITimeBlock,
-  TimeBlock,
-} from '@/entities/TimeBlock';
+import { deserializeTimeBlocks, TimeBlock } from '@/entities/TimeBlock';
 import { FC, ReactNode } from 'react';
 import { useAppSelector } from '@/app/redux';
 import { ControlTimeBlock } from '@/features/ControlTimeBlock';
@@ -12,13 +8,9 @@ import { AnimatePresence } from 'motion/react';
 
 interface TimeBlocksProps {
   AddTimeBlock: ReactNode;
-  setTimeBlockToEdit: (timeBlock: ITimeBlock) => void;
 }
 
-export const TimeBlocks: FC<TimeBlocksProps> = ({
-  AddTimeBlock,
-  setTimeBlockToEdit,
-}) => {
+export const TimeBlocks: FC<TimeBlocksProps> = ({ AddTimeBlock }) => {
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
@@ -30,7 +22,6 @@ export const TimeBlocks: FC<TimeBlocksProps> = ({
           <TimeBlock
             key={timeBlock.id}
             timeBlock={timeBlock}
-            setTimeBlockToEdit={setTimeBlockToEdit}
             ControlTimeBlock={<ControlTimeBlock timeBlock={timeBlock} />}
             DeleteTimeBlock={<DeleteTimeBlock timeBlockId={timeBlock.id} />}
           />

@@ -4,10 +4,12 @@ import { Time } from '@internationalized/date';
 
 interface InitialState {
   timeBlocks: ITimeBlock[];
+  timeBlockToEdit: ITimeBlock | null;
 }
 
 const initialState: InitialState = {
   timeBlocks: [],
+  timeBlockToEdit: null,
 };
 
 const timeBlocksSlice = createSlice({
@@ -28,6 +30,10 @@ const timeBlocksSlice = createSlice({
       if (timeBlock) {
         timeBlock.elapsed = elapsed;
       }
+    },
+
+    setTimeBlockToEdit(state, action: PayloadAction<ITimeBlock | null>) {
+      state.timeBlockToEdit = action.payload;
     },
   },
 });
