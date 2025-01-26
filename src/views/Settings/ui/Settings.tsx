@@ -5,14 +5,16 @@ import { Title } from '@/shared/ui';
 
 export default function Settings() {
   return (
-    <main className='flex flex-col gap-5'>
+    <main>
       <Title>Settings</Title>
 
-      <Preferences />
+      <div className='flex flex-col gap-5'>
+        <Preferences />
 
-      <Account />
+        <Account />
 
-      <Support />
+        <Support />
+      </div>
     </main>
   );
 }
