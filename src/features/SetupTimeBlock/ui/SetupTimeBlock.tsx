@@ -13,17 +13,17 @@ import {
 } from '@heroui/react';
 import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { ArrowIcon } from './ArrowIcon';
+import { ArrowIcon } from './icons/ArrowIcon';
 import { Time } from '@internationalized/date';
-import { SettingsIcon } from './SettingsIcon';
+import { SettingsIcon } from './icons/SettingsIcon';
 import { FirebaseError } from 'firebase/app';
 import { useAppSelector } from '@/app/redux';
 import { msToTime, timeToMs } from '@/shared/lib';
 import { ColorPicker } from '@/shared/ui';
 import { v4 as uuidv4 } from 'uuid';
 import { calculateDuration } from '../lib/calculateDuration';
-import { ClockIcon } from './ClockIcon';
-import { DurationTabs } from './DurationTabs';
+import { ClockIcon } from './icons/ClockIcon';
+import { DurationTabs } from './DurationTabs/DurationTabs';
 
 interface SetupTimeBlockProps {
   label: string;
