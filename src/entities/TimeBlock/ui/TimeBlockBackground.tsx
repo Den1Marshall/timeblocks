@@ -28,7 +28,7 @@ export const TimeBlockBackground: FC<TimeBlockBackgroundProps> = ({
       custom={{ completionPercentage, color }}
       initial='exit'
       animate='enter'
-      className='z-[-1] absolute top-0 left-0 w-full h-full opacity-60'
+      className='absolute top-0 left-0 w-full h-full opacity-60'
     />
   );
 };

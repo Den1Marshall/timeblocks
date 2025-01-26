@@ -33,6 +33,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   timeBlock,
 }) => {
   const dispatch = useAppDispatch();
+
   const { title, startTime, endTime, duration, elapsed, color } = timeBlock;
 
   const disabledTimeBlockActions = useMemo(() => {
@@ -55,6 +56,13 @@ export const TimeBlock: FC<TimeBlockProps> = ({
       opacity: 0,
     },
   };
+
+  const handleEditTimeBlock = () =>
+    dispatch(
+      timeBlocksSliceActions.setTimeBlockToEdit(
+        JSON.parse(JSON.stringify(timeBlock))
+      )
+    );
 
   // TODO: <400px styles
   return (
@@ -90,13 +98,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
                 showDivider
                 key='edit'
                 startContent={<SettingsIcon />}
-                onPress={() =>
-                  dispatch(
-                    timeBlocksSliceActions.setTimeBlockToEdit(
-                      JSON.parse(JSON.stringify(timeBlock))
-                    )
-                  )
-                }
+                onPress={handleEditTimeBlock}
                 description={
                   disabledTimeBlockActions
                     ? 'Stop the TimeBlock to edit'
@@ -118,7 +120,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
           </Dropdown>
         </CardHeader>
 
-        <CardBody className='items-center justify-center'>
+        <CardBody className='z-10 items-center justify-center'>
           <div className='flex flex-col gap-2'>
             <p className='max-[420px]:text-sm'>
               {elapsed.toString()} / {duration.toString()}
