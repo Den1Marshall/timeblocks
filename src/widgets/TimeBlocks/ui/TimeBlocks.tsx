@@ -16,7 +16,7 @@ export const TimeBlocks: FC<TimeBlocksProps> = ({ AddTimeBlock }) => {
   );
 
   return (
-    <section className='mt-10 w-full h-full flex flex-wrap justify-center items-start gap-10 overflow-y-auto no-scrollbar lg:justify-start'>
+    <section className='w-full h-full flex flex-wrap justify-center items-start gap-10 overflow-y-auto no-scrollbar lg:justify-start'>
       <AnimatePresence mode='popLayout'>
         {timeBlocks.map((timeBlock) => (
           <TimeBlock

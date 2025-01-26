@@ -7,10 +7,12 @@ import { Title } from '@/shared/ui';
 
 export default function Home() {
   return (
-    <main className='w-full h-full flex flex-wrap items-start overflow-hidden'>
+    <main className='w-full h-full flex flex-col items-start overflow-hidden'>
       <div className='flex flex-col gap-2'>
-        <Title>Home</Title>
-        <TodaysDate />
+        <Title>
+          Home
+          <TodaysDate />
+        </Title>
       </div>
 
       <TimeBlocks AddTimeBlock={<AddTimeBlock />} />

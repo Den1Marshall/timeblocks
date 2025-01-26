@@ -33,5 +33,5 @@ export const TodaysDate: FC = () => {
     };
   }, []);
 
-  return <p className='font-medium text-2xl'>{todaysDate}</p>;
+  return <div className='font-medium text-2xl'>{todaysDate}</div>;
 };
