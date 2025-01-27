@@ -24,6 +24,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { calculateDuration } from '../lib/calculateDuration';
 import { ClockIcon } from './icons/ClockIcon';
 import { DurationTabs } from './DurationTabs/DurationTabs';
+import {
+  getLocalTimeZone,
+  now as internationalizedDateNow,
+} from '@internationalized/date';
 
 interface SetupTimeBlockProps {
   label: string;
@@ -145,6 +149,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           serverElapsed: new Time(0, 0, 0, 0),
           timerStartTime: null,
           color,
+          lastUpdated: internationalizedDateNow(getLocalTimeZone()).toString(),
         };
 
     try {

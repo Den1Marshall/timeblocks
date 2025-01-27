@@ -1,7 +1,7 @@
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { db } from '@/shared/config';
 import { doc, updateDoc } from 'firebase/firestore';
-import { Time } from '@internationalized/date';
+import { getLocalTimeZone, now, Time } from '@internationalized/date';
 
 export const resetTimeBlock = async (
   userUid: string,
@@ -19,6 +19,7 @@ export const resetTimeBlock = async (
               elapsed: new Time(0, 0, 0, 0),
               serverElapsed: new Time(0, 0, 0, 0),
               timerStartTime: null,
+              lastUpdated: now(getLocalTimeZone()).toString(),
             }
           : timeBlock
       )

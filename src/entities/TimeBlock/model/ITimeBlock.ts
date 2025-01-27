@@ -10,4 +10,5 @@ export interface ITimeBlock {
   serverElapsed: Time;
   timerStartTime: number | null;
   color: string;
+  lastUpdated: string;
 }

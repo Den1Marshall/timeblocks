@@ -1,5 +1,6 @@
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { db } from '@/shared/config';
+import { getLocalTimeZone, now } from '@internationalized/date';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export const startTimeBlock = async (
@@ -14,7 +15,11 @@ export const startTimeBlock = async (
     timeBlocks: JSON.stringify(
       timeBlocks.map((timeBlock: ITimeBlock) =>
         timeBlock.id === timeBlockId
-          ? { ...timeBlock, timerStartTime }
+          ? {
+              ...timeBlock,
+              timerStartTime,
+              lastUpdated: now(getLocalTimeZone()).toString(),
+            }
           : timeBlock
       )
     ),

@@ -7,6 +7,13 @@ import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/shared/config';
+import {
+  getLocalTimeZone,
+  isEqualDay,
+  now,
+  parseZonedDateTime,
+} from '@internationalized/date';
+import { resetTimeBlock } from '@/features/ControlTimeBlock';
 
 interface StoreProviderProps extends PropsWithChildren {
   user?: IUser;
@@ -43,6 +50,51 @@ export const StoreProvider: FC<StoreProviderProps> = ({
 
     return () => unsub();
   }, [user?.uid]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const outdatedTimeBlocks = timeBlocks.filter(
+      (timeBlock: ITimeBlock) =>
+        !isEqualDay(
+          parseZonedDateTime(timeBlock.lastUpdated),
+          now(getLocalTimeZone())
+        )
+    );
+
+    outdatedTimeBlocks.forEach((timeBlock: ITimeBlock) =>
+      resetTimeBlock(user.uid, timeBlocks, timeBlock.id)
+    );
+
+    const scheduleNextReset = (): NodeJS.Timeout => {
+      const zonedToday = now(getLocalTimeZone());
+      const zonedTomorrow = zonedToday
+        .add({ days: 1 })
+        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
+
+      const timeBeforeTomorrow = zonedTomorrow.compare(zonedToday);
+
+      return setTimeout(() => {
+        const outdatedTimeBlocks = timeBlocks.filter(
+          (timeBlock: ITimeBlock) =>
+            !isEqualDay(
+              parseZonedDateTime(timeBlock.lastUpdated),
+              now(getLocalTimeZone())
+            )
+        );
+
+        outdatedTimeBlocks.map((timeBlock: ITimeBlock) =>
+          resetTimeBlock(user.uid, timeBlocks, timeBlock.id)
+        );
+
+        scheduleNextReset();
+      }, timeBeforeTomorrow);
+    };
+
+    const timeout = scheduleNextReset();
+
+    return () => clearTimeout(timeout);
+  }, [timeBlocks, user?.uid]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 };
