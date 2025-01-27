@@ -140,7 +140,7 @@ export const DeleteAccount: FC<DeleteAccountProps> = ({ isGoogleProvider }) => {
                 />
               )}
 
-              <ForgotPassword />
+              {!isGoogleProvider && <ForgotPassword />}
 
               <Controller
                 control={control}
