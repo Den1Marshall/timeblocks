@@ -11,9 +11,11 @@ import { useTheme } from 'next-themes';
 import { SystemIcon } from './icons/SystemIcon';
 import { SunIcon } from './icons/SunIcon';
 import { MoonIcon } from './icons/MoonIcon';
+import { useIsClient } from 'usehooks-ts';
 
 export const SelectTheme: FC = () => {
   const { themes, theme, setTheme } = useTheme();
+  const isClient = useIsClient();
 
   const themeIcon =
     theme === 'system' ? (
@@ -23,6 +25,8 @@ export const SelectTheme: FC = () => {
     ) : (
       <MoonIcon />
     );
+
+  if (!isClient) return null;
 
   return (
     <Dropdown>
