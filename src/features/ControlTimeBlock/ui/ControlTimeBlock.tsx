@@ -124,18 +124,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     }
   };
 
-  useEffect(() => {
-    if (!workerRef.current) return;
-
-    if (timeBlock.timerStartTime) {
-      workerRef.current.postMessage({
-        timerStartTime: timeBlock.timerStartTime,
-      });
-    } else {
-      workerRef.current.postMessage(null);
-    }
-  }, [timeBlock.timerStartTime, isFinished]);
-
   // Stop the timer if time is up.
   useEffect(() => {
     if (isStarted && isFinished) {
