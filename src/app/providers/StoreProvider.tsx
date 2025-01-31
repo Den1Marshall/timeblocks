@@ -13,7 +13,7 @@ import {
   now,
   parseZonedDateTime,
 } from '@internationalized/date';
-import { resetTimeBlock } from '@/features/ControlTimeBlock';
+import { resetTimeBlocks } from '@/features/ControlTimeBlock';
 
 interface StoreProviderProps extends PropsWithChildren {
   user?: IUser;
@@ -51,49 +51,36 @@ export const StoreProvider: FC<StoreProviderProps> = ({
     return () => unsub();
   }, [user?.uid]);
 
+  // TODO: move logic to middleware/layout
   useEffect(() => {
     if (!user?.uid) return;
 
-    const outdatedTimeBlocks = timeBlocks.filter(
-      (timeBlock: ITimeBlock) =>
-        !isEqualDay(
-          parseZonedDateTime(timeBlock.lastUpdated),
-          now(getLocalTimeZone())
-        )
-    );
+    const resetOutdatedTimeBlocks = () => {
+      const currentTime = now(getLocalTimeZone());
 
-    outdatedTimeBlocks.forEach((timeBlock: ITimeBlock) =>
-      resetTimeBlock(user.uid, timeBlocks, timeBlock.id)
-    );
+      const outdatedTimeBlocks = timeBlocks.filter(
+        (timeBlock: ITimeBlock) =>
+          !isEqualDay(parseZonedDateTime(timeBlock.lastUpdated), currentTime)
+      );
 
-    const scheduleNextReset = (): NodeJS.Timeout => {
-      const zonedToday = now(getLocalTimeZone());
-      const zonedTomorrow = zonedToday
-        .add({ days: 1 })
-        .set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
-
-      const timeBeforeTomorrow = zonedTomorrow.compare(zonedToday);
-
-      return setTimeout(() => {
-        const outdatedTimeBlocks = timeBlocks.filter(
-          (timeBlock: ITimeBlock) =>
-            !isEqualDay(
-              parseZonedDateTime(timeBlock.lastUpdated),
-              now(getLocalTimeZone())
-            )
-        );
-
-        outdatedTimeBlocks.map((timeBlock: ITimeBlock) =>
-          resetTimeBlock(user.uid, timeBlocks, timeBlock.id)
-        );
-
-        scheduleNextReset();
-      }, timeBeforeTomorrow);
+      if (outdatedTimeBlocks.length > 0) resetTimeBlocks(user.uid, timeBlocks);
     };
 
-    const timeout = scheduleNextReset();
+    resetOutdatedTimeBlocks();
 
-    return () => clearTimeout(timeout);
+    // TODO: timeout for tonight instead of every 500ms interval
+    const interval = setInterval(resetOutdatedTimeBlocks, 500);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') resetOutdatedTimeBlocks();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
   }, [timeBlocks, user?.uid]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
