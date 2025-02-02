@@ -1,7 +1,7 @@
 'use client';
 import { FC } from 'react';
 import { Card, CardBody, CardHeader } from '@heroui/react';
-import { SelectTheme } from './SelectTheme/SelectTheme';
+import { ThemeSelector } from './ThemeSelector/ThemeSelector';
 import { NotificationsSwitch } from './NotificationsSwitch/NotificationsSwitch';
 
 export const Preferences: FC = () => {
@@ -18,7 +18,7 @@ export const Preferences: FC = () => {
         </div>
 
         <div className='w-full flex items-center justify-between px-4'>
-          <p className='text-sm'>Select theme</p> <SelectTheme />
+          <p className='text-sm'>Theme</p> <ThemeSelector />
         </div>
       </CardBody>
     </Card>

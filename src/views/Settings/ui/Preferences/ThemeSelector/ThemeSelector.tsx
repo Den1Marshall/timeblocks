@@ -13,9 +13,8 @@ import { SunIcon } from './icons/SunIcon';
 import { MoonIcon } from './icons/MoonIcon';
 import { useIsClient } from 'usehooks-ts';
 
-export const SelectTheme: FC = () => {
+export const ThemeSelector: FC = () => {
   const { themes, theme, setTheme } = useTheme();
-  const isClient = useIsClient();
 
   const themeIcon =
     theme === 'system' ? (
@@ -26,6 +25,7 @@ export const SelectTheme: FC = () => {
       <MoonIcon />
     );
 
+  const isClient = useIsClient();
   if (!isClient) return null;
 
   return (
@@ -37,7 +37,7 @@ export const SelectTheme: FC = () => {
       </DropdownTrigger>
 
       <DropdownMenu
-        aria-label='Select theme'
+        aria-label='Theme'
         selectionMode='single'
         closeOnSelect={false}
         selectedKeys={[theme ?? 'system']}
