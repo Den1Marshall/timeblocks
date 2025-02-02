@@ -38,6 +38,8 @@ export const NotificationsSwitch: FC = () => {
   };
 
   useEffect(() => {
+    if (!('Notification' in window)) return;
+
     setIsNotificationsEnabled(Notification.permission === 'granted');
   }, [setIsNotificationsEnabled]);
 
