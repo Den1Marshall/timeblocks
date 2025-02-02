@@ -11,7 +11,7 @@ import { Button, Tooltip } from '@heroui/react';
 import { FirebaseError } from 'firebase/app';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
-import { msToTime, timeToMs } from '@/shared/lib';
+import { msToTime, timeToMs, useSendNotification } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
@@ -26,6 +26,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
+  const sendNotification = useSendNotification();
 
   const isStarted = Boolean(timeBlock.timerStartTime);
   const isElapsed = timeToMs(timeBlock.elapsed) > 0;
@@ -140,6 +141,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   useEffect(() => {
     if (isStarted && isFinished) {
       handleStop(timeBlock.duration);
+
+      sendNotification(`TimeBlock ${timeBlock.title} is done!`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFinished, isStarted, timeBlock.duration]);
