@@ -14,7 +14,9 @@ export const UpdateBadge: FC = () => {
       (timeBlock) => timeBlock.elapsed.compare(timeBlock.duration) >= 0
     ).length;
 
-    navigator.setAppBadge(completedCount);
+    if ('setAppBadge' in navigator) {
+      navigator.setAppBadge(completedCount);
+    }
   }, [timeBlocks]);
 
   return null;
