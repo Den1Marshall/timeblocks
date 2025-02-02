@@ -70,18 +70,30 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     workerRef.current.onerror = (error) => alert(error); // TODO: use heroui alert
   }, [dispatch, timeBlock.elapsed, timeBlock.id, timeBlock.serverElapsed]);
 
-  const handleStart = async (): Promise<void> => {
+  const startWorker = (timerStartTime: number): void => {
     if (!workerRef.current) return;
-
-    const timerStartTime = Date.now();
 
     workerRef.current.postMessage({
       timerStartTime,
     });
+  };
+
+  const stopWorker = (): void => {
+    if (!workerRef.current) return;
+
+    workerRef.current.postMessage(null);
+  };
+
+  const handleStart = async (): Promise<void> => {
+    const timerStartTime = Date.now();
+
+    startWorker(timerStartTime);
 
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
+      stopWorker();
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use heroui alert
       } else {
@@ -91,9 +103,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   const handleStop = async (elapsed?: Time): Promise<void> => {
-    if (!workerRef.current) return;
-
-    workerRef.current.postMessage(null);
+    stopWorker();
 
     try {
       await stopTimeBlock(
@@ -103,6 +113,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
         elapsed ?? timeBlock.elapsed
       );
     } catch (error) {
+      if (timeBlock.timerStartTime) startWorker(timeBlock.timerStartTime);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use heroui alert
       } else {
@@ -112,8 +124,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   const handleReset = async (): Promise<void> => {
-    if (!workerRef.current) return;
-
     try {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
@@ -126,14 +136,10 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   useEffect(() => {
-    if (!workerRef.current) return;
-
     if (timeBlock.timerStartTime) {
-      workerRef.current.postMessage({
-        timerStartTime: timeBlock.timerStartTime,
-      });
+      startWorker(timeBlock.timerStartTime);
     } else {
-      workerRef.current.postMessage(null);
+      stopWorker();
     }
   }, [timeBlock.timerStartTime, isFinished]);
 
@@ -145,7 +151,13 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       sendNotification(`TimeBlock ${timeBlock.title} is done!`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFinished, isStarted, timeBlock.duration]);
+  }, [
+    isFinished,
+    isStarted,
+    timeBlock.duration,
+    sendNotification,
+    timeBlock.title,
+  ]);
 
   return (
     <AnimatePresence mode='popLayout' initial={false}>
