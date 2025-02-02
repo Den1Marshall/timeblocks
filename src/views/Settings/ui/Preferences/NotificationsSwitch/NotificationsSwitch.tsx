@@ -42,7 +42,7 @@ export const NotificationsSwitch: FC = () => {
   }, [setIsNotificationsEnabled]);
 
   const isClient = useIsClient();
-  if (!isClient) return;
+  if (!isClient) return null;
 
   return (
     <Switch
