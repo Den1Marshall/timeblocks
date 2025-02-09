@@ -28,6 +28,7 @@ import { LoginType } from './LoginType/LoginType';
 import { AnimatePresence, motion } from 'motion/react';
 import { LoginForgotPassword } from './LoginForgotPassword/LoginForgotPassword';
 import { addNewUserToDb } from '../api/addNewUserToDb';
+import * as Sentry from '@sentry/nextjs';
 
 interface FormData {
   email: string;
@@ -67,6 +68,8 @@ export default function Login() {
 
       router.push('/');
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {
@@ -101,6 +104,8 @@ export default function Login() {
         alert('Your account has been registered. Log In now'); // TODO: use heroui component after it's released
       }
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

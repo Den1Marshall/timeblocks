@@ -4,6 +4,7 @@ import { deleteTimeBlock } from '../api/deleteTimeBlock';
 import { FirebaseError } from 'firebase/app';
 import { deserializeTimeBlocks } from '@/entities/TimeBlock';
 import { useAppSelector } from '@/app/redux';
+import * as Sentry from '@sentry/nextjs';
 
 interface DeleteTimeBlockProps {
   timeBlockId: string;
@@ -19,6 +20,8 @@ export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ timeBlockId }) => {
     try {
       await deleteTimeBlock(userUid, timeBlocks, timeBlockId);
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use heroui alert
       } else {

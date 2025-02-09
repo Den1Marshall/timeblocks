@@ -15,6 +15,7 @@ import { msToTime, timeToMs, useSendNotification } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
+import * as Sentry from '@sentry/nextjs';
 
 interface ControlTimeBlockProps {
   timeBlock: ITimeBlock;
@@ -92,6 +93,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
+      Sentry.captureException(error);
+
       stopWorker();
 
       if (error instanceof FirebaseError) {
@@ -113,6 +116,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
         elapsed ?? timeBlock.elapsed
       );
     } catch (error) {
+      Sentry.captureException(error);
+
       if (timeBlock.timerStartTime) startWorker(timeBlock.timerStartTime);
 
       if (error instanceof FirebaseError) {
@@ -127,6 +132,8 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     try {
       await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         alert(error.code); // TODO: use heroui alert
       } else {

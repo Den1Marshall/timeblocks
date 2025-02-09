@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { googleZodSchema, zodSchema } from './zodSchema';
 import { useRouter } from 'next/navigation';
 import { ForgotPassword } from '../ForgotPassword/ui/ForgotPassword';
+import * as Sentry from '@sentry/nextjs';
 
 interface DeleteAccountProps {
   isGoogleProvider: boolean;
@@ -65,6 +66,8 @@ export const DeleteAccount: FC<DeleteAccountProps> = ({ isGoogleProvider }) => {
 
       router.refresh();
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

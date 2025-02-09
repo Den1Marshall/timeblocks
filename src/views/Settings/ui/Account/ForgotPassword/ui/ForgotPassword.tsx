@@ -18,6 +18,7 @@ import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodSchema } from '../model/zodSchema';
 import { stopPropagate } from '@/shared/lib';
+import * as Sentry from '@sentry/nextjs';
 
 interface FormData {
   email: string;
@@ -44,6 +45,8 @@ export const ForgotPassword: FC = () => {
       await sendPasswordResetEmail(auth, email);
       // TODO: use heroui alert for success
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

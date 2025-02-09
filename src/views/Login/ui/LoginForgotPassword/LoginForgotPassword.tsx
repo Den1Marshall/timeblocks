@@ -9,6 +9,7 @@ import { auth } from '@/shared/config';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { forgotPasswordSchema } from '../../model/zodSchema';
+import * as Sentry from '@sentry/nextjs';
 
 interface LoginForgotPasswordProps {
   setIsOpen: (value: boolean) => void;
@@ -35,6 +36,8 @@ export const LoginForgotPassword: FC<LoginForgotPasswordProps> = ({
     try {
       await sendPasswordResetEmail(auth, email);
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

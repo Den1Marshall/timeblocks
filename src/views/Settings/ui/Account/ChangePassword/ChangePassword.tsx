@@ -24,6 +24,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { zodSchema } from './zodSchema';
 import { GoogleProviderModal } from '../GoogleProviderModal/GoogleProviderModal';
 import { ForgotPassword } from '../ForgotPassword/ui/ForgotPassword';
+import * as Sentry from '@sentry/nextjs';
 
 interface ChangePasswordProps {
   isGoogleProvider: boolean;
@@ -62,6 +63,8 @@ export const ChangePassword: FC<ChangePasswordProps> = ({
       await reauthenticateUser(auth.currentUser, user.email!, password);
       await updatePassword(auth.currentUser, newPassword);
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

@@ -28,6 +28,7 @@ import {
   getLocalTimeZone,
   now as internationalizedDateNow,
 } from '@internationalized/date';
+import * as Sentry from '@sentry/nextjs';
 
 interface SetupTimeBlockProps {
   label: string;
@@ -155,6 +156,8 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     try {
       await onConfigured(timeBlock, userUid);
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof FirebaseError) {
         setError('root', { type: 'custom', message: error.code });
       } else {

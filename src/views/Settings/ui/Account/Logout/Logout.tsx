@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { SettingsButton } from '../../SettingsButton/SettingsButton';
 import { modalMotionProps } from '@/shared/ui';
+import * as Sentry from '@sentry/nextjs';
 
 export const Logout: FC = () => {
   const router = useRouter();
@@ -24,6 +25,8 @@ export const Logout: FC = () => {
 
       router.refresh();
     } catch (error) {
+      Sentry.captureException(error);
+
       if (error instanceof AuthError) {
         alert(error.code); // TODO: use heroui alert
       } else {

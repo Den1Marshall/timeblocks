@@ -2,6 +2,7 @@
 import { Card, CardBody, CardHeader } from '@heroui/react';
 import { FC } from 'react';
 import { SettingsButton } from '../SettingsButton/SettingsButton';
+import * as Sentry from '@sentry/nextjs';
 
 export const Support: FC = () => {
   const openMailClient = (): void => {
@@ -23,6 +24,8 @@ export const Support: FC = () => {
     try {
       await navigator.share(shareData);
     } catch (error) {
+      Sentry.captureException(error);
+
       console.error(`Error: ${error}`);
     }
   };
