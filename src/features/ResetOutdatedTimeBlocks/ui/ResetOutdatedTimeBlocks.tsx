@@ -45,7 +45,7 @@ export const ResetOutdatedTimeBlocks: FC = () => {
       clearInterval(interval);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [user?.uid, timeBlocks]);
 
   return null;
 };
