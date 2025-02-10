@@ -4,6 +4,7 @@ import { PropsWithChildren } from 'react';
 import { getTokens } from '../getTokens';
 import { signInWithServerCustomToken, tokenToUser } from '@/entities/User';
 import { getTimeBlocks } from '@/widgets/TimeBlocks';
+import { ResetOutdatedTimeBlocks } from '@/features/ResetOutdatedTimeBlocks';
 import { UpdateBadge } from '@/features/UpdateBadge';
 
 export default async function Layout({ children }: PropsWithChildren) {
@@ -24,6 +25,7 @@ export default async function Layout({ children }: PropsWithChildren) {
       <StoreProvider user={user} timeBlocks={timeBlocks}>
         {children}
 
+        <ResetOutdatedTimeBlocks />
         <UpdateBadge />
       </StoreProvider>
     </div>

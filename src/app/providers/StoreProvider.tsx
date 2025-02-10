@@ -7,13 +7,6 @@ import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/shared/config';
-import {
-  getLocalTimeZone,
-  isEqualDay,
-  now,
-  parseZonedDateTime,
-} from '@internationalized/date';
-import { resetTimeBlocks } from '@/features/ControlTimeBlock';
 
 interface StoreProviderProps extends PropsWithChildren {
   user?: IUser;
@@ -50,38 +43,6 @@ export const StoreProvider: FC<StoreProviderProps> = ({
 
     return () => unsub();
   }, [user?.uid]);
-
-  // TODO: move logic to middleware/layout
-  useEffect(() => {
-    if (!user?.uid) return;
-
-    const resetOutdatedTimeBlocks = () => {
-      const currentTime = now(getLocalTimeZone());
-
-      const outdatedTimeBlocks = timeBlocks.filter(
-        (timeBlock: ITimeBlock) =>
-          !isEqualDay(parseZonedDateTime(timeBlock.lastUpdated), currentTime)
-      );
-
-      if (outdatedTimeBlocks.length > 0) resetTimeBlocks(user.uid, timeBlocks);
-    };
-
-    resetOutdatedTimeBlocks();
-
-    // TODO: timeout for tonight instead of every 500ms interval
-    const interval = setInterval(resetOutdatedTimeBlocks, 500);
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') resetOutdatedTimeBlocks();
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      clearInterval(interval);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [timeBlocks, user?.uid]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 };
