@@ -2,7 +2,6 @@
 import { Card, CardBody, CardHeader } from '@heroui/react';
 import { FC } from 'react';
 import { SettingsButton } from '../SettingsButton/SettingsButton';
-import * as Sentry from '@sentry/nextjs';
 import { toast } from '@/shared/ui';
 
 export const Support: FC = () => {
@@ -28,9 +27,7 @@ export const Support: FC = () => {
 
     try {
       await navigator.share(shareData);
-    } catch (error) {
-      Sentry.captureException(error);
-    }
+    } catch {}
   };
 
   return (
