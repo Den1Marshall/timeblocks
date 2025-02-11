@@ -25,8 +25,6 @@ export const Support: FC = () => {
       await navigator.share(shareData);
     } catch (error) {
       Sentry.captureException(error);
-
-      console.error(`Error: ${error}`);
     }
   };
 
