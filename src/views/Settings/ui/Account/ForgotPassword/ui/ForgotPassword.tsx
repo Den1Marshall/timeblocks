@@ -1,6 +1,6 @@
 'use client';
 import { auth } from '@/shared/config';
-import { modalMotionProps } from '@/shared/ui';
+import { modalMotionProps, toast } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
@@ -43,7 +43,11 @@ export const ForgotPassword: FC = () => {
   const onSubmit: SubmitHandler<FormData> = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email);
-      // TODO: use heroui alert for success
+
+      toast({
+        title: 'Password reset e-mail has been sent',
+        color: 'success',
+      });
     } catch (error) {
       Sentry.captureException(error);
 

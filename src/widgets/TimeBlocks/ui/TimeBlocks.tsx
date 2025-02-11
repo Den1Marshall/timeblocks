@@ -23,7 +23,9 @@ export const TimeBlocks: FC<TimeBlocksProps> = ({ AddTimeBlock }) => {
             key={timeBlock.id}
             timeBlock={timeBlock}
             ControlTimeBlock={<ControlTimeBlock timeBlock={timeBlock} />}
-            DeleteTimeBlock={<DeleteTimeBlock timeBlockId={timeBlock.id} />}
+            DeleteTimeBlock={
+              <DeleteTimeBlock id={timeBlock.id} title={timeBlock.title} />
+            }
           />
         ))}
 

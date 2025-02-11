@@ -8,11 +8,10 @@ import {
   ModalHeader,
   useDisclosure,
 } from '@heroui/react';
-import { AuthError } from 'next-firebase-auth-edge/lib/auth/error';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { SettingsButton } from '../../SettingsButton/SettingsButton';
-import { modalMotionProps } from '@/shared/ui';
+import { modalMotionProps, toast } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
 
 export const Logout: FC = () => {
@@ -27,11 +26,10 @@ export const Logout: FC = () => {
     } catch (error) {
       Sentry.captureException(error);
 
-      if (error instanceof AuthError) {
-        alert(error.code); // TODO: use heroui alert
-      } else {
-        alert(error);
-      }
+      toast({
+        title: 'Failed to sign out',
+        color: 'danger',
+      });
     }
   };
 

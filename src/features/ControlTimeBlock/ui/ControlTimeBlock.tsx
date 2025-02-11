@@ -8,12 +8,11 @@ import { stopTimeBlock } from '../api/stopTimeBlock';
 import { resetTimeBlock } from '../api/resetTimeBlock';
 import { AnimatePresence, motion } from 'motion/react';
 import { Button, Tooltip } from '@heroui/react';
-import { FirebaseError } from 'firebase/app';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
 import { msToTime, timeToMs, useSendNotification } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
-import { tooltipProps } from '@/shared/ui';
+import { toast, tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
 import * as Sentry from '@sentry/nextjs';
 
@@ -68,8 +67,18 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       );
     };
 
-    workerRef.current.onerror = (error) => alert(error); // TODO: use heroui alert
-  }, [dispatch, timeBlock.elapsed, timeBlock.id, timeBlock.serverElapsed]);
+    workerRef.current.onerror = () =>
+      toast({
+        title: `Failed to start TimeBlock ${timeBlock.title}`,
+        color: 'danger',
+      });
+  }, [
+    dispatch,
+    timeBlock.elapsed,
+    timeBlock.id,
+    timeBlock.serverElapsed,
+    timeBlock.title,
+  ]);
 
   const startWorker = (timerStartTime: number): void => {
     if (!workerRef.current) return;
@@ -97,11 +106,10 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
       stopWorker();
 
-      if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use heroui alert
-      } else {
-        alert(error);
-      }
+      toast({
+        title: `Failed to start TimeBlock ${timeBlock.title}`,
+        color: 'danger',
+      });
     }
   };
 
@@ -120,11 +128,10 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
       if (timeBlock.timerStartTime) startWorker(timeBlock.timerStartTime);
 
-      if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use heroui alert
-      } else {
-        alert(error);
-      }
+      toast({
+        title: `Failed to stop TimeBlock ${timeBlock.title}`,
+        color: 'danger',
+      });
     }
   };
 
@@ -134,11 +141,10 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     } catch (error) {
       Sentry.captureException(error);
 
-      if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use heroui alert
-      } else {
-        alert(error);
-      }
+      toast({
+        title: `Failed to reset TimeBlock ${timeBlock.title}`,
+        color: 'danger',
+      });
     }
   };
 
@@ -153,9 +159,15 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   // Stop the timer if time is up.
   useEffect(() => {
     if (isStarted && isFinished) {
+      const TITLE = `TimeBlock ${timeBlock.title} is done!`;
+
       handleStop(timeBlock.duration);
 
-      sendNotification(`TimeBlock ${timeBlock.title} is done!`);
+      sendNotification(TITLE);
+      toast({
+        title: TITLE,
+        color: 'primary',
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

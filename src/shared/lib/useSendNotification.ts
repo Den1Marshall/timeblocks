@@ -2,8 +2,6 @@
 
 import { useLocalStorage } from 'usehooks-ts';
 
-// TODO: implement toast for notifications when user in-app
-
 export const useSendNotification = () => {
   const [isNotificationsEnabled] = useLocalStorage(
     'isNotificationsEnabled',

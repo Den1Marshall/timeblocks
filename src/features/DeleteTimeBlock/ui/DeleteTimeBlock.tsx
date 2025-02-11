@@ -1,16 +1,15 @@
 'use client';
 import { FC } from 'react';
 import { deleteTimeBlock } from '../api/deleteTimeBlock';
-import { FirebaseError } from 'firebase/app';
-import { deserializeTimeBlocks } from '@/entities/TimeBlock';
+import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { useAppSelector } from '@/app/redux';
 import * as Sentry from '@sentry/nextjs';
+import { toast } from '@/shared/ui';
 
-interface DeleteTimeBlockProps {
-  timeBlockId: string;
-}
-
-export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ timeBlockId }) => {
+export const DeleteTimeBlock: FC<Pick<ITimeBlock, 'id' | 'title'>> = ({
+  id,
+  title,
+}) => {
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
@@ -18,15 +17,14 @@ export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ timeBlockId }) => {
 
   const handleDelete = async () => {
     try {
-      await deleteTimeBlock(userUid, timeBlocks, timeBlockId);
+      await deleteTimeBlock(userUid, timeBlocks, id);
     } catch (error) {
       Sentry.captureException(error);
 
-      if (error instanceof FirebaseError) {
-        alert(error.code); // TODO: use heroui alert
-      } else {
-        alert(error);
-      }
+      toast({
+        title: `Failed to delete TimeBlock ${title}`,
+        color: 'danger',
+      });
     }
   };
 

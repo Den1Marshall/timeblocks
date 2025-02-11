@@ -10,7 +10,7 @@ import {
 import { useState } from 'react';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { TogglePasswordVisibilityButton } from '@/shared/ui';
+import { toast, TogglePasswordVisibilityButton } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import {
@@ -101,7 +101,10 @@ export default function Login() {
         setLoginType('signIn');
         setValue('password', '');
 
-        alert('Your account has been registered. Log In now'); // TODO: use heroui component after it's released
+        toast({
+          title: 'Your account has been registered. Log In now',
+          color: 'success',
+        });
       }
     } catch (error) {
       Sentry.captureException(error);
