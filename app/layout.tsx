@@ -7,6 +7,7 @@ import {
   ProgressBarProvider,
 } from '@/app/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { Toaster } from 'sonner';
 
 import '@/app/index.css';
 
@@ -66,7 +67,11 @@ export default function RootLayout({
         <MotionProvider>
           <AriaRouterProvider>
             <HeroUIProvider>
-              <ProgressBarProvider>{children}</ProgressBarProvider>
+              <ProgressBarProvider>
+                {children}
+
+                <Toaster />
+              </ProgressBarProvider>
             </HeroUIProvider>
           </AriaRouterProvider>
         </MotionProvider>
