@@ -60,10 +60,6 @@ export const TimeBlocksProvider: FC = () => {
     finishedTimeBlocks.forEach((timeBlock) => {
       const TITLE = `TimeBlock ${timeBlock.title} is done!`;
 
-      if ('setAppBadge' in navigator) {
-        navigator.setAppBadge(finishedTimeBlocks.length);
-      }
-
       sendNotification(TITLE);
       toast({
         title: TITLE,
@@ -71,6 +67,12 @@ export const TimeBlocksProvider: FC = () => {
       });
     });
   }, [finishedTimeBlocks, sendNotification, toast]);
+
+  useEffect(() => {
+    if ('setAppBadge' in navigator) {
+      navigator.setAppBadge(timeBlocks.length - finishedTimeBlocks.length);
+    }
+  }, [timeBlocks.length, finishedTimeBlocks.length]);
 
   return null;
 };
