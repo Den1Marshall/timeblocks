@@ -10,12 +10,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Button, Tooltip } from '@heroui/react';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
-import {
-  msToTime,
-  timeToMs,
-  useSendNotification,
-  useToast,
-} from '@/shared/lib';
+import { msToTime, timeToMs, useToast } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
@@ -31,7 +26,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
-  const sendNotification = useSendNotification();
   const toast = useToast();
 
   const isStarted = Boolean(timeBlock.timerStartTime);
@@ -165,25 +159,9 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
   // Stop the timer if time is up.
   useEffect(() => {
-    if (isStarted && isFinished) {
-      const TITLE = `TimeBlock ${timeBlock.title} is done!`;
-
-      handleStop(timeBlock.duration);
-
-      sendNotification(TITLE);
-      toast({
-        title: TITLE,
-        color: 'primary',
-      });
-    }
+    if (isStarted && isFinished) handleStop(timeBlock.duration);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    isFinished,
-    isStarted,
-    timeBlock.duration,
-    sendNotification,
-    timeBlock.title,
-  ]);
+  }, [isFinished, isStarted, timeBlock.duration]);
 
   return (
     <AnimatePresence mode='popLayout' initial={false}>

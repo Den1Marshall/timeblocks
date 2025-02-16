@@ -1,7 +1,8 @@
 'use client';
 
-import { useAppSelector } from '@/app/redux';
+import { deserializeTimeBlocks } from '@/entities/TimeBlock';
 import { FC, useEffect } from 'react';
+import { useAppSelector } from '../redux';
 import {
   getLocalTimeZone,
   isEqualDay,
@@ -9,13 +10,17 @@ import {
   parseZonedDateTime,
 } from '@internationalized/date';
 import { resetTimeBlocks } from '@/features/ControlTimeBlock';
+import { useSendNotification, useToast } from '@/shared/lib';
 
-export const ResetOutdatedTimeBlocks: FC = () => {
+export const TimeBlocksProvider: FC = () => {
   const user = useAppSelector((state) => state.userSliceReducer.user);
-  const timeBlocks = useAppSelector(
-    (state) => state.timeBlocksSliceReducer.timeBlocks
+  const timeBlocks = deserializeTimeBlocks(
+    useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
+  const sendNotification = useSendNotification();
+  const toast = useToast();
 
+  //   Reset TimeBlocks every night
   useEffect(() => {
     if (!user?.uid) return;
 
@@ -46,6 +51,26 @@ export const ResetOutdatedTimeBlocks: FC = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [user?.uid, timeBlocks]);
+
+  const finishedTimeBlocks = timeBlocks.filter(
+    (timeBlock) => timeBlock.elapsed.compare(timeBlock.duration) >= 0
+  );
+
+  useEffect(() => {
+    finishedTimeBlocks.forEach((timeBlock) => {
+      const TITLE = `TimeBlock ${timeBlock.title} is done!`;
+
+      if ('setAppBadge' in navigator) {
+        navigator.setAppBadge(finishedTimeBlocks.length);
+      }
+
+      sendNotification(TITLE);
+      toast({
+        title: TITLE,
+        color: 'primary',
+      });
+    });
+  }, [finishedTimeBlocks, sendNotification, toast]);
 
   return null;
 };
