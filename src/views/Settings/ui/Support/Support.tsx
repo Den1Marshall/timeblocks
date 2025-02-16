@@ -1,10 +1,13 @@
 'use client';
+
 import { Card, CardBody, CardHeader } from '@heroui/react';
 import { FC } from 'react';
 import { SettingsButton } from '../SettingsButton/SettingsButton';
-import { toast } from '@/shared/ui';
+import { useToast } from '@/shared/lib';
 
 export const Support: FC = () => {
+  const toast = useToast();
+
   const openMailClient = (): void => {
     window.location.href = 'mailto:denyshrychulevych@gmail.com';
   };

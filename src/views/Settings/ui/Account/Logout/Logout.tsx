@@ -11,12 +11,14 @@ import {
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { SettingsButton } from '../../SettingsButton/SettingsButton';
-import { modalMotionProps, toast } from '@/shared/ui';
+import { modalMotionProps } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
+import { useToast } from '@/shared/lib';
 
 export const Logout: FC = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
+  const toast = useToast();
 
   const logout = async () => {
     try {

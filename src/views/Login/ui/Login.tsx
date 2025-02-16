@@ -10,7 +10,7 @@ import {
 import { useState } from 'react';
 import { GoogleIcon } from './icons/GoogleIcon';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { toast, TogglePasswordVisibilityButton } from '@/shared/ui';
+import { TogglePasswordVisibilityButton } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import {
@@ -29,6 +29,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { LoginForgotPassword } from './LoginForgotPassword/LoginForgotPassword';
 import { addNewUserToDb } from '../api/addNewUserToDb';
 import * as Sentry from '@sentry/nextjs';
+import { useToast } from '@/shared/lib';
 
 interface FormData {
   email: string;
@@ -37,6 +38,7 @@ interface FormData {
 
 export default function Login() {
   const router = useRouter();
+  const toast = useToast();
 
   const [loginType, setLoginType] = useState<Login>('signIn');
   const {

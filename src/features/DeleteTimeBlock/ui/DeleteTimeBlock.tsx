@@ -4,7 +4,7 @@ import { deleteTimeBlock } from '../api/deleteTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
 import { useAppSelector } from '@/app/redux';
 import * as Sentry from '@sentry/nextjs';
-import { toast } from '@/shared/ui';
+import { useToast } from '@/shared/lib';
 
 export const DeleteTimeBlock: FC<Pick<ITimeBlock, 'id' | 'title'>> = ({
   id,
@@ -14,6 +14,7 @@ export const DeleteTimeBlock: FC<Pick<ITimeBlock, 'id' | 'title'>> = ({
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
+  const toast = useToast();
 
   const handleDelete = async () => {
     try {

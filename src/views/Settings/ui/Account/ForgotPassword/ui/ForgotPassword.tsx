@@ -1,6 +1,6 @@
 'use client';
 import { auth } from '@/shared/config';
-import { modalMotionProps, toast } from '@/shared/ui';
+import { modalMotionProps } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Button,
@@ -17,7 +17,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodSchema } from '../model/zodSchema';
-import { stopPropagate } from '@/shared/lib';
+import { stopPropagate, useToast } from '@/shared/lib';
 import * as Sentry from '@sentry/nextjs';
 
 interface FormData {
@@ -39,6 +39,7 @@ export const ForgotPassword: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure({
     onClose: reset,
   });
+  const toast = useToast();
 
   const onSubmit: SubmitHandler<FormData> = async ({ email }) => {
     try {

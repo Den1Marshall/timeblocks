@@ -10,9 +10,14 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Button, Tooltip } from '@heroui/react';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
-import { msToTime, timeToMs, useSendNotification } from '@/shared/lib';
+import {
+  msToTime,
+  timeToMs,
+  useSendNotification,
+  useToast,
+} from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
-import { toast, tooltipProps } from '@/shared/ui';
+import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
 import * as Sentry from '@sentry/nextjs';
 
@@ -27,6 +32,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
   const sendNotification = useSendNotification();
+  const toast = useToast();
 
   const isStarted = Boolean(timeBlock.timerStartTime);
   const isElapsed = timeToMs(timeBlock.elapsed) > 0;
@@ -74,6 +80,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       });
   }, [
     dispatch,
+    toast,
     timeBlock.elapsed,
     timeBlock.id,
     timeBlock.serverElapsed,

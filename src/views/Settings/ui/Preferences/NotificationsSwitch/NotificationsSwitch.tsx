@@ -3,7 +3,7 @@
 import { FC, useEffect } from 'react';
 import { Switch } from '@heroui/react';
 import { useIsClient, useLocalStorage } from 'usehooks-ts';
-import { toast } from '@/shared/ui';
+import { useToast } from '@/shared/lib';
 
 export const NotificationsSwitch: FC = () => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useLocalStorage(
@@ -13,6 +13,7 @@ export const NotificationsSwitch: FC = () => {
       initializeWithValue: false,
     }
   );
+  const toast = useToast();
 
   const handleValueChange = async (isSelected: boolean) => {
     if (!('Notification' in window)) {

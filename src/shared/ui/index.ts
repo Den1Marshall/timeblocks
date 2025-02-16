@@ -6,4 +6,3 @@ export { TogglePasswordVisibilityButton } from './TogglePasswordVisibilityButton
 export { modalMotionProps } from './modalMotionProps';
 export { defaultTransition } from './defaultTransition';
 export { Title } from './Title';
-export { toast } from './toast/toast';
