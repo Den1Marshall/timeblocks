@@ -31,6 +31,7 @@ export const useToast = () => {
           id={id.toString()}
           hideIconWrapper
           isClosable
+          className='max-sm:mt-safe-or-4'
           {...toastProps}
         />
       ),

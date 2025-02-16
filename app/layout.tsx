@@ -70,7 +70,7 @@ export default function RootLayout({
               <ProgressBarProvider>
                 {children}
 
-                <Toaster />
+                <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
               </ProgressBarProvider>
             </HeroUIProvider>
           </AriaRouterProvider>
