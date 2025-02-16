@@ -1,4 +1,5 @@
 'use client';
+
 import { Button, CardBody, CardFooter, CardHeader, Input } from '@heroui/react';
 import { FC } from 'react';
 import { Variants, motion } from 'motion/react';

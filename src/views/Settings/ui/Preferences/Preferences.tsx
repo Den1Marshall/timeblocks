@@ -1,4 +1,5 @@
 'use client';
+
 import { FC } from 'react';
 import { Card, CardBody, CardHeader } from '@heroui/react';
 import { ThemeSelector } from './ThemeSelector/ThemeSelector';

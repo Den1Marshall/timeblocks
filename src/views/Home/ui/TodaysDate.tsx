@@ -1,4 +1,5 @@
 'use client';
+
 import { FC, useEffect, useState } from 'react';
 
 const getTodaysDate = () =>

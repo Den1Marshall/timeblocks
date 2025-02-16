@@ -1,4 +1,5 @@
 'use client';
+
 import { Link as HeroUiLink, NavbarItem } from '@heroui/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';

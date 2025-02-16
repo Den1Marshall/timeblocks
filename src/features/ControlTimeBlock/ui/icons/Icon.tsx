@@ -1,4 +1,5 @@
 'use client';
+
 import { FC } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { iconVariants } from './iconVariants';

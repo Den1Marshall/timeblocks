@@ -1,4 +1,5 @@
 'use client';
+
 import { FC, useEffect, useRef } from 'react';
 import { Icon } from './icons/Icon';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';

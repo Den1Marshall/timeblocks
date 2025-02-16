@@ -1,4 +1,5 @@
 'use client';
+
 import { FC } from 'react';
 import { deleteTimeBlock } from '../api/deleteTimeBlock';
 import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
