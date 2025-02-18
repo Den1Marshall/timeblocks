@@ -1,16 +1,14 @@
 'use client';
 
 import { FC, PropsWithChildren } from 'react';
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import { AppProgressProvider as ProgressProvider } from '@bprogress/next';
 
 // TODO: custom progress bar
 // TODO: nextui color?
 export const ProgressBarProvider: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <>
+    <ProgressProvider shallowRouting options={{ showSpinner: false }}>
       {children}
-
-      <ProgressBar shallowRouting options={{ showSpinner: false }} />
-    </>
+    </ProgressProvider>
   );
 };

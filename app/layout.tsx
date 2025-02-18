@@ -67,11 +67,9 @@ export default function RootLayout({
         <MotionProvider>
           <AriaRouterProvider>
             <HeroUIProvider>
-              <ProgressBarProvider>
-                {children}
+              <ProgressBarProvider>{children}</ProgressBarProvider>
 
-                <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
-              </ProgressBarProvider>
+              <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
             </HeroUIProvider>
           </AriaRouterProvider>
         </MotionProvider>
