@@ -31,6 +31,7 @@ export async function middleware(request: NextRequest) {
       privateKey: process.env.AUTH_FIREBASE_PRIVATE_KEY!,
     },
     enableMultipleCookies: true,
+    enableCustomToken: true,
 
     handleValidToken: async (_tokens, headers) => {
       if (PUBLIC_PATHS.includes(request.nextUrl.pathname)) {

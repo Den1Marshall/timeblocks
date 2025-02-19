@@ -8,7 +8,8 @@ import { getTimeBlocks } from '@/widgets/TimeBlocks';
 export default async function Layout({ children }: PropsWithChildren) {
   const tokens = await getTokens();
 
-  if (!tokens) throw new Error('No tokens, not logged in');
+  if (!tokens || !tokens.customToken)
+    throw new Error('No tokens, not logged in');
 
   const user = tokenToUser(tokens);
 
