@@ -14,7 +14,6 @@ export const resetTimeBlocks = async (
       timeBlocks.map((timeBlock: ITimeBlock) => ({
         ...timeBlock,
         elapsed: new Time(0, 0, 0, 0),
-        serverElapsed: new Time(0, 0, 0, 0),
         timerStartTime: null,
         lastUpdated: now(getLocalTimeZone()).toString(),
       }))

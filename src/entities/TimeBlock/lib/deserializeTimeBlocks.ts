@@ -5,7 +5,6 @@ export const deserializeTimeBlock = ({
   startTime,
   endTime,
   elapsed,
-  serverElapsed,
   duration,
   ...rest
 }: ITimeBlock): ITimeBlock => ({
@@ -27,12 +26,6 @@ export const deserializeTimeBlock = ({
     elapsed.minute,
     elapsed.second,
     elapsed.millisecond
-  ),
-  serverElapsed: new Time(
-    serverElapsed.hour,
-    serverElapsed.minute,
-    serverElapsed.second,
-    serverElapsed.millisecond
   ),
   duration: new Time(
     duration.hour,

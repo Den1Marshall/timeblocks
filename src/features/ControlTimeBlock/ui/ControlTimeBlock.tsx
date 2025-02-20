@@ -1,17 +1,20 @@
 'use client';
 
-import { FC, useEffect, useRef } from 'react';
+import { FC, useEffect } from 'react';
 import { Icon } from './icons/Icon';
-import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
-import { useAppDispatch, useAppSelector } from '@/app/redux';
+import {
+  deserializeTimeBlocks,
+  ITimeBlock,
+  useTimeBlockElapsed,
+} from '@/entities/TimeBlock';
+import { useAppSelector } from '@/app/redux';
 import { startTimeBlock } from '../api/startTimeBlock';
 import { stopTimeBlock } from '../api/stopTimeBlock';
 import { resetTimeBlock } from '../api/resetTimeBlock';
 import { AnimatePresence, motion } from 'motion/react';
 import { Button, Tooltip } from '@heroui/react';
-import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { variants } from './variants';
-import { msToTime, timeToMs, useToast } from '@/shared/lib';
+import { timeToMs, useToast } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
@@ -22,91 +25,32 @@ interface ControlTimeBlockProps {
 }
 
 export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
-  const dispatch = useAppDispatch();
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
+  const timeBlockElapsed = useTimeBlockElapsed({
+    timerStartTime: timeBlock.timerStartTime,
+    elapsed: timeBlock.elapsed,
+  });
   const toast = useToast();
 
   const isStarted = Boolean(timeBlock.timerStartTime);
-  const isElapsed = timeToMs(timeBlock.elapsed) > 0;
-  const isFinished = timeBlock.elapsed.compare(timeBlock.duration) >= 0;
+  const isElapsed = timeToMs(timeBlockElapsed) > 0;
+  const isFinished = timeBlockElapsed.compare(timeBlock.duration) >= 0;
   const isAnyOtherStarted = timeBlocks.find(
     (tb) => tb.id !== timeBlock.id && tb.timerStartTime
   )
     ? true
     : false;
 
-  // Create web worker, terminate web worker on unmount.
-  const workerRef = useRef<Worker>(undefined);
-
-  useEffect(() => {
-    workerRef.current = new Worker(
-      new URL('../model/worker.js', import.meta.url)
-    );
-
-    return () => {
-      if (workerRef.current) workerRef.current.terminate();
-    };
-  }, []);
-
-  // Process messages from web worker, output errors if present.
-  useEffect(() => {
-    if (!workerRef.current) return;
-
-    workerRef.current.onmessage = (ev) => {
-      const diff = msToTime(ev.data + timeToMs(timeBlock.serverElapsed));
-
-      dispatch(
-        timeBlocksSliceActions.setElapsed({
-          id: timeBlock.id,
-          elapsed: JSON.parse(
-            JSON.stringify(timeBlock.elapsed.set({ ...diff, millisecond: 0 }))
-          ),
-        })
-      );
-    };
-
-    workerRef.current.onerror = () =>
-      toast({
-        title: `Failed to start TimeBlock ${timeBlock.title}`,
-        color: 'danger',
-      });
-  }, [
-    dispatch,
-    toast,
-    timeBlock.elapsed,
-    timeBlock.id,
-    timeBlock.serverElapsed,
-    timeBlock.title,
-  ]);
-
-  const startWorker = (timerStartTime: number): void => {
-    if (!workerRef.current) return;
-
-    workerRef.current.postMessage({
-      timerStartTime,
-    });
-  };
-
-  const stopWorker = (): void => {
-    if (!workerRef.current) return;
-
-    workerRef.current.postMessage(null);
-  };
-
   const handleStart = async (): Promise<void> => {
     const timerStartTime = Date.now();
-
-    startWorker(timerStartTime);
 
     try {
       await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
     } catch (error) {
       Sentry.captureException(error);
-
-      stopWorker();
 
       toast({
         title: `Failed to start TimeBlock ${timeBlock.title}`,
@@ -116,19 +60,17 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   };
 
   const handleStop = async (elapsed?: Time): Promise<void> => {
-    stopWorker();
+    if (!timeBlock.timerStartTime) return;
 
     try {
       await stopTimeBlock(
         userUid,
         timeBlocks,
         timeBlock.id,
-        elapsed ?? timeBlock.elapsed
+        elapsed ?? timeBlockElapsed
       );
     } catch (error) {
       Sentry.captureException(error);
-
-      if (timeBlock.timerStartTime) startWorker(timeBlock.timerStartTime);
 
       toast({
         title: `Failed to stop TimeBlock ${timeBlock.title}`,
@@ -149,14 +91,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
       });
     }
   };
-
-  useEffect(() => {
-    if (timeBlock.timerStartTime) {
-      startWorker(timeBlock.timerStartTime);
-    } else {
-      stopWorker();
-    }
-  }, [timeBlock.timerStartTime, isFinished]);
 
   // Stop the timer if time is up.
   useEffect(() => {

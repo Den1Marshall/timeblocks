@@ -33,17 +33,19 @@ export const StoreProvider: FC<StoreProviderProps> = ({
     if (!user?.uid || !storeRef?.current) return; // ???
 
     const unsub = onSnapshot(doc(db, 'users', user.uid), (doc) => {
-      const serverTimeBlocks = JSON.parse(
-        doc.get('timeBlocks') ?? JSON.stringify([])
-      );
+      const serverTimeBlocks = doc.get('timeBlocks') ?? JSON.stringify([]);
+
+      if (serverTimeBlocks === JSON.stringify(timeBlocks)) return;
 
       storeRef?.current?.dispatch(
-        timeBlocksSliceActions.initializeTimeBlocks(serverTimeBlocks)
+        timeBlocksSliceActions.initializeTimeBlocks(
+          JSON.parse(serverTimeBlocks)
+        )
       );
     });
 
     return () => unsub();
-  }, [user?.uid]);
+  }, [user?.uid, timeBlocks]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 };

@@ -7,7 +7,6 @@ export interface ITimeBlock {
   endTime: Time;
   duration: Time;
   elapsed: Time;
-  serverElapsed: Time;
   timerStartTime: number | null;
   color: string;
   lastUpdated: string;

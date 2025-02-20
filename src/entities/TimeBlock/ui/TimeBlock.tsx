@@ -19,8 +19,9 @@ import { TrashIcon } from './TrashIcon';
 import { EllipsisIcon } from './EllipsisIcon';
 import { SettingsIcon } from '@/shared/ui';
 import { timeToMs } from '@/shared/lib';
-import { useAppDispatch } from '@/app/redux';
+import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
+import { useTimeBlockElapsed } from '../lib/useTimeBlockElapsed';
 
 interface TimeBlockProps {
   timeBlock: ITimeBlock;
@@ -34,14 +35,23 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   timeBlock,
 }) => {
   const dispatch = useAppDispatch();
+  const timeBlocks = useAppSelector(
+    (state) => state.timeBlocksSliceReducer.timeBlocks
+  );
 
-  const { title, startTime, endTime, duration, elapsed, color } = timeBlock;
+  const {
+    title,
+    startTime,
+    endTime,
+    duration,
+    elapsed,
+    timerStartTime,
+    color,
+  } = timeBlock;
 
-  const disabledTimeBlockActions = useMemo(() => {
-    if (timeBlock.timerStartTime !== null) return ['edit'];
-  }, [timeBlock.timerStartTime]);
+  const timeBlockElapsed = useTimeBlockElapsed({ timerStartTime, elapsed });
 
-  const elapsedInMs = timeToMs(elapsed);
+  const elapsedInMs = timeToMs(timeBlockElapsed);
   const durationInMs = timeToMs(duration);
 
   const completionPercentage = (elapsedInMs / durationInMs) * 100;
@@ -57,6 +67,11 @@ export const TimeBlock: FC<TimeBlockProps> = ({
       opacity: 0,
     },
   };
+
+  const disabledTimeBlockActions = useMemo(() => {
+    if (timeBlocks.find((timeBlock) => timeBlock.timerStartTime !== null))
+      return ['edit'];
+  }, [timeBlocks]);
 
   const handleEditTimeBlock = () =>
     dispatch(
@@ -124,7 +139,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
         <CardBody className='z-10 items-center justify-center'>
           <div className='flex flex-col gap-2'>
             <p className='max-[420px]:text-sm'>
-              {elapsed.toString()} / {duration.toString()}
+              {timeBlockElapsed.toString()} / {duration.toString()}
             </p>
             <p className='max-[420px]:text-xs flex items-center justify-center text-sm opacity-50'>
               {startTime.toString().slice(0, 5)}-

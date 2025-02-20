@@ -18,7 +18,6 @@ export const stopTimeBlock = async (
           ? {
               ...timeBlock,
               elapsed,
-              serverElapsed: elapsed,
               timerStartTime: null,
               lastUpdated: now(getLocalTimeZone()).toString(),
             }

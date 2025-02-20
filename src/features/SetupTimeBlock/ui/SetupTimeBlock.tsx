@@ -51,12 +51,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   onConfigured,
 }) => {
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
-  const timeBlockToEditElapsed = useAppSelector(
-    (state) =>
-      state.timeBlocksSliceReducer.timeBlocks.find(
-        (timeBlock) => timeBlock.id === timeBlockToEdit?.id
-      )?.elapsed
-  );
 
   const now = new Date();
 
@@ -130,15 +124,9 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           endTime,
           duration,
           elapsed:
-            timeToMs(timeBlockToEditElapsed ?? timeBlockToEdit.elapsed) >
-            timeToMs(duration)
+            timeToMs(timeBlockToEdit.elapsed) > timeToMs(duration)
               ? duration
-              : timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
-          serverElapsed:
-            timeToMs(timeBlockToEditElapsed ?? timeBlockToEdit.elapsed) >
-            timeToMs(duration)
-              ? duration
-              : timeBlockToEditElapsed ?? timeBlockToEdit.elapsed,
+              : timeBlockToEdit.elapsed,
           color,
         }
       : {
@@ -148,7 +136,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           endTime,
           duration,
           elapsed: new Time(0, 0, 0, 0),
-          serverElapsed: new Time(0, 0, 0, 0),
           timerStartTime: null,
           color,
           lastUpdated: internationalizedDateNow(getLocalTimeZone()).toString(),
