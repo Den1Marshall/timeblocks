@@ -10,4 +10,5 @@ export interface ITimeBlock {
   timerStartTime: number | null;
   color: string;
   lastUpdated: string;
+  isNotificationSent: boolean;
 }

@@ -1,8 +1,8 @@
 'use client';
 
 import { deserializeTimeBlocks } from '@/entities/TimeBlock';
-import { FC, useEffect } from 'react';
-import { useAppSelector } from '../redux';
+import { FC, useEffect, useMemo } from 'react';
+import { useAppSelector } from '../../redux';
 import {
   getLocalTimeZone,
   isEqualDay,
@@ -11,6 +11,8 @@ import {
 } from '@internationalized/date';
 import { resetTimeBlocks } from '@/features/ControlTimeBlock';
 import { useSendNotification, useToast } from '@/shared/lib';
+import { markNotified } from './markNotified';
+import * as Sentry from '@sentry/nextjs';
 
 export const TimeBlocksProvider: FC = () => {
   const user = useAppSelector((state) => state.userSliceReducer.user);
@@ -20,7 +22,7 @@ export const TimeBlocksProvider: FC = () => {
   const sendNotification = useSendNotification();
   const toast = useToast();
 
-  //   Reset TimeBlocks every night
+  // Reset TimeBlocks every night
   useEffect(() => {
     if (!user?.uid) return;
 
@@ -52,21 +54,32 @@ export const TimeBlocksProvider: FC = () => {
     };
   }, [user?.uid, timeBlocks]);
 
-  const finishedTimeBlocks = timeBlocks.filter(
-    (timeBlock) => timeBlock.elapsed.compare(timeBlock.duration) >= 0
-  );
+  const finishedTimeBlocks = useMemo(() => {
+    return timeBlocks.filter(
+      (timeBlock) => timeBlock.elapsed.compare(timeBlock.duration) >= 0
+    );
+  }, [timeBlocks]);
 
   useEffect(() => {
-    finishedTimeBlocks.forEach((timeBlock) => {
-      const TITLE = `TimeBlock ${timeBlock.title} is done!`;
+    finishedTimeBlocks.forEach(async (timeBlock) => {
+      if (timeBlock.isNotificationSent) return;
 
-      sendNotification(TITLE);
-      toast({
-        title: TITLE,
-        color: 'primary',
-      });
+      try {
+        await markNotified(user!.uid, timeBlocks, timeBlock.id);
+
+        const TITLE = `TimeBlock ${timeBlock.title} is done!`;
+
+        sendNotification(TITLE);
+        toast({
+          title: TITLE,
+          color: 'primary',
+        });
+      } catch (error) {
+        Sentry.captureException(error);
+        // TODO: handle error for user?
+      }
     });
-  }, [finishedTimeBlocks, sendNotification, toast]);
+  }, [finishedTimeBlocks, timeBlocks, user, sendNotification, toast]);
 
   useEffect(() => {
     if ('setAppBadge' in navigator) {

@@ -16,6 +16,7 @@ export const resetTimeBlocks = async (
         elapsed: new Time(0, 0, 0, 0),
         timerStartTime: null,
         lastUpdated: now(getLocalTimeZone()).toString(),
+        isNotificationSent: false,
       }))
     ),
   });

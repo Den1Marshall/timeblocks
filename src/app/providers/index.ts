@@ -3,4 +3,4 @@ export { MotionProvider } from './MotionProvider';
 export { HeroUIProvider } from './HeroUIProvider';
 export { StoreProvider } from './StoreProvider';
 export { ProgressBarProvider } from './ProgressBarProvider';
-export { TimeBlocksProvider } from './TimeBlocksProvider';
+export { TimeBlocksProvider } from './TimeBlocksProvider/TimeBlocksProvider';

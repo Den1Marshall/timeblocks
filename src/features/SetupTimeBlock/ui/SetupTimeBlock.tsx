@@ -139,6 +139,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
           timerStartTime: null,
           color,
           lastUpdated: internationalizedDateNow(getLocalTimeZone()).toString(),
+          isNotificationSent: false,
         };
 
     try {
