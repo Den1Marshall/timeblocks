@@ -30,7 +30,6 @@ import { AnimatePresence, motion } from 'motion/react';
 import { LoginForgotPassword } from './LoginForgotPassword/LoginForgotPassword';
 import { addNewUserToDb } from '../api/addNewUserToDb';
 import * as Sentry from '@sentry/nextjs';
-import { useToast } from '@/shared/lib';
 
 interface FormData {
   email: string;
@@ -39,7 +38,6 @@ interface FormData {
 
 export default function Login() {
   const router = useRouter();
-  const toast = useToast();
 
   const [loginType, setLoginType] = useState<Login>('signIn');
   const {
@@ -84,30 +82,30 @@ export default function Login() {
     }
   };
 
+  const handleSignInWithEmailAndPassword = async (
+    email: FormData['email'],
+    password: FormData['password']
+  ) => {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    await addNewUserToDb(userCredential.user.uid);
+
+    const idToken = await userCredential.user.getIdToken();
+    await authenticateUser(idToken);
+
+    router.push('/');
+  };
+
   const onSubmit: SubmitHandler<FormData> = async ({ email, password }) => {
     try {
       if (loginType === 'signIn') {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-        await addNewUserToDb(userCredential.user.uid);
-
-        const idToken = await userCredential.user.getIdToken();
-        await authenticateUser(idToken);
-
-        router.push('/');
+        await handleSignInWithEmailAndPassword(email, password);
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
-
-        setLoginType('signIn');
-        setValue('password', '');
-
-        toast({
-          title: 'Your account has been registered. Log In now',
-          color: 'success',
-        });
+        await handleSignInWithEmailAndPassword(email, password);
       }
     } catch (error) {
       Sentry.captureException(error);
