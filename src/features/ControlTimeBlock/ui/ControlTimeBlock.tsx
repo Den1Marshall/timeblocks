@@ -29,10 +29,10 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
   const timeBlocks = deserializeTimeBlocks(
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
-  const timeBlockElapsed = useTimeBlockElapsed({
-    timerStartTime: timeBlock.timerStartTime,
-    elapsed: timeBlock.elapsed,
-  });
+  const timeBlockElapsed = useTimeBlockElapsed(
+    timeBlock.timerStartTime,
+    timeBlock.elapsed
+  );
   const toast = useToast();
 
   const isStarted = Boolean(timeBlock.timerStartTime);

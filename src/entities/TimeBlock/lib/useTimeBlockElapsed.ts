@@ -4,12 +4,10 @@ import { msToTime, timeToMs } from '@/shared/lib';
 import { ITimeBlock } from '../model/ITimeBlock';
 import { useEffect, useRef, useState } from 'react';
 
-type UseTimeBlockElapsedProps = Pick<ITimeBlock, 'timerStartTime' | 'elapsed'>;
-
-export const useTimeBlockElapsed = ({
-  timerStartTime,
-  elapsed,
-}: UseTimeBlockElapsedProps) => {
+export const useTimeBlockElapsed = (
+  timerStartTime: ITimeBlock['timerStartTime'],
+  elapsed: ITimeBlock['elapsed']
+) => {
   const initialTimeBlockElapsed = timerStartTime
     ? msToTime(timeToMs(elapsed) + (Date.now() - timerStartTime))
     : elapsed;

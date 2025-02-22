@@ -49,7 +49,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
     color,
   } = timeBlock;
 
-  const timeBlockElapsed = useTimeBlockElapsed({ timerStartTime, elapsed });
+  const timeBlockElapsed = useTimeBlockElapsed(timerStartTime, elapsed);
 
   const elapsedInMs = timeToMs(timeBlockElapsed);
   const durationInMs = timeToMs(duration);
