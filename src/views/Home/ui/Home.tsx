@@ -1,5 +1,3 @@
-'use client';
-
 import { AddTimeBlock } from '@/widgets/AddTimeBlock';
 import { EditTimeBlock } from '@/widgets/EditTimeBlock';
 import { TimeBlocks } from '@/widgets/TimeBlocks';
