@@ -3,24 +3,20 @@
 import { FC } from 'react';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
-import {
-  deserializeTimeBlock,
-  deserializeTimeBlocks,
-  ITimeBlock,
-} from '@/entities/TimeBlock';
+import { deserializeTimeBlock, ITimeBlock } from '@/entities/TimeBlock';
 import { Sheet } from '@/shared/ui';
 import { useDisclosure } from '@heroui/react';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
+import * as Sentry from '@sentry/nextjs';
+import { useToast } from '@/shared/lib';
 
 export const EditTimeBlock: FC = () => {
   const dispatch = useAppDispatch();
-  const timeBlocks = deserializeTimeBlocks(
-    useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
-  );
   let timeBlockToEdit = useAppSelector(
     (state) => state.timeBlocksSliceReducer.timeBlockToEdit
   );
+  const toast = useToast();
 
   if (timeBlockToEdit) timeBlockToEdit = deserializeTimeBlock(timeBlockToEdit); // ???
 
@@ -35,7 +31,13 @@ export const EditTimeBlock: FC = () => {
   ) => {
     dispatch(timeBlocksSliceActions.setTimeBlockToEdit(null));
 
-    await editTimeBlock(userUid, timeBlocks, timeBlock);
+    try {
+      await editTimeBlock(userUid, timeBlock);
+    } catch (error) {
+      Sentry.captureException(error);
+
+      toast({ title: 'Failed to edit TimeBlock', color: 'danger' });
+    }
   };
 
   return (

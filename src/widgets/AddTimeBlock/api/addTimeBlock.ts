@@ -1,15 +1,15 @@
 import { ITimeBlock } from '@/entities/TimeBlock';
+import { IUser } from '@/entities/User';
 import { db } from '@/shared/config';
-import { doc, updateDoc } from 'firebase/firestore';
+import { serialize } from '@/shared/lib';
+import { doc, setDoc } from 'firebase/firestore';
 
 export const addTimeBlock = async (
-  userUid: string,
-  timeBlocks: ITimeBlock[],
+  userUid: IUser['uid'],
   timeBlock: ITimeBlock
 ) => {
-  const userRef = doc(db, 'users', userUid);
-
-  await updateDoc(userRef, {
-    timeBlocks: JSON.stringify([...timeBlocks, timeBlock]),
-  });
+  await setDoc(
+    doc(db, 'users', userUid, 'timeBlocks', timeBlock.id),
+    serialize(timeBlock)
+  );
 };

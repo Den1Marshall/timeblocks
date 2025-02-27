@@ -1,4 +1,3 @@
-export { getTimeBlocks } from './api/getTimeBlocks';
 export {
   timeBlocksSliceReducer,
   timeBlocksSliceActions,

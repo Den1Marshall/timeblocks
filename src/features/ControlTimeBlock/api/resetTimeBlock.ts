@@ -1,28 +1,20 @@
-import { ITimeBlock } from '@/entities/TimeBlock';
 import { db } from '@/shared/config';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getLocalTimeZone, now, Time } from '@internationalized/date';
+import { serialize } from '@/shared/lib';
+import { IUser } from '@/entities/User';
+import { ITimeBlock } from '@/entities/TimeBlock';
 
 export const resetTimeBlock = async (
-  userUid: string,
-  timeBlocks: ITimeBlock[],
-  timeBlockId: string
+  userUid: IUser['uid'],
+  timeBlockId: ITimeBlock['id']
 ): Promise<void> => {
-  const userRef = doc(db, 'users', userUid);
+  const timeBlockRef = doc(db, 'users', userUid, 'timeBlocks', timeBlockId);
 
-  await updateDoc(userRef, {
-    timeBlocks: JSON.stringify(
-      timeBlocks.map((timeBlock: ITimeBlock) =>
-        timeBlock.id === timeBlockId
-          ? {
-              ...timeBlock,
-              elapsed: new Time(0, 0, 0, 0),
-              timerStartTime: null,
-              lastUpdated: now(getLocalTimeZone()).toString(),
-              isNotificationSent: false,
-            }
-          : timeBlock
-      )
-    ),
+  await updateDoc(timeBlockRef, {
+    elapsed: serialize(new Time(0, 0, 0, 0)),
+    timerStartTime: null,
+    lastUpdated: now(getLocalTimeZone()).toString(),
+    isNotificationSent: false,
   });
 };

@@ -5,21 +5,9 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 export const markNotified = async (
   userUid: IUser['uid'],
-  timeBlocks: ITimeBlock[],
   timeBlockId: ITimeBlock['id']
 ): Promise<void> => {
-  const userRef = doc(db, 'users', userUid);
+  const timeBlockRef = doc(db, 'users', userUid, 'timeBlocks', timeBlockId);
 
-  await updateDoc(userRef, {
-    timeBlocks: JSON.stringify(
-      timeBlocks.map((timeBlock: ITimeBlock) =>
-        timeBlock.id === timeBlockId
-          ? {
-              ...timeBlock,
-              isNotificationSent: true,
-            }
-          : timeBlock
-      )
-    ),
-  });
+  await updateDoc(timeBlockRef, { isNotified: true });
 };

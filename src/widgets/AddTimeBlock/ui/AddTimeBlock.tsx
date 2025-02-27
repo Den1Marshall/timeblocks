@@ -6,21 +6,25 @@ import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
-import { deserializeTimeBlocks, ITimeBlock } from '@/entities/TimeBlock';
+import { ITimeBlock } from '@/entities/TimeBlock';
 import { defaultTransition, Sheet, tooltipProps } from '@/shared/ui';
-import { useAppSelector } from '@/app/redux';
+import * as Sentry from '@sentry/nextjs';
+import { useToast } from '@/shared/lib';
 
 export const AddTimeBlock: FC = () => {
-  const timeBlocks = deserializeTimeBlocks(
-    useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
-  );
-
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
+  const toast = useToast();
 
   const handleAddTimeBlock = async (timeBlock: ITimeBlock, userUid: string) => {
     onClose();
 
-    await addTimeBlock(userUid, timeBlocks, timeBlock);
+    try {
+      await addTimeBlock(userUid, timeBlock);
+    } catch (error) {
+      Sentry.captureException(error);
+
+      toast({ title: 'Failed to add TimeBlock', color: 'danger' });
+    }
   };
 
   return (

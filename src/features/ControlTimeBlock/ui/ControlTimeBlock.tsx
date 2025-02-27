@@ -48,7 +48,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     const timerStartTime = Date.now();
 
     try {
-      await startTimeBlock(userUid, timeBlocks, timeBlock.id, timerStartTime);
+      await startTimeBlock(userUid, timeBlock.id, timerStartTime);
     } catch (error) {
       Sentry.captureException(error);
 
@@ -63,12 +63,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     if (!timeBlock.timerStartTime) return;
 
     try {
-      await stopTimeBlock(
-        userUid,
-        timeBlocks,
-        timeBlock.id,
-        elapsed ?? timeBlockElapsed
-      );
+      await stopTimeBlock(userUid, timeBlock.id, elapsed ?? timeBlockElapsed);
     } catch (error) {
       Sentry.captureException(error);
 
@@ -81,7 +76,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
 
   const handleReset = async (): Promise<void> => {
     try {
-      await resetTimeBlock(userUid, timeBlocks, timeBlock.id);
+      await resetTimeBlock(userUid, timeBlock.id);
     } catch (error) {
       Sentry.captureException(error);
 

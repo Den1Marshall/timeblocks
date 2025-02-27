@@ -18,7 +18,7 @@ import { motion, Variants } from 'motion/react';
 import { TrashIcon } from './TrashIcon';
 import { EllipsisIcon } from './EllipsisIcon';
 import { SettingsIcon } from '@/shared/ui';
-import { timeToMs } from '@/shared/lib';
+import { serialize, timeToMs } from '@/shared/lib';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { useTimeBlockElapsed } from '../lib/useTimeBlockElapsed';
@@ -74,11 +74,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
   }, [timeBlocks]);
 
   const handleEditTimeBlock = () =>
-    dispatch(
-      timeBlocksSliceActions.setTimeBlockToEdit(
-        JSON.parse(JSON.stringify(timeBlock))
-      )
-    );
+    dispatch(timeBlocksSliceActions.setTimeBlockToEdit(serialize(timeBlock)));
 
   // TODO: <400px styles
   return (

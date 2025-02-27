@@ -34,7 +34,7 @@ export const TimeBlocksProvider: FC = () => {
           !isEqualDay(parseZonedDateTime(timeBlock.lastUpdated), currentTime)
       );
 
-      if (outdatedTimeBlocks.length > 0) resetTimeBlocks(user.uid, timeBlocks);
+      if (outdatedTimeBlocks.length > 0) resetTimeBlocks(user.uid);
     };
 
     resetOutdatedTimeBlocks();
@@ -65,7 +65,7 @@ export const TimeBlocksProvider: FC = () => {
       if (timeBlock.isNotificationSent) return;
 
       try {
-        await markNotified(user!.uid, timeBlocks, timeBlock.id);
+        await markNotified(user!.uid, timeBlock.id);
 
         const TITLE = `TimeBlock ${timeBlock.title} is done!`;
 

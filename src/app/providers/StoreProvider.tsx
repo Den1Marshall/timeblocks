@@ -6,8 +6,9 @@ import { makeStore, type AppStore } from '../redux';
 import { IUser, userSliceActions } from '@/entities/User';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { ITimeBlock } from '@/entities/TimeBlock';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/shared/config';
+import { isEqual } from 'lodash';
 
 interface StoreProviderProps extends PropsWithChildren {
   user?: IUser;
@@ -32,19 +33,34 @@ export const StoreProvider: FC<StoreProviderProps> = ({
   useEffect(() => {
     if (!user?.uid || !storeRef?.current) return; // ???
 
-    const unsub = onSnapshot(doc(db, 'users', user.uid), (doc) => {
-      const serverTimeBlocks = doc.get('timeBlocks') ?? JSON.stringify([]);
+    const unsubscribe = onSnapshot(
+      collection(db, 'users', user.uid, 'timeBlocks'),
+      (querySnapshot) => {
+        const serverTimeBlocks: ITimeBlock[] = [];
 
-      if (serverTimeBlocks === JSON.stringify(timeBlocks)) return;
+        if (querySnapshot.empty) {
+          storeRef?.current?.dispatch(
+            timeBlocksSliceActions.initializeTimeBlocks(serverTimeBlocks)
+          );
 
-      storeRef?.current?.dispatch(
-        timeBlocksSliceActions.initializeTimeBlocks(
-          JSON.parse(serverTimeBlocks)
-        )
-      );
-    });
+          return;
+        }
 
-    return () => unsub();
+        querySnapshot.forEach((doc) => {
+          const timeBlockDoc = doc.data();
+
+          serverTimeBlocks.push(timeBlockDoc as ITimeBlock);
+        });
+
+        if (isEqual(serverTimeBlocks, timeBlocks)) return;
+
+        storeRef?.current?.dispatch(
+          timeBlocksSliceActions.initializeTimeBlocks(serverTimeBlocks)
+        );
+      }
+    );
+
+    return () => unsubscribe();
   }, [user?.uid, timeBlocks]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;

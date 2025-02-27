@@ -3,7 +3,7 @@ import { Nav } from '@/widgets/Nav';
 import { PropsWithChildren } from 'react';
 import { getTokens } from '../getTokens';
 import { signInWithServerCustomToken, tokenToUser } from '@/entities/User';
-import { getTimeBlocks } from '@/widgets/TimeBlocks';
+import { getTimeBlocks } from '@/app/api';
 
 export default async function Layout({ children }: PropsWithChildren) {
   const tokens = await getTokens();
