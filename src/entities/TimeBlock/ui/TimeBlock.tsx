@@ -15,7 +15,7 @@ import { FC, ReactNode, useMemo } from 'react';
 import { ITimeBlock } from '../model/ITimeBlock';
 import { TimeBlockBackground } from './TimeBlockBackground';
 import { motion, Variants } from 'motion/react';
-import { TrashIcon } from './TrashIcon';
+import { TrashIcon } from '@/shared/ui';
 import { EllipsisIcon } from './EllipsisIcon';
 import { SettingsIcon } from '@/shared/ui';
 import { serialize, timeToMs } from '@/shared/lib';
