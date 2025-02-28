@@ -6,9 +6,12 @@ import { FC, useRef } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
 import { defaultTransition } from './defaultTransition';
 
-export const Sheet: FC<
-  Omit<DrawerProps, 'ref' | 'motionProps' | 'placement' | 'backdrop'>
-> = ({ children, ...rest }) => {
+type SheetProps = Omit<
+  DrawerProps,
+  'ref' | 'motionProps' | 'placement' | 'hideCloseButton' | 'classNames'
+>;
+
+export const Sheet: FC<SheetProps> = ({ backdrop, children, ...rest }) => {
   const sm = useMediaQuery('(max-width: 640px)');
 
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -57,16 +60,16 @@ export const Sheet: FC<
 
   return (
     <Drawer
+      {...rest}
+      backdrop={backdrop ?? 'blur'}
       ref={sheetRef}
       motionProps={sm ? mobileMotionProps : motionProps}
       placement={sm ? 'bottom' : 'right'}
-      backdrop='blur'
       hideCloseButton={sm}
       classNames={{
-        base: 'max-sm:max-h-screen-safe no-scrollbar',
+        base: 'max-sm:max-h-screen-safe max-sm:min-h-[33.33333%] no-scrollbar',
         footer: 'pb-safe',
       }}
-      {...rest}
     >
       {children}
     </Drawer>
