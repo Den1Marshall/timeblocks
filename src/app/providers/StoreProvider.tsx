@@ -9,18 +9,23 @@ import { ITimeBlock } from '@/entities/TimeBlock';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/shared/config';
 import { isEqual } from 'lodash';
+import * as Sentry from '@sentry/nextjs';
+import { Task, tasksSliceActions } from '@/views/Home';
 
 interface StoreProviderProps extends PropsWithChildren {
-  user?: IUser;
+  user: IUser;
   timeBlocks: ITimeBlock[];
+  tasks: Task[];
 }
 
 export const StoreProvider: FC<StoreProviderProps> = ({
   user,
   timeBlocks,
+  tasks,
   children,
 }) => {
   const storeRef = useRef<AppStore>(undefined);
+
   if (!storeRef.current) {
     storeRef.current = makeStore();
 
@@ -28,10 +33,11 @@ export const StoreProvider: FC<StoreProviderProps> = ({
     storeRef.current.dispatch(
       timeBlocksSliceActions.initializeTimeBlocks(timeBlocks)
     );
+    storeRef.current.dispatch(tasksSliceActions.initializeTasks(tasks));
   }
 
   useEffect(() => {
-    if (!user?.uid || !storeRef?.current) return; // ???
+    if (!storeRef?.current) return; // ???
 
     const unsubscribe = onSnapshot(
       collection(db, 'users', user.uid, 'timeBlocks'),
@@ -61,7 +67,39 @@ export const StoreProvider: FC<StoreProviderProps> = ({
     );
 
     return () => unsubscribe();
-  }, [user?.uid, timeBlocks]);
+  }, [user.uid, timeBlocks]);
+
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const unsubscribe = onSnapshot(
+      collection(db, 'users', user.uid, 'tasks'),
+      (querySnapshot) => {
+        const tasks: Task[] = [];
+
+        if (querySnapshot.empty) {
+          storeRef?.current?.dispatch(tasksSliceActions.initializeTasks(tasks));
+
+          return;
+        }
+
+        querySnapshot.forEach((doc) => {
+          const taskDoc = doc.data();
+
+          tasks.push(taskDoc as Task);
+        });
+
+        // if (isEqual(serverTimeBlocks, timeBlocks)) return;
+
+        storeRef?.current?.dispatch(tasksSliceActions.initializeTasks(tasks));
+      },
+      (error) => {
+        Sentry.captureException(error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user?.uid]);
 
   return <Provider store={storeRef.current}>{children}</Provider>;
 };
