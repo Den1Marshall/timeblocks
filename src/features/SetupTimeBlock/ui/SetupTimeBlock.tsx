@@ -175,6 +175,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
             }}
             render={({ field }) => (
               <Input
+                spellCheck='true'
                 label='Title'
                 placeholder='My TimeBlock'
                 isClearable
