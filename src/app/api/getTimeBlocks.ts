@@ -7,6 +7,7 @@ export const getTimeBlocks = async (
   userUid: IUser['uid']
 ): Promise<ITimeBlock[]> => {
   const timeBlocks: ITimeBlock[] = [];
+  // TODO: query
 
   const querySnapshot = await getDocs(
     collection(db, 'users', userUid, 'timeBlocks')
