@@ -47,7 +47,6 @@ export const DurationTabs: FC<DurationTabsProps> = ({
 
   return (
     <Tabs
-      disableAnimation
       aria-label='Duration selector'
       disabledKeys={disabledDurations}
       selectedKey={selectedDuration}
