@@ -45,6 +45,7 @@ interface FormData {
 }
 
 // TODO: refactor code
+// TODO: add zod
 export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
   label,
   timeBlockToEdit,
@@ -196,7 +197,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
               }}
               render={({ field }) => (
                 <TimeInput
-                  hourCycle={24}
                   maxValue={new Time(23, 58, 0, 0)}
                   label='Start time'
                   isInvalid={errors.startTime?.type !== undefined}
@@ -227,7 +227,6 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
               }}
               render={({ field }) => (
                 <TimeInput
-                  hourCycle={24}
                   minValue={new Time(0, 1, 0, 0)}
                   maxValue={new Time(23, 59, 0, 0)}
                   label='End time'
