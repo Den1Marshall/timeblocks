@@ -2,6 +2,7 @@ import type { NextConfig } from 'next';
 import withPWAInit from '@ducanh2912/next-pwa';
 import withBundleAnalyzerInit from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
+import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {};
 
@@ -16,39 +17,43 @@ const withBundleAnalyzer = withBundleAnalyzerInit({
   enabled: process.env.ANALYZE === 'true',
 });
 
-export default withSentryConfig(withBundleAnalyzer(withPWA(nextConfig)), {
-  // For all available options, see:
-  // https://github.com/getsentry/sentry-webpack-plugin#options
+const withNextIntl = createNextIntlPlugin('./src/app/i18n/request.ts');
 
-  org: 'crystalix',
-  project: 'timeblocks-nextjs',
+export default withNextIntl(
+  withSentryConfig(withBundleAnalyzer(withPWA(nextConfig)), {
+    // For all available options, see:
+    // https://github.com/getsentry/sentry-webpack-plugin#options
 
-  // Only print logs for uploading source maps in CI
-  silent: !process.env.CI,
+    org: 'crystalix',
+    project: 'timeblocks-nextjs',
 
-  // For all available options, see:
-  // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
+    // Only print logs for uploading source maps in CI
+    silent: !process.env.CI,
 
-  // Upload a larger set of source maps for prettier stack traces (increases build time)
-  widenClientFileUpload: true,
+    // For all available options, see:
+    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
 
-  // Automatically annotate React components to show their full name in breadcrumbs and session replay
-  reactComponentAnnotation: {
-    enabled: true,
-  },
+    // Upload a larger set of source maps for prettier stack traces (increases build time)
+    widenClientFileUpload: true,
 
-  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
-  // This can increase your server load as well as your hosting bill.
-  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
-  // side errors will fail.
-  tunnelRoute: '/monitoring',
+    // Automatically annotate React components to show their full name in breadcrumbs and session replay
+    reactComponentAnnotation: {
+      enabled: true,
+    },
 
-  // Automatically tree-shake Sentry logger statements to reduce bundle size
-  disableLogger: true,
+    // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+    // This can increase your server load as well as your hosting bill.
+    // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-
+    // side errors will fail.
+    tunnelRoute: '/monitoring',
 
-  // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
-  // See the following for more information:
-  // https://docs.sentry.io/product/crons/
-  // https://vercel.com/docs/cron-jobs
-  automaticVercelMonitors: true,
-});
+    // Automatically tree-shake Sentry logger statements to reduce bundle size
+    disableLogger: true,
+
+    // Enables automatic instrumentation of Vercel Cron Monitors. (Does not yet work with App Router route handlers.)
+    // See the following for more information:
+    // https://docs.sentry.io/product/crons/
+    // https://vercel.com/docs/cron-jobs
+    automaticVercelMonitors: true,
+  })
+);

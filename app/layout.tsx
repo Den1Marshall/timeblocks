@@ -8,6 +8,8 @@ import {
 } from '@/app/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { Toaster } from 'sonner';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 
 import '@/app/index.css';
 
@@ -52,27 +54,33 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
+
+  const messages = await getMessages();
+
   return (
     <html
-      lang='en'
-      suppressHydrationWarning={true}
+      lang={locale}
+      suppressHydrationWarning
       className='dark text-foreground bg-content1 h-[max(calc(100%_+_env(safe-area-inset-top)),_100%)] font-sans overscroll-none touch-pan-x touch-pan-y motion-safe:scroll-smooth'
     >
       <body className='h-full py-safe px-safe-or-5 overscroll-none antialiased'>
-        <MotionProvider>
-          <AriaRouterProvider>
-            <HeroUIProvider>
-              <ProgressBarProvider>{children}</ProgressBarProvider>
+        <NextIntlClientProvider messages={messages}>
+          <MotionProvider>
+            <AriaRouterProvider>
+              <HeroUIProvider>
+                <ProgressBarProvider>{children}</ProgressBarProvider>
 
-              <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
-            </HeroUIProvider>
-          </AriaRouterProvider>
-        </MotionProvider>
+                <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
+              </HeroUIProvider>
+            </AriaRouterProvider>
+          </MotionProvider>
+        </NextIntlClientProvider>
       </body>
       <GoogleAnalytics gaId='G-8D3W6NRVDC' />
     </html>
