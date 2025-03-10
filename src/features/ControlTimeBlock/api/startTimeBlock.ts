@@ -1,4 +1,4 @@
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import { User } from '@/entities/user';
 import { db } from '@/shared/config';
 import { getLocalTimeZone, now } from '@internationalized/date';
@@ -6,8 +6,8 @@ import { doc, updateDoc } from 'firebase/firestore';
 
 export const startTimeBlock = async (
   userUid: User['uid'],
-  timeBlockId: ITimeBlock['id'],
-  timerStartTime: ITimeBlock['timerStartTime']
+  timeBlockId: TimeBlock['id'],
+  timerStartTime: TimeBlock['timerStartTime']
 ) => {
   const timeBlockRef = doc(db, 'users', userUid, 'timeBlocks', timeBlockId);
 

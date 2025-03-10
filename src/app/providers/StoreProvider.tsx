@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import { makeStore, type AppStore } from '../redux';
 import { User, userSliceActions } from '@/entities/user';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/shared/config';
 import { isEqual } from 'lodash';
 
 interface StoreProviderProps extends PropsWithChildren {
   user?: User;
-  timeBlocks: ITimeBlock[];
+  timeBlocks: TimeBlock[];
 }
 
 export const StoreProvider: FC<StoreProviderProps> = ({
@@ -36,7 +36,7 @@ export const StoreProvider: FC<StoreProviderProps> = ({
     const unsubscribe = onSnapshot(
       collection(db, 'users', user.uid, 'timeBlocks'),
       (querySnapshot) => {
-        const serverTimeBlocks: ITimeBlock[] = [];
+        const serverTimeBlocks: TimeBlock[] = [];
 
         if (querySnapshot.empty) {
           storeRef?.current?.dispatch(
@@ -49,7 +49,7 @@ export const StoreProvider: FC<StoreProviderProps> = ({
         querySnapshot.forEach((doc) => {
           const timeBlockDoc = doc.data();
 
-          serverTimeBlocks.push(timeBlockDoc as ITimeBlock);
+          serverTimeBlocks.push(timeBlockDoc as TimeBlock);
         });
 
         if (isEqual(serverTimeBlocks, timeBlocks)) return;

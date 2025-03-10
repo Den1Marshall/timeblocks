@@ -1,12 +1,12 @@
 'use client';
 
 import { msToTime, timeToMs } from '@/shared/lib';
-import { ITimeBlock } from '../model/ITimeBlock';
+import { TimeBlock } from '../model/timeBlock';
 import { useEffect, useRef, useState } from 'react';
 
 export const useTimeBlockElapsed = (
-  timerStartTime: ITimeBlock['timerStartTime'],
-  elapsed: ITimeBlock['elapsed']
+  timerStartTime: TimeBlock['timerStartTime'],
+  elapsed: TimeBlock['elapsed']
 ) => {
   const initialTimeBlockElapsed = timerStartTime
     ? msToTime(timeToMs(elapsed) + (Date.now() - timerStartTime))

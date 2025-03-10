@@ -12,8 +12,8 @@ import {
   DropdownTrigger,
 } from '@heroui/react';
 import { FC, ReactNode, useMemo } from 'react';
-import { ITimeBlock } from '../model/ITimeBlock';
-import { TimeBlockBackground } from './TimeBlockBackground';
+import { TimeBlock } from '../model/timeBlock';
+import { TimeBlockCardBackground } from './TimeBlockCardBackground';
 import { motion, Variants } from 'motion/react';
 import { TrashIcon } from '@/shared/ui';
 import { EllipsisIcon } from './EllipsisIcon';
@@ -23,13 +23,13 @@ import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { useTimeBlockElapsed } from '../lib/useTimeBlockElapsed';
 
-interface TimeBlockProps {
-  timeBlock: ITimeBlock;
+interface TimeBlockCardProps {
+  timeBlock: TimeBlock;
   ControlTimeBlock: ReactNode;
   DeleteTimeBlock: ReactNode;
 }
 
-export const TimeBlock: FC<TimeBlockProps> = ({
+export const TimeBlockCard: FC<TimeBlockCardProps> = ({
   ControlTimeBlock,
   DeleteTimeBlock,
   timeBlock,
@@ -144,7 +144,7 @@ export const TimeBlock: FC<TimeBlockProps> = ({
           </div>
         </CardBody>
 
-        <TimeBlockBackground
+        <TimeBlockCardBackground
           completionPercentage={completionPercentage}
           color={color}
         />

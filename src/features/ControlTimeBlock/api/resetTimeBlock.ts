@@ -3,11 +3,11 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { getLocalTimeZone, now, Time } from '@internationalized/date';
 import { serialize } from '@/shared/lib';
 import { User } from '@/entities/user';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 
 export const resetTimeBlock = async (
   userUid: User['uid'],
-  timeBlockId: ITimeBlock['id']
+  timeBlockId: TimeBlock['id']
 ): Promise<void> => {
   const timeBlockRef = doc(db, 'users', userUid, 'timeBlocks', timeBlockId);
 

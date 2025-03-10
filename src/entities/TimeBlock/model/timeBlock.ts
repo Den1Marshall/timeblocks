@@ -1,6 +1,6 @@
 import { Time } from '@internationalized/date';
 
-export interface ITimeBlock {
+export interface TimeBlock {
   id: string;
   title: string;
   startTime: Time;

@@ -1,4 +1,4 @@
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '../model/timeBlock';
 import { Time } from '@internationalized/date';
 
 export const deserializeTimeBlock = ({
@@ -7,7 +7,7 @@ export const deserializeTimeBlock = ({
   elapsed,
   duration,
   ...rest
-}: ITimeBlock): ITimeBlock => ({
+}: TimeBlock): TimeBlock => ({
   ...rest,
   startTime: new Time(
     startTime.hour,
@@ -35,8 +35,6 @@ export const deserializeTimeBlock = ({
   ),
 });
 
-export const deserializeTimeBlocks = (
-  timeBlocks: ITimeBlock[]
-): ITimeBlock[] => {
+export const deserializeTimeBlocks = (timeBlocks: TimeBlock[]): TimeBlock[] => {
   return timeBlocks.map(deserializeTimeBlock);
 };

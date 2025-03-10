@@ -2,15 +2,14 @@
 
 import { FC } from 'react';
 import { deleteTimeBlock } from '../api/deleteTimeBlock';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import { useAppSelector } from '@/app/redux';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from '@/shared/lib';
 
-export const DeleteTimeBlock: FC<Pick<ITimeBlock, 'id' | 'title'>> = ({
-  id,
-  title,
-}) => {
+type DeleteTimeBlockProps = Pick<TimeBlock, 'id' | 'title'>;
+
+export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ id, title }) => {
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
   const toast = useToast();
 

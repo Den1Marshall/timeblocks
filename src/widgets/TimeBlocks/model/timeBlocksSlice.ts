@@ -1,9 +1,9 @@
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface InitialState {
-  timeBlocks: ITimeBlock[];
-  timeBlockToEdit: ITimeBlock | null;
+  timeBlocks: TimeBlock[];
+  timeBlockToEdit: TimeBlock | null;
 }
 
 const initialState: InitialState = {
@@ -15,11 +15,11 @@ const timeBlocksSlice = createSlice({
   name: 'timeBlocks',
   initialState,
   reducers: {
-    initializeTimeBlocks(state, action: PayloadAction<ITimeBlock[]>) {
+    initializeTimeBlocks(state, action: PayloadAction<TimeBlock[]>) {
       state.timeBlocks = action.payload;
     },
 
-    setTimeBlockToEdit(state, action: PayloadAction<ITimeBlock | null>) {
+    setTimeBlockToEdit(state, action: PayloadAction<TimeBlock | null>) {
       state.timeBlockToEdit = action.payload;
     },
   },

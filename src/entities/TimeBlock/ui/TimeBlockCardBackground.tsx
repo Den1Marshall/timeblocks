@@ -2,17 +2,18 @@
 
 import { FC } from 'react';
 import { motion, Variants } from 'motion/react';
+import { TimeBlock } from '../model/timeBlock';
 
-interface TimeBlockBackgroundProps {
+interface TimeBlockCardBackgroundProps {
   completionPercentage: number;
-  color: string;
+  color: TimeBlock['color'];
 }
 
-export const TimeBlockBackground: FC<TimeBlockBackgroundProps> = ({
+export const TimeBlockCardBackground: FC<TimeBlockCardBackgroundProps> = ({
   completionPercentage,
   color,
 }) => {
-  const timeBlockBackgroundVariants: Variants = {
+  const timeBlockCardBackgroundVariants: Variants = {
     enter: ({ completionPercentage, color }) => ({
       transform: `translateX(${completionPercentage - 100}%)`,
       background: color,
@@ -25,7 +26,7 @@ export const TimeBlockBackground: FC<TimeBlockBackgroundProps> = ({
 
   return (
     <motion.div
-      variants={timeBlockBackgroundVariants}
+      variants={timeBlockCardBackgroundVariants}
       custom={{ completionPercentage, color }}
       initial='exit'
       animate='enter'

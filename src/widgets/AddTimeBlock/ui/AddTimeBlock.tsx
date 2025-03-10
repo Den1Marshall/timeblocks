@@ -6,7 +6,7 @@ import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { addTimeBlock } from '../api/addTimeBlock';
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import { defaultTransition, Sheet, tooltipProps } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from '@/shared/lib';
@@ -17,7 +17,7 @@ export const AddTimeBlock: FC = () => {
   const toast = useToast();
 
   const handleAddTimeBlock = async (
-    timeBlock: ITimeBlock,
+    timeBlock: TimeBlock,
     userUid: User['uid']
   ) => {
     onClose();

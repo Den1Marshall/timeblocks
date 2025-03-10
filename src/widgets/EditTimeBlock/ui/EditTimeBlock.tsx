@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import { SetupTimeBlock } from '@/features/SetupTimeBlock';
 import { editTimeBlock } from '../api/editTimeBlock';
-import { deserializeTimeBlock, ITimeBlock } from '@/entities/TimeBlock';
+import { deserializeTimeBlock, TimeBlock } from '@/entities/timeBlock';
 import { Sheet } from '@/shared/ui';
 import { useDisclosure } from '@heroui/react';
 import { useAppDispatch, useAppSelector } from '@/app/redux';
@@ -27,7 +27,7 @@ export const EditTimeBlock: FC = () => {
   });
 
   const handleEditTimeBlock = async (
-    timeBlock: ITimeBlock,
+    timeBlock: TimeBlock,
     userUid: User['uid']
   ) => {
     dispatch(timeBlocksSliceActions.setTimeBlockToEdit(null));

@@ -1,6 +1,6 @@
 'use client';
 
-import { ITimeBlock } from '@/entities/TimeBlock';
+import { TimeBlock } from '@/entities/timeBlock';
 import {
   Button,
   commonColors,
@@ -34,8 +34,8 @@ import { User } from '@/entities/user';
 
 interface SetupTimeBlockProps {
   label: string;
-  timeBlockToEdit: ITimeBlock | null;
-  onConfigured: (timeBlock: ITimeBlock, userUid: User['uid']) => Promise<void>;
+  timeBlockToEdit: TimeBlock | null;
+  onConfigured: (timeBlock: TimeBlock, userUid: User['uid']) => Promise<void>;
 }
 
 interface FormData {
@@ -118,7 +118,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     const { hour, minute, second, millisecond } = msToTime(millisecondsDiff);
     const duration = new Time(hour, minute, second, millisecond);
 
-    const timeBlock: ITimeBlock = timeBlockToEdit
+    const timeBlock: TimeBlock = timeBlockToEdit
       ? {
           ...timeBlockToEdit,
           title,

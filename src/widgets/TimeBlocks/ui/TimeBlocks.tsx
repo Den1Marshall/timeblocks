@@ -1,6 +1,6 @@
 'use client';
 
-import { deserializeTimeBlocks, TimeBlock } from '@/entities/TimeBlock';
+import { deserializeTimeBlocks, TimeBlockCard } from '@/entities/timeBlock';
 import { FC, ReactNode } from 'react';
 import { useAppSelector } from '@/app/redux';
 import { ControlTimeBlock } from '@/features/ControlTimeBlock';
@@ -20,7 +20,7 @@ export const TimeBlocks: FC<TimeBlocksProps> = ({ AddTimeBlock }) => {
     <section className='w-full h-full flex flex-wrap justify-center items-start gap-10 overflow-y-auto no-scrollbar lg:justify-start'>
       <AnimatePresence mode='popLayout'>
         {timeBlocks.map((timeBlock) => (
-          <TimeBlock
+          <TimeBlockCard
             key={timeBlock.id}
             timeBlock={timeBlock}
             ControlTimeBlock={<ControlTimeBlock timeBlock={timeBlock} />}

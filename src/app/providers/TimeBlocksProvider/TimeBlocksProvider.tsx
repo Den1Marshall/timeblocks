@@ -1,6 +1,6 @@
 'use client';
 
-import { deserializeTimeBlocks } from '@/entities/TimeBlock';
+import { deserializeTimeBlocks } from '@/entities/timeBlock';
 import { FC, useEffect, useMemo } from 'react';
 import { useAppSelector } from '../../redux';
 import {

@@ -4,9 +4,9 @@ import { FC, useEffect } from 'react';
 import { Icon } from './icons/Icon';
 import {
   deserializeTimeBlocks,
-  ITimeBlock,
+  TimeBlock,
   useTimeBlockElapsed,
-} from '@/entities/TimeBlock';
+} from '@/entities/timeBlock';
 import { useAppSelector } from '@/app/redux';
 import { startTimeBlock } from '../api/startTimeBlock';
 import { stopTimeBlock } from '../api/stopTimeBlock';
@@ -21,7 +21,7 @@ import { Time } from '@internationalized/date';
 import * as Sentry from '@sentry/nextjs';
 
 interface ControlTimeBlockProps {
-  timeBlock: ITimeBlock;
+  timeBlock: TimeBlock;
 }
 
 export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
