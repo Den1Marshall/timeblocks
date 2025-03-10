@@ -1,6 +1,7 @@
 import { Tab, Tabs } from '@heroui/react';
 import { FC } from 'react';
 import type { Login } from '../../model/Login';
+import { defaultTransition } from '@/shared/ui';
 
 interface LoginTypeProps {
   loginType: Login;
@@ -21,6 +22,9 @@ export const LoginType: FC<LoginTypeProps> = ({
       onSelectionChange={(newSelectedType) => {
         clearErrors();
         setLoginType(newSelectedType as Login);
+      }}
+      motionProps={{
+        transition: defaultTransition,
       }}
       classNames={{
         cursor: '!bg-primary',

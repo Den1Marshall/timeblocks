@@ -55,10 +55,7 @@ export const DurationTabs: FC<DurationTabsProps> = ({
       }}
       fullWidth
       motionProps={{
-        transition: {
-          ...defaultTransition,
-          bounce: 0.2,
-        },
+        transition: defaultTransition,
       }}
     >
       {durations.map((duration) => (
