@@ -1,1 +1,3 @@
-export { getTimeBlocks } from '../api/getTimeBlocks';
+export { getTimeBlocks } from './getTimeBlocks';
+
+export { getTasks } from './getTasks';
