@@ -1,10 +1,10 @@
 import { db } from '@/shared/config';
 import { collection, getDocs, updateDoc } from 'firebase/firestore';
 import { getLocalTimeZone, now, Time } from '@internationalized/date';
-import { IUser } from '@/entities/User';
+import { User } from '@/entities/user';
 import { serialize } from '@/shared/lib';
 
-export const resetTimeBlocks = async (userUid: IUser['uid']): Promise<void> => {
+export const resetTimeBlocks = async (userUid: User['uid']): Promise<void> => {
   const timeBlocksRef = collection(db, 'users', userUid, 'timeBlocks');
 
   const timeBlocksSnapshot = await getDocs(timeBlocksRef);

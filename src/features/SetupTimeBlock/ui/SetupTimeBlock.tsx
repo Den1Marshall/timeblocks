@@ -30,11 +30,12 @@ import {
   now as internationalizedDateNow,
 } from '@internationalized/date';
 import * as Sentry from '@sentry/nextjs';
+import { User } from '@/entities/user';
 
 interface SetupTimeBlockProps {
   label: string;
   timeBlockToEdit: ITimeBlock | null;
-  onConfigured: (timeBlock: ITimeBlock, userUid: string) => Promise<void>;
+  onConfigured: (timeBlock: ITimeBlock, userUid: User['uid']) => Promise<void>;
 }
 
 interface FormData {

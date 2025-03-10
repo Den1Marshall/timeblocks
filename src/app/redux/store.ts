@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userSliceReducer } from '@/entities/User';
+import { userSliceReducer } from '@/entities/user';
 import { timeBlocksSliceReducer } from '@/widgets/TimeBlocks';
 
 export const makeStore = () => {

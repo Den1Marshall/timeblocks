@@ -16,7 +16,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { modalMotionProps, TogglePasswordVisibilityButton } from '@/shared/ui';
 import { verifyBeforeUpdateEmail } from 'firebase/auth';
 import { useAppSelector } from '@/app/redux';
-import { reauthenticateUser } from '@/entities/User';
+import { reauthenticateUser } from '@/entities/user';
 import { auth } from '@/shared/config';
 import { FirebaseError } from 'firebase/app';
 import { AnimatePresence, motion } from 'motion/react';

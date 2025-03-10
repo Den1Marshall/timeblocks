@@ -23,7 +23,7 @@ import {
 import { FirebaseError } from 'firebase/app';
 import { auth } from '@/shared/config';
 import { loginSchema, registerSchema } from '../model/zodSchema';
-import { authenticateUser } from '@/entities/User';
+import { authenticateUser } from '@/entities/user';
 import type { Login } from '../model/Login';
 import { LoginType } from './LoginType/LoginType';
 import { AnimatePresence, motion } from 'motion/react';

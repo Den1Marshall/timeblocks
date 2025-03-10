@@ -2,7 +2,7 @@ import { StoreProvider, TimeBlocksProvider } from '@/app/providers';
 import { Nav } from '@/widgets/Nav';
 import { PropsWithChildren } from 'react';
 import { getTokens } from '../getTokens';
-import { signInWithServerCustomToken, tokenToUser } from '@/entities/User';
+import { signInWithServerCustomToken, tokenToUser } from '@/entities/user';
 import { getTimeBlocks } from '@/app/api';
 
 export default async function Layout({ children }: PropsWithChildren) {

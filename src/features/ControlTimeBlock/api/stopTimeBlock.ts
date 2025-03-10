@@ -2,11 +2,11 @@ import { db } from '@/shared/config';
 import { doc, updateDoc } from 'firebase/firestore';
 import { getLocalTimeZone, now } from '@internationalized/date';
 import { serialize } from '@/shared/lib';
-import { IUser } from '@/entities/User';
+import { User } from '@/entities/user';
 import { ITimeBlock } from '@/entities/TimeBlock';
 
 export const stopTimeBlock = async (
-  userUid: IUser['uid'],
+  userUid: User['uid'],
   timeBlockId: ITimeBlock['id'],
   elapsed: ITimeBlock['elapsed']
 ) => {

@@ -1,8 +1,8 @@
-import { IUser } from '../model/IUser';
+import { User } from '../model/user';
 import { Tokens } from 'next-firebase-auth-edge';
 import { filterStandardClaims } from 'next-firebase-auth-edge/lib/auth/claims';
 
-export const tokenToUser = ({ decodedToken }: Tokens): IUser => {
+export const tokenToUser = ({ decodedToken }: Tokens): User => {
   const {
     uid,
     email,

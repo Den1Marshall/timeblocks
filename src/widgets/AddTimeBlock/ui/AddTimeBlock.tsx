@@ -10,12 +10,16 @@ import { ITimeBlock } from '@/entities/TimeBlock';
 import { defaultTransition, Sheet, tooltipProps } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from '@/shared/lib';
+import { User } from '@/entities/user';
 
 export const AddTimeBlock: FC = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const toast = useToast();
 
-  const handleAddTimeBlock = async (timeBlock: ITimeBlock, userUid: string) => {
+  const handleAddTimeBlock = async (
+    timeBlock: ITimeBlock,
+    userUid: User['uid']
+  ) => {
     onClose();
 
     try {

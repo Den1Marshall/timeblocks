@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/app/redux';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import * as Sentry from '@sentry/nextjs';
 import { useToast } from '@/shared/lib';
+import { User } from '@/entities/user';
 
 export const EditTimeBlock: FC = () => {
   const dispatch = useAppDispatch();
@@ -27,7 +28,7 @@ export const EditTimeBlock: FC = () => {
 
   const handleEditTimeBlock = async (
     timeBlock: ITimeBlock,
-    userUid: string
+    userUid: User['uid']
   ) => {
     dispatch(timeBlocksSliceActions.setTimeBlockToEdit(null));
 

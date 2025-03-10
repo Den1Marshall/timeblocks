@@ -1,10 +1,10 @@
 import { ITimeBlock } from '@/entities/TimeBlock';
-import { IUser } from '@/entities/User';
+import { User } from '@/entities/user';
 import { db } from '@/shared/config';
 import { collection, getDocs } from 'firebase/firestore';
 
 export const getTimeBlocks = async (
-  userUid: IUser['uid']
+  userUid: User['uid']
 ): Promise<ITimeBlock[]> => {
   const timeBlocks: ITimeBlock[] = [];
 

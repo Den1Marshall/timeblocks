@@ -3,7 +3,7 @@
 import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import { Provider } from 'react-redux';
 import { makeStore, type AppStore } from '../redux';
-import { IUser, userSliceActions } from '@/entities/User';
+import { User, userSliceActions } from '@/entities/user';
 import { timeBlocksSliceActions } from '@/widgets/TimeBlocks';
 import { ITimeBlock } from '@/entities/TimeBlock';
 import { collection, onSnapshot } from 'firebase/firestore';
@@ -11,7 +11,7 @@ import { db } from '@/shared/config';
 import { isEqual } from 'lodash';
 
 interface StoreProviderProps extends PropsWithChildren {
-  user?: IUser;
+  user?: User;
   timeBlocks: ITimeBlock[];
 }
 

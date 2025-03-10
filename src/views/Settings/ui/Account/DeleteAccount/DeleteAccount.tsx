@@ -20,7 +20,7 @@ import { auth, db } from '@/shared/config';
 import { useAppSelector } from '@/app/redux';
 import { deleteUser } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
-import { reauthenticateUser } from '@/entities/User';
+import { reauthenticateUser } from '@/entities/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { googleZodSchema, zodSchema } from './zodSchema';
 import { useRouter } from 'next/navigation';
