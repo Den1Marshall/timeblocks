@@ -9,5 +9,5 @@ export const markNotified = async (
 ): Promise<void> => {
   const timeBlockRef = doc(db, 'users', userUid, 'timeBlocks', timeBlockId);
 
-  await updateDoc(timeBlockRef, { isNotified: true });
+  await updateDoc(timeBlockRef, { isNotificationSent: true });
 };
