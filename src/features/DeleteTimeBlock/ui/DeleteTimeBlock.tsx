@@ -5,13 +5,12 @@ import { deleteTimeBlock } from '../api/deleteTimeBlock';
 import { TimeBlock } from '@/entities/timeBlock';
 import { useAppSelector } from '@/app/redux';
 import * as Sentry from '@sentry/nextjs';
-import { useToast } from '@/shared/lib';
+import { addToast } from '@heroui/react';
 
 type DeleteTimeBlockProps = Pick<TimeBlock, 'id' | 'title'>;
 
 export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ id, title }) => {
   const userUid = useAppSelector((state) => state.userSliceReducer.user!.uid);
-  const toast = useToast();
 
   const handleDelete = async () => {
     try {
@@ -19,7 +18,7 @@ export const DeleteTimeBlock: FC<DeleteTimeBlockProps> = ({ id, title }) => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({
+      addToast({
         title: `Failed to delete TimeBlock ${title}`,
         color: 'danger',
       });

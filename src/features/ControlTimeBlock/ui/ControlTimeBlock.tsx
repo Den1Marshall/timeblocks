@@ -12,9 +12,9 @@ import { startTimeBlock } from '../api/startTimeBlock';
 import { stopTimeBlock } from '../api/stopTimeBlock';
 import { resetTimeBlock } from '../api/resetTimeBlock';
 import { AnimatePresence, motion } from 'motion/react';
-import { Button, Tooltip } from '@heroui/react';
+import { addToast, Button, Tooltip } from '@heroui/react';
 import { variants } from './variants';
-import { timeToMs, useToast } from '@/shared/lib';
+import { timeToMs } from '@/shared/lib';
 import { ResetIcon } from './icons/ResetIcon';
 import { tooltipProps } from '@/shared/ui';
 import { Time } from '@internationalized/date';
@@ -33,7 +33,6 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     timeBlock.timerStartTime,
     timeBlock.elapsed
   );
-  const toast = useToast();
 
   const isStarted = Boolean(timeBlock.timerStartTime);
   const isElapsed = timeToMs(timeBlockElapsed) > 0;
@@ -52,7 +51,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({
+      addToast({
         title: `Failed to start TimeBlock ${timeBlock.title}`,
         color: 'danger',
       });
@@ -67,7 +66,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({
+      addToast({
         title: `Failed to stop TimeBlock ${timeBlock.title}`,
         color: 'danger',
       });
@@ -80,7 +79,7 @@ export const ControlTimeBlock: FC<ControlTimeBlockProps> = ({ timeBlock }) => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({
+      addToast({
         title: `Failed to reset TimeBlock ${timeBlock.title}`,
         color: 'danger',
       });

@@ -10,9 +10,10 @@ import {
   parseZonedDateTime,
 } from '@internationalized/date';
 import { resetTimeBlocks } from '@/features/ControlTimeBlock';
-import { useSendNotification, useToast } from '@/shared/lib';
+import { useSendNotification } from '@/shared/lib';
 import { markNotified } from './markNotified';
 import * as Sentry from '@sentry/nextjs';
+import { addToast } from '@heroui/react';
 
 export const TimeBlocksProvider: FC = () => {
   const user = useAppSelector((state) => state.userSliceReducer.user);
@@ -20,7 +21,6 @@ export const TimeBlocksProvider: FC = () => {
     useAppSelector((state) => state.timeBlocksSliceReducer.timeBlocks)
   );
   const sendNotification = useSendNotification();
-  const toast = useToast();
 
   // Reset TimeBlocks every night
   useEffect(() => {
@@ -70,7 +70,7 @@ export const TimeBlocksProvider: FC = () => {
         const TITLE = `TimeBlock ${timeBlock.title} is done!`;
 
         sendNotification(TITLE);
-        toast({
+        addToast({
           title: TITLE,
           color: 'primary',
         });
@@ -79,7 +79,7 @@ export const TimeBlocksProvider: FC = () => {
         // TODO: handle error for user?
       }
     });
-  }, [finishedTimeBlocks, timeBlocks, user, sendNotification, toast]);
+  }, [finishedTimeBlocks, timeBlocks, user, sendNotification]);
 
   useEffect(() => {
     if ('setAppBadge' in navigator) {

@@ -1,9 +1,8 @@
 'use client';
 
 import { FC, useEffect } from 'react';
-import { Switch } from '@heroui/react';
+import { addToast, Switch } from '@heroui/react';
 import { useIsClient, useLocalStorage } from 'usehooks-ts';
-import { useToast } from '@/shared/lib';
 
 export const NotificationsSwitch: FC = () => {
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useLocalStorage(
@@ -13,11 +12,10 @@ export const NotificationsSwitch: FC = () => {
       initializeWithValue: false,
     }
   );
-  const toast = useToast();
 
   const handleValueChange = async (isSelected: boolean) => {
     if (!('Notification' in window)) {
-      toast({
+      addToast({
         title: 'Your browser does not support notifications.',
         color: 'warning',
       });
@@ -26,7 +24,7 @@ export const NotificationsSwitch: FC = () => {
     }
 
     if (Notification.permission === 'denied') {
-      toast({
+      addToast({
         title:
           'Notifications are blocked. Please open your browser preferences or click the lock near the address bar to change your notification preferences.',
         color: 'warning',

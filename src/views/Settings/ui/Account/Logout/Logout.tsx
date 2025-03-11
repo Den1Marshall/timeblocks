@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  addToast,
   Button,
   Modal,
   ModalBody,
@@ -14,12 +15,10 @@ import { FC } from 'react';
 import { SettingsButton } from '../../SettingsButton/SettingsButton';
 import { modalMotionProps } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
-import { useToast } from '@/shared/lib';
 
 export const Logout: FC = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose, onOpenChange } = useDisclosure();
-  const toast = useToast();
 
   const logout = async () => {
     try {
@@ -29,7 +28,7 @@ export const Logout: FC = () => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({
+      addToast({
         title: 'Failed to sign out',
         color: 'danger',
       });

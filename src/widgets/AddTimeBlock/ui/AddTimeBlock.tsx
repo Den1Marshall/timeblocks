@@ -1,6 +1,6 @@
 'use client';
 
-import { useDisclosure, Button, Tooltip } from '@heroui/react';
+import { useDisclosure, Button, Tooltip, addToast } from '@heroui/react';
 import { FC } from 'react';
 import { motion } from 'motion/react';
 import { AddIcon } from './AddIcon';
@@ -9,12 +9,10 @@ import { addTimeBlock } from '../api/addTimeBlock';
 import { TimeBlock } from '@/entities/timeBlock';
 import { defaultTransition, Sheet, tooltipProps } from '@/shared/ui';
 import * as Sentry from '@sentry/nextjs';
-import { useToast } from '@/shared/lib';
 import { User } from '@/entities/user';
 
 export const AddTimeBlock: FC = () => {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
-  const toast = useToast();
 
   const handleAddTimeBlock = async (
     timeBlock: TimeBlock,
@@ -27,7 +25,7 @@ export const AddTimeBlock: FC = () => {
     } catch (error) {
       Sentry.captureException(error);
 
-      toast({ title: 'Failed to add TimeBlock', color: 'danger' });
+      addToast({ title: 'Failed to add TimeBlock', color: 'danger' });
     }
   };
 

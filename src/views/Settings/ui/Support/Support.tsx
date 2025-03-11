@@ -1,20 +1,17 @@
 'use client';
 
-import { Card, CardBody, CardHeader } from '@heroui/react';
+import { addToast, Card, CardBody, CardHeader } from '@heroui/react';
 import { FC } from 'react';
 import { SettingsButton } from '../SettingsButton/SettingsButton';
-import { useToast } from '@/shared/lib';
 
 export const Support: FC = () => {
-  const toast = useToast();
-
   const openMailClient = (): void => {
     window.location.href = 'mailto:denyshrychulevych@gmail.com';
   };
 
   const share = async () => {
     if (!navigator.share || !navigator.canShare) {
-      toast({
+      addToast({
         title: 'Your device does not support the Web Share API.',
         color: 'warning',
       });

@@ -4,6 +4,7 @@ import { auth } from '@/shared/config';
 import { modalMotionProps } from '@/shared/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
+  addToast,
   Button,
   Input,
   Modal,
@@ -18,7 +19,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { zodSchema } from '../model/zodSchema';
-import { stopPropagate, useToast } from '@/shared/lib';
+import { stopPropagate } from '@/shared/lib';
 import * as Sentry from '@sentry/nextjs';
 
 interface FormData {
@@ -40,13 +41,12 @@ export const ForgotPassword: FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure({
     onClose: reset,
   });
-  const toast = useToast();
 
   const onSubmit: SubmitHandler<FormData> = async ({ email }) => {
     try {
       await sendPasswordResetEmail(auth, email);
 
-      toast({
+      addToast({
         title: 'Password reset e-mail has been sent',
         color: 'success',
       });

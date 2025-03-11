@@ -7,7 +7,6 @@ import {
   ProgressBarProvider,
 } from '@/app/providers';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Toaster } from 'sonner';
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 
@@ -75,8 +74,6 @@ export default async function RootLayout({
             <AriaRouterProvider>
               <HeroUIProvider>
                 <ProgressBarProvider>{children}</ProgressBarProvider>
-
-                <Toaster mobileOffset={{ top: 0, bottom: 0 }} />
               </HeroUIProvider>
             </AriaRouterProvider>
           </MotionProvider>
