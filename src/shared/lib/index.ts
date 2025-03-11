@@ -8,3 +8,4 @@ export { useSendNotification } from './useSendNotification';
 export { useToast } from './useToast/useToast';
 
 export { serialize } from './serialize';
+export { useNow } from './useNow/useNow';
