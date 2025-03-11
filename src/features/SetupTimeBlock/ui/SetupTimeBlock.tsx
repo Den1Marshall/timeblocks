@@ -113,6 +113,8 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
     startTime,
     endTime,
   }) => {
+    title = title.trim();
+
     const millisecondsDiff = endTime.compare(startTime);
 
     const { hour, minute, second, millisecond } = msToTime(millisecondsDiff);
@@ -133,7 +135,7 @@ export const SetupTimeBlock: FC<SetupTimeBlockProps> = ({
         }
       : {
           id: uuidv4(),
-          title: title.trim(),
+          title,
           startTime,
           endTime,
           duration,
